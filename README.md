@@ -4,10 +4,10 @@
 
 <h2> Groupe : </h2>
 
--**Maxime Derènes**
--**Kacper Kurzeja-Chociemska**
--**Dylan Choudjay**
--**Ibrahim Drame**
+-**Maxime Derènes**<br>
+-**Kacper Kurzeja-Chociemska**<br>
+-**Dylan Choudjay**<br>
+-**Ibrahim Drame**<br>
 
 <h2> Arbre : </h2>
 
