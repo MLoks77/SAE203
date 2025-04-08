@@ -31,5 +31,4 @@ Site web InfiniteFree :<br>
 Site web 02Sswitch :<br>
 
 <hr>
-
 <h2> Arborescence : </h2>
