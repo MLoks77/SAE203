@@ -1,0 +1,20 @@
+.police-perso{
+    font-family:Arial, Helvetica, sans-serif
+}
+.en-tete{
+    background-color: 16425B;
+}
+.opacité{
+    opacity: 60%;
+    font-family:Arial, Helvetica, sans-serif
+}
+button{
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.5);
+}
+.container2{
+    background-color: D9D9D9;
+}
+.custom-width{
+    width: 35%;
+    box-shadow: 12px 12px 12px rgba(0, 0, 0, 0.5);
+}
