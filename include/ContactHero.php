@@ -4,5 +4,5 @@
     <div class="header-text">Contact</div>
 </div>
 <div class="fil_ariane container-fluid px-0">
-    <a href="#" class=" text-dark text-decoration-none ps-4">Accueil</a> &gt; <a href="#" class="text-dark text-decoration-none">Contact</a><hr >
+    <a href="#" class=" text-dark text-decoration-none ps-4">Accueil</a> &gt; <a href="#" class="text-dark text-decoration-none">Contact</a><hr>
 </div>
