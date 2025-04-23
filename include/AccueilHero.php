@@ -3,6 +3,6 @@
 <div class="header-banner">
     <div class="header-text">Accueil</div>
 </div>
-<div class="fil_ariane container-fluid px-0">
-    <a href="#" class=" text-dark text-decoration-none ps-4 ">Accueil</a><hr>
+<div class=" container-fluid px-0 m-1">
+    <a href="#" class=" text-dark text-decoration-none ps-4 ">Accueil</a>
 </div>
