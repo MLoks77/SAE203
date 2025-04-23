@@ -21,7 +21,7 @@
           <a  href="#" class="nav-link " aria-disabled="true">Contact</a>
         </li>
       </ul>
-      <a href="#"><img src="./image/pp.jpg"  style="max-height: 40px;" alt=""></a>
+      <a href="#"><img src="../image/pp.jpg"  style="max-height: 40px;" alt=""></a>
     </div>
   </div>
 </nav>
