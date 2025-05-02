@@ -4,5 +4,5 @@
     <div class="header-text">Accueil</div>
 </div>
 <div class="fil_ariane container-fluid pt-3">
-    <a href="#" class=" text-dark text-decoration-none ps-4 ">Accueil</a><hr>
+    <a href="../php/accueil.php" class=" text-dark text-decoration-none ps-4 ">Accueil</a><hr>
 </div>
