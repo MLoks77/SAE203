@@ -21,15 +21,15 @@ include "../include/AccueilHero.php" ?>
 </head>
 
 <body>
-<div class="container-fluid bg-blue py-4 px-6">
+<div class="container-fluid bg-blue py-4 px-6"> 
 <h2 class="col-6  m-auto p-5  fw-bold text-dark police-perso" style="text-align: center; "> Nous contacter</h2>
-        <div class="row text-center m-5">
-            <div class="col-6">
+        <div class="row text-center bg-light m-5">
+            <div class="col-6 bg-light">
                 <h5 class="fw-bold">Nous contacter</h5>
                 <p class="text-muted">Le matériel est disponible ? Réservez en ligne pour gagner du temps.</p>
             </div>
 
-            <div class="col-6">
+            <div class="col-6 bg-light">
                 <h5 class="fw-bold">Formulaire de contact</h5>
                 <p class="text-muted">À la suite de la réservation, vous recevez la confirmation par l'administrateur.</p>
             </div>
