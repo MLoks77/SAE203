@@ -1,7 +1,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-
-<footer class="text-dark">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<footer class=" text-dark  ">
   <div class="container-fluid bg-white py-4 px-4">
     <div class="row">
       <div class="col-md-3">
@@ -12,7 +11,7 @@
 
       <div class="col-md-2">
         <h6 class="fw-bold">Support</h6>
-        <a href="#" class="text-dark text-decoration-none me-2">FAQs</a><br><br> <!--Rien mettre pour le moment -->
+        <a href="#" class="text-dark text-decoration-none me-2">FAQs</a><br><br>
         <a href="#" class="text-dark text-decoration-none me-2">Privacy</a>
       </div>
 
@@ -29,11 +28,10 @@
       <div class="col-2">
       <h6 class="fw-bold">Suivez nous</h6>
       <div class="mb-2">
-        <img src="">
-        <a href="https://bsky.app/profile/univeiffel.bsky.social" class="text-dark me-2"><i class="bi bi-twitter fs-5"></i></a>
-        <a href="https://www.linkedin.com/school/universit%C3%A9-gustave-eiffel/posts/?feedView=all" class="text-dark me-2"><i class="bi bi-linkedin fs-5"></i></a>
-        <a href="https://www.instagram.com/universitegustaveeiffel/" class="text-dark me-2"><i class="bi bi-instagram fs-5"></i></a>
-        <a href="https://www.youtube.com/c/universitegustaveeiffel" class="text-dark"><i class="bi bi-youtube fs-5"></i></a>
+        <a href="https://bsky.app/profile/univeiffel.bsky.social" class="text-dark me-2"><i class="fa-brands fa-twitter"></i></a>
+        <a href="https://www.linkedin.com/school/universit%C3%A9-gustave-eiffel/posts/?feedView=all" class="text-dark me-2"><i class="fab fa-linkedin"></i></a>
+        <a href="https://www.instagram.com/universitegustaveeiffel/" class="text-dark me-2"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.youtube.com/c/universitegustaveeiffel" class="text-dark"><i class="fab fa-youtube"></i></a>
       </div>
     </div>
 
