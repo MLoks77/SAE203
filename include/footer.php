@@ -1,6 +1,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-<footer class=" text-dark  ">
+
+<footer class="text-dark">
   <div class="container-fluid bg-white py-4 px-4">
     <div class="row">
       <div class="col-md-3">
@@ -11,15 +12,15 @@
 
       <div class="col-md-2">
         <h6 class="fw-bold">Support</h6>
-        <p class="my-4">FAQs</p>
-        <p>Privacy</p>
+        <a href="#" class="text-dark text-decoration-none me-2">FAQs</a><br><br> <!--Rien mettre pour le moment -->
+        <a href="#" class="text-dark text-decoration-none me-2">Privacy</a>
       </div>
 
       <div class="col-md-4">
         <h6 class="fw-bold">Restons en contact</h6>
         <p class="mb-1">
           Vous pouvez nous contacter<br>
-          au <strong>01 60 95 72 54</strong><br>
+          au <strong><a href="../php/contact.php" class="text-dark text-decoration-none me-2">01 60 95 72 54</a></strong><br>
           du lundi au vendredi de 9h à 17h ou par courriel
         </p>
         <p>cipen@univ-eiffel.fr</p>
