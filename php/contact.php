@@ -28,13 +28,13 @@ include "../include/ContactHero.php" ?>
                 au <strong>01 60 95 72 54</strong><br>
                 du lundi au vendredi de 9h à 17h ou par courriel
                 <div class="mt-4">
-                    <a href="https://www.instagram.com" target="_blank" class="btn btn-outline-dark me-2">
+                    <a href="https://www.instagram.com/universitegustaveeiffel/" target="_blank" class="btn btn-outline-dark me-2">
                         <i class="fab fa-instagram"></i> Instagram
                     </a>
-                    <a href="https://www.linkedin.com" target="_blank" class="btn btn-outline-dark me-2">
+                    <a href="https://www.linkedin.com/school/universit%C3%A9-gustave-eiffel/posts/?feedView=all" target="_blank" class="btn btn-outline-dark me-2">
                         <i class="fab fa-linkedin"></i> LinkedIn
                     </a><br><br>
-                    <a href="https://www.facebook.com" target="_blank" class="btn btn-outline-dark me-2">
+                    <a href="https://www.facebook.com/UniversiteGustaveEiffel/?locale=fr_FR" target="_blank" class="btn btn-outline-dark me-2">
                         <i class="fab fa-facebook"></i> Facebook
                     </a>
                     <a href="https://www.youtube.com/c/universitegustaveeiffel" target="_blank" class="btn btn-outline-dark me-2">
