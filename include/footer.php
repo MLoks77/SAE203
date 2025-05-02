@@ -31,7 +31,8 @@
         <a href="https://bsky.app/profile/univeiffel.bsky.social" class="text-dark me-2"><i class="fa-brands fa-twitter"></i></a>
         <a href="https://www.linkedin.com/school/universit%C3%A9-gustave-eiffel/posts/?feedView=all" class="text-dark me-2"><i class="fab fa-linkedin"></i></a>
         <a href="https://www.instagram.com/universitegustaveeiffel/" class="text-dark me-2"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.youtube.com/c/universitegustaveeiffel" class="text-dark"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.youtube.com/c/universitegustaveeiffel" class="text-dark me-2"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.facebook.com/UniversiteGustaveEiffel/?locale=fr_FR" target="_blank" class="text-dark me-2"><i class="fab fa-facebook"></i></a>
       </div>
     </div>
 
