@@ -30,8 +30,8 @@
       <a href="" role="button" data-bs-toggle="dropdown"><img src="../image/pp.jpg" style="max-height: 40px;" alt="photo de profil"></a>
       <ul class="dropdown-menu"> <!-- Le dropdown bug, apparament c'est à cause du javascript -->
             <li><a class="dropdown-item" href="#">Paramètres</a></li> <!-- Lien vers la page paramètre à mettre -->
-            <li><a class="dropdown-item" href="../configdb/delete-session.php">Se déconnecter</a></li> <!-- mettre un clear session dans delete-session.php et faire en sorte qu'il renvoie vers connexion -->
-          </ul>
+            <li><a class="dropdown-item" href="../configdb/logout.php">Se déconnecter</a></li> <!-- mettre un clear session dans delete-session.php et faire en sorte qu'il renvoie vers connexion -->
+      </ul>
     </div>
   </div>
 </nav>
