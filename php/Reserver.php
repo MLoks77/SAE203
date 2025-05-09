@@ -1,6 +1,6 @@
 <?php include "../include/navbar.php";
 include "../include/ReserverHero.php" ;
-include "../configdb/connexion.php"
+include "../configdb/connexion.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
