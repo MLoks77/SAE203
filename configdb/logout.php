@@ -2,7 +2,7 @@
 session_start();
 session_destroy();
 
-header("Location: ../php/connexion.php");
+header("Location: ../index.php");
 ?>
 
 /**
@@ -10,3 +10,5 @@ header("Location: ../php/connexion.php");
  * Actuellement, il permet de supprimer la session et de se déconnecter.
  * faire en sorte qu'il redirige vers connexion.php
  */
+
+ 
