@@ -1,4 +1,6 @@
-<?php session_start(); ?>
+<?php session_start(); 
+include "../configdb/connexion.php"
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
