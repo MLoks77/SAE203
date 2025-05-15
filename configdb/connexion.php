@@ -1,16 +1,52 @@
 <?php
 // Paramètres de connexion à la base de données
 $servername = "localhost"; // Serveur MySQL
-$username = "root";        // Nom d'utilisateur MySQL (par défaut : root)
-$password = "";            // Mot de passe MySQL (par défaut : vide sur XAMPP)
-$database = "gustaveeiffel";     // Nom de la base de données
+$username = "root";        
+$password = "";            
+$database = "gustaveeiffel";     
 
-// Connexion à MySQL
-$conn = new mysqli($servername, $username, $password, $database);
-
-// Vérification de la connexion
-if ($conn->connect_error) {
-    die("❌ Connexion échouée : " . $conn->connect_error);
+try {
+    // Connexion à MySQL avec PDO
+    $pdo = new PDO("mysql:host=$servername;dbname=$database;charset=utf8", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die("❌ Erreur de connexion : " . $e->getMessage());
 }
-echo "Connexion réussie à la base de données !";
+
+// pour les demandes de réservation
+
+$sql = "SELECT ID_materiel, Reference, Descriptif, Etat_global FROM Materiel WHERE Type = 'Casque'";
+$stmt = $pdo->query($sql);
+$materiels = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$sqlMultimedia = "SELECT ID_materiel, Reference, Descriptif, Etat_global FROM Materiel WHERE Type = 'Multimédia'";
+$stmtMultimedia = $pdo->query($sqlMultimedia);
+$materielsMultimedia = $stmtMultimedia->fetchAll(PDO::FETCH_ASSOC);
+
+$sqlAudiovisuel = "SELECT ID_materiel, Reference, Descriptif, Etat_global FROM Materiel WHERE Type = 'Audiovisuelle'";
+$stmtAudiovisuel = $pdo->query($sqlAudiovisuel);
+$materielsAudiovisuel = $stmtAudiovisuel->fetchAll(PDO::FETCH_ASSOC);
+
+$sqlSalle = "SELECT ID, Descriptif, Etat FROM Salle";
+$stmtSalle = $pdo->query($sqlSalle);
+$materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
+
+// Pour le planning
+
+$sqlreservations = "SELECT Date FROM reservation";
+$stmtreservations = $pdo->query($sqlreservations);
+$reservations = $stmtreservations->fetchAll(PDO::FETCH_ASSOC);
+
+$sqlresPer = "SELECT ID_Utilisateur FROM utilisateur";
+$stmtPer = $pdo->query($sqlresPer);
+$resReason = $stmtPer->fetchAll(PDO::FETCH_ASSOC);
+
+$sqlresReason = "SELECT Motif FROM reservation";
+$stmtReason = $pdo->query($sqlresReason);
+$resReason = $stmtReason->fetchAll(PDO::FETCH_ASSOC);
+
+
 ?>
+    
+
+
