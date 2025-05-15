@@ -1,13 +1,10 @@
 <?php 
 session_start();
-
 include "../include/navbar.php";
 /**include "../include/navbaradmin.php"; mettre le code pour choisir suivant l'ID de l'utilisateur connecté **/
-
 include "../include/ContactHero.php";
 include "../configdb/connexion.php"
  ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -18,7 +15,6 @@ include "../configdb/connexion.php"
     <link rel="stylesheet" href="../css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 </head>
-
 <body class="bg-fond">
 <div class="container-fluid py-4 px-6">
 <h2 class="col-6 m-auto fw-bold text-light police-perso" style="text-align: center; "> Nous contacter</h2>

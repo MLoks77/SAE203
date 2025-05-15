@@ -3,24 +3,7 @@ session_start();
 include "../include/navbar.php";
 /**include "../include/navbaradmin.php"; mettre le code pour choisir suivant l'ID de l'utilisateur connecté **/
 include "../include/PlanningHero.php";
-include "../configdb/connexion.php"
-?>
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Planning</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-
-<!-- Liens calendrier : 
- https://youtu.be/SgynWhEgvlw?si=BkOqTV_Z0es00jkf 
- https://youtube.com/playlist?list=PLulnbIOAgre5M65C5mnKzCAbwER8Va-Ru&si=ROsMlg8xdPjt8vdi
--->
-
-<?php
+include "../configdb/connexion.php";
 $reservations = [
     '2025-04-02' => ['student' => '12345', 'motif' => 'Projet X'],
     '2025-04-10' => ['student' => '67890', 'motif' => 'Séance photo'],
@@ -34,35 +17,29 @@ $reservations = [
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planning</title>
+    <link rel="stylesheet" href="../css/planning.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+
+<!-- Liens calendrier : 
+ https://youtu.be/SgynWhEgvlw?si=BkOqTV_Z0es00jkf 
+ https://youtube.com/playlist?list=PLulnbIOAgre5M65C5mnKzCAbwER8Va-Ru&si=ROsMlg8xdPjt8vdi
+-->
+
+
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Calendrier de Réservation</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- CSS pour cette page, mettez à côté si vous voulez -->
 
-    <style>
-        .calendar { table-layout: fixed; }
-        .calendar td { height: 80px; cursor: pointer; }
-        .reserved { background-color: #ecf0f1; color: black; text-align: center; }
-        .weekend { background-color: #bdc3c7; pointer-events: none; }
-        .reservation-info { background: #ecf0f1; color: black; padding: 20px; border-radius: 8px; }
-        .button {
-    box-shadow: 6px 6px 12px rgba(74, 74, 74, 0.5);
-    border: 1px solid black;
-    background-color: #16425B;
-    color: white;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-family: Arial, Helvetica, sans-serif;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .button:hover {
-       transform: scale(1.05);
-    }
-
-    </style>
+   
 
 
 

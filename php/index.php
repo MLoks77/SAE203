@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <title>Connexion</title>
     <link rel="stylesheet" href="css/connexion.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-
 <body>
 
     <header>
@@ -25,9 +23,9 @@
                 <input type="text" id="identifiant" name="identifiant">
 
                 <div style="position: relative;">
-                    <label for="mdp">Mot de passe</label>
-                    <input type="password" id="mdp" name="mdp" required>
-                    <i class="fa-solid fa-eye" id="toggleConnexion" style="position: absolute; right: 10px; top: 38px; cursor: pointer;"></i>
+                  <label for="mdp">Mot de passe</label>
+                  <input type="password" id="mdp" name="mdp" required>
+                  <i class="fa-solid fa-eye" id="toggleConnexion" style="position: absolute; right: 10px; top: 38px; cursor: pointer;"></i>
                 </div>
 
                 <div class="options">
@@ -36,7 +34,7 @@
                 </div>
 
                 <div class="liens">
-                    <a href="../inscription.php">Vous n'avez pas de compte ?</a>
+                    <a href="inscription.html">Vous n'avez pas de compte ?</a>
                     <a href="#">Mot de passe oublié ?</a>
                 </div>
 
@@ -45,20 +43,19 @@
         </div>
     </div>
 
-    <?php include "include/footer.php" ?>
+<?php include "include/footer.php" ?>
 
-    <script>
-        const toggleConnexion = document.getElementById('toggleConnexion');
-        const mdpInput = document.getElementById('mdp');
+<script>
+  const toggleConnexion = document.getElementById('toggleConnexion');
+  const mdpInput = document.getElementById('mdp');
 
-        toggleConnexion.addEventListener('click', () => {
-            const type = mdpInput.type === 'password' ? 'text' : 'password';
-            mdpInput.type = type;
-            toggleConnexion.classList.toggle('fa-eye');
-            toggleConnexion.classList.toggle('fa-eye-slash');
-        });
-    </script>
+  toggleConnexion.addEventListener('click', () => {
+    const type = mdpInput.type === 'password' ? 'text' : 'password';
+    mdpInput.type = type;
+    toggleConnexion.classList.toggle('fa-eye');
+    toggleConnexion.classList.toggle('fa-eye-slash');
+  });
+</script>
 
 </body>
-
 </html>

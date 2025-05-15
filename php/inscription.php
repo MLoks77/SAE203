@@ -127,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] == " post"){
   $Mot_de_passee = password_hash($Mot_de_passee, PASSWORD_DEFAULT);
   if(!empty($Nom) && !empty($Prenom) && !empty($Identifiant) && !empty($Mail) && !empty($Mot_de_passee) && !empty($Date_naissance) && !empty($Role)){
     try{
-      $sql = "INSERT INTO inscription (Nom, Prenom, Identifiant, Mail, Mot_de_passee, Date_naissance, Role) VALUES (:Nom, :Prenom, :Identifiant, :Mail, :Mot_de_passee, :Date_naissance, :Role)";
+      $sql = "INSERT INTO Utilisateur (Nom, Prenom, Identifiant, Mail, Mot_de_passee, Date_naissance, Role) VALUES (:Nom, :Prenom, :Identifiant, :Mail, :Mot_de_passee, :Date_naissance, :Role)";
       $stmt = $pdo->prepare($sql);
       $stmt->bindParam(':Nom', $Nom);
       $stmt->bindParam(':Prenom', $Prenom);
