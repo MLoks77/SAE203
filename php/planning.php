@@ -2,8 +2,11 @@
 session_start();
 include "../include/navbar.php";
 /**include "../include/navbaradmin.php"; mettre le code pour choisir suivant l'ID de l'utilisateur connecté **/
-include "../include/PlanningHero.php";
-include "../configdb/connexion.php"
+
+include "../include/PlanningHero.php" 
+
+require "../configdb/connexion.php";
+
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +15,7 @@ include "../configdb/connexion.php"
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planning</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/Planning.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 
 <!-- Liens calendrier : 
@@ -20,15 +23,7 @@ include "../configdb/connexion.php"
  https://youtube.com/playlist?list=PLulnbIOAgre5M65C5mnKzCAbwER8Va-Ru&si=ROsMlg8xdPjt8vdi
 -->
 
-<?php
-$reservations = [
-    '2025-04-02' => ['student' => '12345', 'motif' => 'Projet X'],
-    '2025-04-10' => ['student' => '67890', 'motif' => 'Séance photo'],
-    '2025-04-15' => ['student' => '11223', 'motif' => 'Tournage vidéo'],
-    '2025-04-16' => ['student' => '33445', 'motif' => 'Réunion'],
-    '2025-04-17' => ['student' => '55667', 'motif' => 'Workshop'],
-];
-?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -37,34 +32,6 @@ $reservations = [
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Calendrier de Réservation</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- CSS pour cette page, mettez à côté si vous voulez -->
-
-    <style>
-        .calendar { table-layout: fixed; }
-        .calendar td { height: 80px; cursor: pointer; }
-        .reserved { background-color: #ecf0f1; color: black; text-align: center; }
-        .weekend { background-color: #bdc3c7; pointer-events: none; }
-        .reservation-info { background: #ecf0f1; color: black; padding: 20px; border-radius: 8px; }
-        .button {
-    box-shadow: 6px 6px 12px rgba(74, 74, 74, 0.5);
-    border: 1px solid black;
-    background-color: #16425B;
-    color: white;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-family: Arial, Helvetica, sans-serif;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .button:hover {
-       transform: scale(1.05);
-    }
-
-    </style>
-
-
 
 </head>
 <body class="bg-fond">
@@ -108,11 +75,11 @@ $reservations = [
     <div class="reservation-info mt-4">
         <div class="row mb-2">
             <div class="col-3">Date de réservation :</div>
-            <div class="col-9"><input type="text" class="form-control" id="resDate" readonly></div>
+            <div class="col-9"><input type="text" class="form-control" id="Date" readonly></div>
         </div>
         <div class="row mb-2">
             <div class="col-3">Réservé par :</div>
-            <div class="col-9"><input type="text" class="form-control" id="resBy" readonly></div>
+            <div class="col-9"><input type="text" class="form-control" id="resPer" readonly></div> <!-- resPer = ID_Utilisateur -->
         </div>
         <div class="row mb-2">
             <div class="col-3">Motif :</div>
@@ -123,7 +90,14 @@ $reservations = [
     <section class="extra-space"></section>
 </div>
 <div>
+
 <?php include "../include/footer.php" ?>
+
+
+
+
+
+
 <script>
 const reservations = <?php echo json_encode($reservations); ?>;
 const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
@@ -169,10 +143,10 @@ function renderCalendar(date) {
             if (!cell.dataset.date) return;
             document.getElementById('resDate').value = cell.dataset.date;
             if (reservations[cell.dataset.date]) {
-                document.getElementById('resBy').value = reservations[cell.dataset.date].student;
+                document.getElementById('resPer').value = reservations[cell.dataset.date].student;
                 document.getElementById('resReason').value = reservations[cell.dataset.date].motif;
             } else {
-                document.getElementById('resBy').value = '';
+                document.getElementById('resPer').value = '';
                 document.getElementById('resReason').value = '';
             }
         });

@@ -2,10 +2,12 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost
--- Généré le : mar. 13 mai 2025 à 12:16
--- Version du serveur : 10.4.28-MariaDB
--- Version de PHP : 8.2.4
+
+-- Hôte : 127.0.0.1
+-- Généré le : jeu. 15 mai 2025 à 14:44
+-- Version du serveur : 10.4.32-MariaDB
+-- Version de PHP : 8.2.12
+
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,6 +35,14 @@ CREATE TABLE `Commentaire` (
   `Message` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+
+--
+-- Déchargement des données de la table `commentaire`
+--
+INSERT INTO `commentaire` (`ID_commentaire`, `ID_utilisateur`, `Message`) VALUES
+(1, 1, 'Le matériel était en très bon état, merci !'),
+(2, 2, 'La salle était bien équipée, je recommande.'),
+(3, 3, 'Petit souci avec la manette, mais résolu rapidement.');
 -- --------------------------------------------------------
 
 --
@@ -52,7 +62,9 @@ CREATE TABLE `Materiel` (
 -- Déchargement des données de la table `Materiel`
 --
 
-INSERT INTO `Materiel` (`ID_materiel`, `Reference`, `Type`, `Date_achat`, `Etat_global`, `Descriptif`) VALUES
+
+INSERT INTO `materiel` (`ID_materiel`, `Reference`, `Type`, `Date_achat`, `Etat_global`, `Descriptif`) VALUES
+
 (1, 'HTC Vive Cosmos', 'Casque', '2010-01-01', 'Super', 'Le HTC Vive Cosmos est un casque de réalité virtuelle offrant un tracking inside-out, un confort optimisé et une visière relevable, idéal pour des expériences immersives interactives sur PC.'),
 (2, 'Le Microsoft HoloLens 2', 'Casque', '2010-01-01', 'Excellent', 'Le Microsoft HoloLens 2 est un casque de réalité mixte autonome, permettant d’interagir avec des hologrammes en 3D grâce à des capteurs, la reconnaissance gestuelle et une visière transparente.\r\n'),
 (3, 'La manette MSI GC30', 'Multimédia', '2010-01-01', 'Super', 'La MSI GC30 est une manette sans fil polyvalente, compatible PC et Android, offrant une prise en main confortable et des commandes réactives pour une expérience de jeu fluide.'),
@@ -77,6 +89,26 @@ CREATE TABLE `Reservation` (
   `ID_utilisateur` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+
+--
+-- Déchargement des données de la table `reservation`
+--
+
+INSERT INTO `reservation` (`ID_reservation`, `Date`, `Motif`, `Signature`, `Commentaire`, `ID_utilisateur`) VALUES
+(1, '2025-05-10', 'Projet audiovisuel', 1, 'Besoin d’un micro pour le tournage.', 1),
+(2, '2025-05-12', 'Travail en groupe sur Unity', 1, 'Utilisation du HTC Vive.', 2),
+(3, '2025-05-15', 'Atelier de dessin numérique', 1, 'Utilisation de la tablette Wacom.', 3),
+(4, '2025-05-18', 'Montage vidéo pour projet final', 1, 'Besoin de la GoPro et du trépied.', 1),
+(5, '2025-05-20', 'Test de la réalité augmentée', 1, 'Essai du HoloLens 2.', 2),
+(6, '2025-05-22', 'Projet de drone en audiovisuel', 1, 'Captation avec le DJI Tello.', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `reservation_materiel`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -87,6 +119,20 @@ CREATE TABLE `Reservation_Materiel` (
   `ID_reservation` int(11) NOT NULL,
   `ID_materiel` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+--
+-- Déchargement des données de la table `reservation_materiel`
+--
+
+INSERT INTO `reservation_materiel` (`ID_reservation`, `ID_materiel`) VALUES
+(1, 8),
+(2, 1),
+(3, 4),
+(4, 6),
+(4, 7),
+(5, 2),
+(6, 5);
 
 -- --------------------------------------------------------
 
@@ -99,6 +145,18 @@ CREATE TABLE `Reservation_Salle` (
   `ID_salle` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Déchargement des données de la table `reservation_salle`
+--
+
+INSERT INTO `reservation_salle` (`ID_reservation`, `ID_salle`) VALUES
+(1, 138),
+(2, 212),
+(3, 138),
+(4, 212),
+(5, 138),
+(6, 212);
+
 -- --------------------------------------------------------
 
 --
@@ -110,13 +168,26 @@ CREATE TABLE `Role` (
   `Libelle` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+
+--
+-- Déchargement des données de la table `role`
+--
+
+INSERT INTO `role` (`ID_role`, `Libelle`) VALUES
+(1, 'Administrateur'),
+(2, 'Eleve'),
+(3, 'Professeur'),
+(4, 'Agent');
+
+
 -- --------------------------------------------------------
 
 --
 -- Structure de la table `Salle`
 --
 
-CREATE TABLE `Salle` (
+
+CREATE TABLE `salle` (
   `ID` int(11) NOT NULL,
   `Descriptif` varchar(250) NOT NULL,
   `Etat` varchar(250) NOT NULL
@@ -126,7 +197,9 @@ CREATE TABLE `Salle` (
 -- Déchargement des données de la table `Salle`
 --
 
-INSERT INTO `Salle` (`ID`, `Descriptif`, `Etat`) VALUES
+
+INSERT INTO `salle` (`ID`, `Descriptif`, `Etat`) VALUES
+
 (138, 'Idéale si vous êtes seul(e) ou en petit groupe de 2 à 5 personnes, cette salle regroupe 3 ordinateurs équipés de double écran ainsi qu’un bureau à 90 degrés pour accueillir tous vos cahiers.', 'Excellent'),
 (212, 'Idéale si vous êtes seul(e) ou en groupe...', 'Très bon état');
 
@@ -146,6 +219,14 @@ CREATE TABLE `Utilisateur` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+
+
+INSERT INTO `utilisateur` (`ID_utilisateur`, `Nom`, `Prenom`, `Mail`, `Mot_de_passe`, `ID_role`) VALUES
+(1, 'Dupont', 'Alice', 'alice.dupont@example.com', 'password123', 2),
+(2, 'Martin', 'Jean', 'jean.martin@example.com', 'password456', 3),
+(3, 'Durand', 'Sophie', 'sophie.durand@example.com', 'password789', 1);
+
+
 -- Index pour les tables déchargées
 --
 
@@ -156,10 +237,9 @@ ALTER TABLE `Commentaire`
   ADD PRIMARY KEY (`ID_commentaire`),
   ADD UNIQUE KEY `ID_utilisateur` (`ID_utilisateur`);
 
---
--- Index pour la table `Materiel`
---
-ALTER TABLE `Materiel`
+
+ALTER TABLE `materiel`
+
   ADD PRIMARY KEY (`ID_materiel`);
 
 --
@@ -170,7 +250,7 @@ ALTER TABLE `Reservation`
   ADD KEY `ID_utilisateur` (`ID_utilisateur`);
 
 --
--- Index pour la table `Reservation_Materiel`
+
 --
 ALTER TABLE `Reservation_Materiel`
   ADD PRIMARY KEY (`ID_reservation`,`ID_materiel`),
@@ -209,8 +289,13 @@ ALTER TABLE `Utilisateur`
 --
 -- AUTO_INCREMENT pour la table `Commentaire`
 --
-ALTER TABLE `Commentaire`
-  MODIFY `ID_commentaire` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `commentaire`
+  MODIFY `ID_commentaire` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+ALTER TABLE `materiel`
+  MODIFY `ID_materiel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
 
 --
 -- AUTO_INCREMENT pour la table `Materiel`
@@ -229,6 +314,7 @@ ALTER TABLE `Commentaire`
   ADD CONSTRAINT `commentaire_ibfk_1` FOREIGN KEY (`ID_utilisateur`) REFERENCES `Utilisateur` (`ID_utilisateur`);
 
 --
+
 -- Contraintes pour la table `Reservation`
 --
 ALTER TABLE `Reservation`
@@ -236,6 +322,7 @@ ALTER TABLE `Reservation`
 
 --
 -- Contraintes pour la table `Reservation_Materiel`
+
 --
 ALTER TABLE `Reservation_Materiel`
   ADD CONSTRAINT `reservation_materiel_ibfk_1` FOREIGN KEY (`ID_reservation`) REFERENCES `Reservation` (`ID_reservation`),
