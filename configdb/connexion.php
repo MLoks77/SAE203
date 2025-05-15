@@ -13,6 +13,7 @@ try {
     die("❌ Erreur de connexion : " . $e->getMessage());
 }
 
+
 // pour les demandes de réservation
 
 $sql = "SELECT ID_materiel, Reference, Descriptif, Etat_global FROM Materiel WHERE Type = 'Casque'";

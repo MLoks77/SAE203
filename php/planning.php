@@ -1,8 +1,8 @@
 <?php 
 session_start();
-
 include "../include/navbar.php";
 /**include "../include/navbaradmin.php"; mettre le code pour choisir suivant l'ID de l'utilisateur connecté **/
+
 include "../include/PlanningHero.php" 
 
 require "../configdb/connexion.php";

@@ -13,7 +13,7 @@
           <a class="nav-link" href="../php/planning.php">Planning</a>
         </li>
         <li class="nav-item dropdown px-5"> <!-- Le dropdown bug, apparament c'est à cause du javascript -->
-            <a class="nav-link dropdown-toggle" href="../php/reservation.php" role="button" data-bs-toggle="dropdown" aria-expanded="true">
+            <a class="nav-link dropdown-toggle" href="../php/Reserver.php" role="button" data-bs-toggle="dropdown" aria-expanded="true">
               Réservation
             </a>
             <ul class="dropdown-menu">

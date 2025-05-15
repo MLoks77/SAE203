@@ -4,7 +4,9 @@ session_start();
 include "../include/navbar.php";
 /**include "../include/navbaradmin.php"; mettre le code pour choisir suivant l'ID de l'utilisateur connecté **/
 
-include "../include/ContactHero.php" ?>
+include "../include/ContactHero.php";
+include "../configdb/connexion.php"
+ ?>
 
 <!DOCTYPE html>
 <html lang="fr">
