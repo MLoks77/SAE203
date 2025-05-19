@@ -1,11 +1,12 @@
 <?php 
 session_start();
-include "../include/navbar.php";
-/**include "../include/navbaradmin.php"; mettre le code pour choisir suivant l'ID de l'utilisateur connecté **/
-
-include "../include/PlanningHero.php" 
 
 require "../configdb/connexion.php";
+
+include "../include/navbar.php";
+/**include "../include/navbaradmin.php"; mettre le code pour choisir suivant l'ID de l'utilisateur connecté **/
+include "../include/PlanningHero.php";
+
 
 ?>
 
@@ -22,8 +23,6 @@ require "../configdb/connexion.php";
  https://youtu.be/SgynWhEgvlw?si=BkOqTV_Z0es00jkf 
  https://youtube.com/playlist?list=PLulnbIOAgre5M65C5mnKzCAbwER8Va-Ru&si=ROsMlg8xdPjt8vdi
 -->
-
-
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -70,6 +69,9 @@ require "../configdb/connexion.php";
         <tbody id="calendarBody"></tbody>
     </table>
 
+
+
+    
 <!--Faire en sorte que toute cette sections apparaisse si on est ID AGENT, faire sois un include sois un truc plus long et compliqué, privilégier le include -->
 
     <div class="reservation-info mt-4">
@@ -79,7 +81,7 @@ require "../configdb/connexion.php";
         </div>
         <div class="row mb-2">
             <div class="col-3">Réservé par :</div>
-            <div class="col-9"><input type="text" class="form-control" id="resPer" readonly></div> <!-- resPer = ID_Utilisateur -->
+            <div class="col-9"><input type="text" class="form-control" id="resBy" readonly></div> <!-- resPer = ID_Utilisateur -->
         </div>
         <div class="row mb-2">
             <div class="col-3">Motif :</div>
@@ -90,18 +92,15 @@ require "../configdb/connexion.php";
     <section class="extra-space"></section>
 </div>
 <div>
-
 <?php include "../include/footer.php" ?>
 
 
 
 
-
-
 <script>
-const reservations = <?php echo json_encode($reservations); ?>;
+const reservations = <?php echo json_encode($reservations); ?>;     // json_encode est essentiel pour échanger des données entre PHP et JavaScript, car ils utilisent des formats différents.
 const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
-let currentDate = new Date(2025, 3); // Avril 2025
+let currentDate = new Date(2025, 4);
 
 function renderCalendar(date) {
     const year = date.getFullYear();
@@ -141,9 +140,9 @@ function renderCalendar(date) {
 
         cell.addEventListener('click', () => {
             if (!cell.dataset.date) return;
-            document.getElementById('resDate').value = cell.dataset.date;
+            document.getElementById('Date').value = cell.dataset.date;
             if (reservations[cell.dataset.date]) {
-                document.getElementById('resPer').value = reservations[cell.dataset.date].student;
+                document.getElementById('resBy').value = reservations[cell.dataset.date].student;
                 document.getElementById('resReason').value = reservations[cell.dataset.date].motif;
             } else {
                 document.getElementById('resPer').value = '';

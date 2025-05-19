@@ -1,4 +1,5 @@
 <?php
+
 // Paramètres de connexion à la base de données
 $servername = "localhost"; // Serveur MySQL
 $username = "root";        
@@ -12,6 +13,7 @@ try {
 } catch (PDOException $e) {
     die("❌ Erreur de connexion : " . $e->getMessage());
 }
+
 
 
 // pour les demandes de réservation
@@ -34,19 +36,17 @@ $materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
 
 // Pour le planning
 
-$sqlreservations = "SELECT Date FROM reservation";
+$sqlreservations = "SELECT r.Date, CONCAT(u.Nom, ' ', u.Prenom) AS student, r.Motif AS motif
+                    FROM reservation r
+                    LEFT JOIN utilisateur u ON r.ID_utilisateur = u.ID_utilisateur";
 $stmtreservations = $pdo->query($sqlreservations);
-$reservations = $stmtreservations->fetchAll(PDO::FETCH_ASSOC);
-
-$sqlresPer = "SELECT ID_Utilisateur FROM utilisateur";
-$stmtPer = $pdo->query($sqlresPer);
-$resReason = $stmtPer->fetchAll(PDO::FETCH_ASSOC);
-
-$sqlresReason = "SELECT Motif FROM reservation";
-$stmtReason = $pdo->query($sqlresReason);
-$resReason = $stmtReason->fetchAll(PDO::FETCH_ASSOC);
-
-
+$reservations = [];
+while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
+    $reservations[$row['Date']] = [
+        'student' => $row['student'],
+        'motif' => $row['motif']
+    ];
+}
 ?>
     
 
