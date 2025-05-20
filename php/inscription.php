@@ -147,5 +147,5 @@ if ($_SERVER['REQUEST_METHOD'] == " post"){
     } catch (PDOException $e) {
       echo "<script>alert('Erreur de connexion à la base de données.');</script>";
     }
-
+  }
 }
