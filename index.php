@@ -23,7 +23,7 @@
                 <input type="text" id="identifiant" name="identifiant">
 
                 <div style="position: relative;">
-                  <label for="mdp">Mot de passe</label>
+                  <label for="mdp">Mot de passe</label><br>
                   <input type="password" id="mdp" name="mdp" required>
                   <i class="fa-solid fa-eye" id="toggleConnexion" style="position: absolute; right: 10px; top: 38px; cursor: pointer;"></i>
                 </div>
