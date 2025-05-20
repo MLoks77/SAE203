@@ -4,5 +4,5 @@
     <div class="header-text">Réserver</div>
 </div>
 <div class="fil_ariane container-fluid pt-3">
-    <a href="../php/accueil.php" class=" text-dark text-decoration-none ps-4">Accueil</a> &gt; <a href="../php/Reserver.php" class="text-dark text-decoration-none">Réserver</a><hr>
+    <a href="../php/accueil.php" class=" text-dark text-decoration-none ps-4">Accueil</a> <span class="text-dark"> &gt; </span> <a href="../php/Reserver.php" class="text-dark text-decoration-none">Réserver</a><hr>
 </div>

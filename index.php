@@ -23,7 +23,7 @@
                 <input type="text" id="identifiant" name="identifiant">
 
                 <div style="position: relative;">
-                  <label for="mdp">Mot de passe</label>
+                  <label for="mdp">Mot de passe</label><br>
                   <input type="password" id="mdp" name="mdp" required>
                   <i class="fa-solid fa-eye" id="toggleConnexion" style="position: absolute; right: 10px; top: 38px; cursor: pointer;"></i>
                 </div>
@@ -34,7 +34,7 @@
                 </div>
 
                 <div class="liens">
-                    <a href="inscription.html">Vous n'avez pas de compte ?</a>
+                    <a href="php/inscription.php">Vous n'avez pas de compte ?</a>
                     <a href="#">Mot de passe oublié ?</a>
                 </div>
 
@@ -45,7 +45,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
-<?php include "include/footer.php" ?>
+<?php include "include/footerindex.php" ?>
 
 <script>
   const toggleConnexion = document.getElementById('toggleConnexion');
