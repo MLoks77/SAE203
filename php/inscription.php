@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -7,7 +6,6 @@
   <title>Université Gustave Eiffel - Créer votre compte</title>
   <link rel="stylesheet" href="../css/inscription.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 </head>
 <body>
   <div class="page-inscription">
@@ -93,29 +91,7 @@
 
   <?php include "../include/footer.php" ?>
 
-<script>
-  // Pour le mot de passe principal
-  const togglePassword = document.getElementById('togglePassword');
-  const passwordInput = document.getElementById('password');
-
-  togglePassword.addEventListener('click', () => {
-    const type = passwordInput.type === 'password' ? 'text' : 'password';
-    passwordInput.type = type;
-    togglePassword.classList.toggle('fa-eye');
-    togglePassword.classList.toggle('fa-eye-slash');
-  });
-
-  // Pour la confirmation
-  const toggleConfirm = document.getElementById('toggleConfirm');
-  const confirmInput = document.getElementById('confirm-password');
-
-  toggleConfirm.addEventListener('click', () => {
-    const type = confirmInput.type === 'password' ? 'text' : 'password';
-    confirmInput.type = type;
-    toggleConfirm.classList.toggle('fa-eye');
-    toggleConfirm.classList.toggle('fa-eye-slash');
-  });
-</script>
+<script src="../js/inscription.js"></script>
 
 </body>
 </html>

@@ -1,12 +1,30 @@
 <?php
 session_start();
-$valid_user = "admin";
-$valid_pass = "1234";
+include_once '../configdb/connexion.php';
+if(isset($_POST['envoyer'])) {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $identifiant = $_POST['Identifiant'];
+    $mot_de_passe = $_POST['Mot_de_passe'];
 
-if ($_POST['username'] === $valid_user && $_POST['password'] === $valid_pass) {
-    $_SESSION['admin'] = true;
-    header('Location: ../php/accueil.php');
-} else {
-    echo "<p>Identifiants incorrects.</p><a href='admin.php'>Retour</a>";
+    // Requête pour trouver l'utilisateur
+    $sql = "SELECT * FROM Utilisateur WHERE Identifiant = :Identifiant";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['Identifiant' => $identifiant]);
+    $utilisateur = $stmt->fetch();
+
+    if ($utilisateur && password_verify($mot_de_passe, $utilisateur['Mot_de_passe'])) {
+        // Connexion réussie
+        $_SESSION['utilisateur_id'] = $utilisateur['ID_utilisateur'];
+        $_SESSION['identifiant'] = $utilisateur['Identifiant'];
+        $_SESSION['role'] = $utilisateur['Role'];
+
+        echo "Connexion réussie !";
+        // Redirection vers une page protégée
+        header("Location: ../php/accueil.php");
+        exit;
+    } else {
+        header("Location: ../index.php?erreur=1");
+        }
+    }
 }
 ?>
