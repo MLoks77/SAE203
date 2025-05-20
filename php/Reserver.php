@@ -39,7 +39,7 @@ include "../configdb/connexion.php";
                 <div class="container mb-5">
                     <!-- Images de la salle -->
                     <div class="text-start mb-4 ms-5">
-                        <img src="/SAE203/image/Salle<?= $row['ID'] ?>.jpg"
+                        <img src="../image/Salle<?= $row['ID'] ?>.jpg"
                             class="img-fluid rounded shadow"
                             alt="Salle <?= $row['ID'] ?>">
                     </div>
@@ -74,7 +74,7 @@ include "../configdb/connexion.php";
                         <div class="row justify-content-center">
                             <?php for ($i = 1; $i <= 3; $i++): ?>
                                 <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                                    <img src="/SAE203/image/<?= $row['ID_materiel'] ?>_<?= $i ?>.jpg"
+                                    <img src="../image/<?= $row['ID_materiel'] ?>_<?= $i ?>.jpg"
                                         class="img-fluid rounded shadow"
                                         alt="<?= htmlspecialchars($row['Reference']) ?> - Image <?= $i ?>">
                                 </div>
@@ -111,7 +111,7 @@ include "../configdb/connexion.php";
                         <div class="row justify-content-center">
                             <?php for ($i = 1; $i <= 3; $i++): ?>
                                 <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                                    <img src="/SAE203/image/<?= $row['ID_materiel'] ?>_<?= $i ?>.jpg"
+                                    <img src="../image/<?= $row['ID_materiel'] ?>_<?= $i ?>.jpg"
                                         class="img-fluid rounded shadow"
                                         alt="<?= htmlspecialchars($row['Reference']) ?> - Image <?= $i ?>">
                                 </div>
@@ -148,7 +148,7 @@ include "../configdb/connexion.php";
                         <div class="row justify-content-center">
                             <?php for ($i = 1; $i <= 3; $i++): ?>
                                 <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                                    <img src="/SAE203/image/<?= $row['ID_materiel'] ?>_<?= $i ?>.jpg"
+                                    <img src="../image/<?= $row['ID_materiel'] ?>_<?= $i ?>.jpg"
                                         class="img-fluid rounded shadow"
                                         alt="<?= htmlspecialchars($row['Reference']) ?> - Image <?= $i ?>">
                                 </div>
