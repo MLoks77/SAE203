@@ -25,8 +25,8 @@ include "../configdb/connexion.php";
         <h1 class="col-6 col-lg-8 m-auto p-5 display-3 fw-bold text-light police-perso"> Le matériel qu'il vous faut quand il vous le faut</h1>
         <p class="text-center text-white fs-4 opacité">Gagnez du temps : tout le matériel de l'IUT accessible en ligne, en quelques clics.</p>
         <div class="text-center p-5">
-        <a href="../php/reservation.php" class="btn btn-primary btn-lg mx-5">Réserver</a>
-        <a href="../php/contact.php" class="btn btn-secondary btn-lg mx-5 boutons">Nous contacter</a>
+        <a href="Reserver.php" class="btn btn-primary btn-lg mx-5">Réserver</a>
+        <a href="contact.php" class="btn btn-secondary btn-lg mx-5 boutons">Nous contacter</a>
         </div>
     </div>
 
