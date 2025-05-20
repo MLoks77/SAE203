@@ -13,23 +13,6 @@ include "../configdb/connexion.php";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../css/Reserver.css">
-    <style>
-.input-custom {
-    border-radius: 8px;  /* Coins arrondis */
-    background-color: #f0f0f0;  /* Fond gris */
-    padding: 10px;  /* Espacement intérieur */
-    width: 100%;  /* Remplir l'espace disponible */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre pour un effet visuel */
-    border-radius: 15px; /* Arrondi des 4 coins */
-}
-td{
-    background-color: 16425B;  /* Fond gris */
-}
-
-
-
-</style>
-
 </head>
 <body class="custom">
 <h2 class="fw-bold display-5 text-center text-light">

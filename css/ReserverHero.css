@@ -1,7 +1,8 @@
 .header-banner {
   background-image: url('../image/bannieremeaux1.png');
   background-size: cover;
-  background-position: 0px -350px;
+  background-position: center;
+  background-repeat: no-repeat;
   height: 150px;
   position: relative;
   color: white;
@@ -37,5 +38,5 @@
   background-color: white;
   font-weight: bold;
   font-size: 1.2rem;
-  color: black;
+  color :black
 }
