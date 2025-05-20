@@ -34,7 +34,7 @@
 
             <div class="role">
               <label for="role">Rôle</label>
-                <select id="role" name="rôle" required>
+                <select id="role" name="Role" required>
                 <option value="" disabled selected>Choisissez votre rôle</option>
                 <option value="etudiant">Étudiant</option>
                 <option value="enseignant">Enseignant</option>
@@ -120,40 +120,6 @@
 </body>
 </html>
 
-<<<<<<< HEAD
-=======
-<?php
-if ($_SERVER['REQUEST_METHOD'] == " post"){
-  $Nom = htmlspecialchars($_POST['Nom']);
-  $Prenom = htmlspecialchars($_POST['Prenom']);
-  $Identifiant = htmlspecialchars($_POST['Identifiant']);
-  $Mail = htmlspecialchars($_POST['Mail']);
-  $Mot_de_passee = htmlspecialchars($_POST['Mot_de_passee']);
-  $Date_naissance = htmlspecialchars($_POST['Date-naissance']);
-  $Role = htmlspecialchars($_POST['Role']);
-  $Mot_de_passee = password_hash($Mot_de_passee, PASSWORD_DEFAULT);
-  if(!empty($Nom) && !empty($Prenom) && !empty($Identifiant) && !empty($Mail) && !empty($Mot_de_passee) && !empty($Date_naissance) && !empty($Role)){
-    try{
-      $sql = "INSERT INTO inscription (Nom, Prenom, Identifiant, Mail, Mot_de_passee, Date_naissance, Role) VALUES (:Nom, :Prenom, :Identifiant, :Mail, :Mot_de_passee, :Date_naissance, :Role)";
-      $stmt = $pdo->prepare($sql);
-      $stmt->bindParam(':Nom', $Nom);
-      $stmt->bindParam(':Prenom', $Prenom);
-      $stmt->bindParam(':Identifiant', $Identifiant);
-      $stmt->bindParam(':Mail', $Mail);
-      $stmt->bindParam(':Mot_de_passee', $Mot_de_passee);
-      $stmt->bindParam(':Date_naissance', $Date_naissance);
-      $stmt->bindParam(':Role', $Role);
 
-      if ($stmt->execute()) {
-        echo "<script>alert('Inscription réussie !');</script>";
-        header('Location: ../index.php');
-        exit();
-      } else {
-        echo "<script>alert('Erreur lors de l\'inscription.');</script>";
-      }
-    } catch (PDOException $e) {
-      echo "<script>alert('Erreur de connexion à la base de données.');</script>";
-    }
-  }
-}
->>>>>>> 40276da94d01c5e367290f7e68728cd6093e86c6
+
+

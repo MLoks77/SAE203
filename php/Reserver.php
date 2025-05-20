@@ -6,6 +6,21 @@ include "../configdb/connexion.php";
 if (!isset($_SESSION['panier'])) {
     $_SESSION['panier'] = [];
 }
+$sql = "SELECT ID_materiel, Reference, Descriptif, Etat_global FROM Materiel WHERE Type = 'Casque'";
+$stmt = $pdo->query($sql);
+$materiels = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$sqlMultimedia = "SELECT ID_materiel, Reference, Descriptif, Etat_global FROM Materiel WHERE Type = 'Multimédia'";
+$stmtMultimedia = $pdo->query($sqlMultimedia);
+$materielsMultimedia = $stmtMultimedia->fetchAll(PDO::FETCH_ASSOC);
+
+$sqlAudiovisuel = "SELECT ID_materiel, Reference, Descriptif, Etat_global FROM Materiel WHERE Type = 'Audiovisuelle'";
+$stmtAudiovisuel = $pdo->query($sqlAudiovisuel);
+$materielsAudiovisuel = $stmtAudiovisuel->fetchAll(PDO::FETCH_ASSOC);
+
+$sqlSalle = "SELECT ID, Descriptif, Etat FROM Salle";
+$stmtSalle = $pdo->query($sqlSalle);
+$materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="fr">

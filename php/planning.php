@@ -6,6 +6,17 @@ require "../configdb/connexion.php";
 include "../include/navbar.php";
 /**include "../include/navbaradmin.php"; mettre le code pour choisir suivant l'ID de l'utilisateur connecté **/
 include "../include/PlanningHero.php";
+$sqlreservations = "SELECT r.Date, CONCAT(u.Nom, ' ', u.Prenom) AS student, r.Motif AS motif
+                    FROM reservation r
+                    LEFT JOIN utilisateur u ON r.ID_utilisateur = u.ID_utilisateur";
+$stmtreservations = $pdo->query($sqlreservations);
+$reservations = [];
+while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
+    $reservations[$row['Date']] = [
+        'student' => $row['student'],
+        'motif' => $row['motif']
+    ];
+}
 
 
 ?>

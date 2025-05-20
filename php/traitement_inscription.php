@@ -1,29 +1,46 @@
 <?php
-if(isset($_POST['envoyer'])){
-   $nom = $_POST['Nom'];
-    $prenom = $_POST['Prenom'];
-    $identifiant = $_POST['Identifiant'];
-    $email = $_POST['Mail'];
-    $motdepasse = $_POST['Mot_de_passee'];
-    $date_naissance = $_POST['Date-naissance'];
-    $role = $_POST['Role'];
-    $confirm_password = $_POST['confirm_password'];
-    
+require_once '../configdb/connexion.php';
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
+    // Sécurisation des entrées
+    $nom = htmlspecialchars($_POST['Nom']);
+    $prenom = htmlspecialchars($_POST['Prenom']);
+    $identifiant = htmlspecialchars($_POST['Identifiant']);
+    $mail = htmlspecialchars($_POST['Mail']);
+    $mot_de_passe = htmlspecialchars($_POST['Mot_de_passee']);
+    $confirm = htmlspecialchars($_POST['confirm_password']);
+    $date_naissance = htmlspecialchars($_POST['Date-naissance']);
+    $role = htmlspecialchars($_POST['Role']);
 
-    $sql = "INSERT INTO Utilisateur (Nom, Prenom, Identifiant, Mail, Mot_de_passee, Date_naissance, rôle) VALUES (:Nom, :Prenom, :Identifiant, :Mail, :Mot_de_passee, :Date_naissance, :rôle)";
-    $stmt = $pdo ->prepare($sql);
-    $stmt -> execute([
-        ':Nom' => $nom,
-        ':Prenom' => $prenom,
-        ':Identifiant' => $identifiant,
-        ':Mail' => $email,
-        ':Mot_de_passee' => $motdepasse,
-        ':Date_naissance' => $date_naissance,
-        ':rôle' => $role
-    ]);
-    echo" inscription réussie";
+   
 
+    // Vérification mot de passe
+    if ($mot_de_passe !== $confirm) {
+        echo "<script>alert('Les mots de passe ne correspondent pas.'); window.history.back();</script>";
+        exit;
+    }
 
+    // Hachage du mot de passe
+    $mot_de_passe_hashed = password_hash($mot_de_passe, PASSWORD_DEFAULT);
+
+    try {
+        $sql = "INSERT INTO Utilisateur (Nom, Prenom, Identifiant, Mail, Mot_de_passe, Role)
+        VALUES (:Nom, :Prenom, :Identifiant, :Mail, :Mot_de_passee, :Role)";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':Nom' => $nom,
+            ':Prenom' => $prenom,
+            ':Identifiant' => $identifiant,
+            ':Mail' => $mail,
+            ':Mot_de_passee' => $mot_de_passe_hashed,
+            ':Role' => $role
+        ]);
+
+        header("Location: ../index.php");
+        exit;
+    } catch (PDOException $e) {
+        echo "Erreur : " . $e->getMessage();
+    }
 }
 ?>
