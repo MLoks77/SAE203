@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : lun. 19 mai 2025 à 19:50
+-- Généré le : mar. 20 mai 2025 à 17:06
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.2.12
 
@@ -201,18 +201,19 @@ CREATE TABLE `utilisateur` (
   `Prenom` varchar(50) DEFAULT NULL,
   `Mail` varchar(100) DEFAULT NULL,
   `Mot_de_passe` varchar(255) DEFAULT NULL,
-  `ID_role` int(11) DEFAULT NULL
+  `ID_role` int(11) DEFAULT NULL,
+  `identifiant` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `utilisateur`
 --
 
-INSERT INTO `utilisateur` (`ID_utilisateur`, `Nom`, `Prenom`, `Mail`, `Mot_de_passe`, `ID_role`) VALUES
-(1, 'Dupont', 'Alice', 'alice.dupont@example.com', 'password123', 2),
-(2, 'Martin', 'Jean', 'jean.martin@example.com', 'password456', 3),
-(3, 'Durand', 'Sophie', 'sophie.durand@example.com', 'password789', 1),
-(4, 'Martin', 'Léa', 'lea.martin@example.com', 'motdepasse456', 4);
+INSERT INTO `utilisateur` (`ID_utilisateur`, `Nom`, `Prenom`, `Mail`, `Mot_de_passe`, `ID_role`, `identifiant`) VALUES
+(1, 'Dupont', 'Alice', 'alice.dupont@example.com', 'password123', 2, 'Alice.Dupont'),
+(2, 'Martin', 'Jean', 'jean.martin@example.com', 'password456', 3, 'Jean.Martin'),
+(3, 'Durand', 'Sophie', 'sophie.durand@example.com', 'password789', 1, 'Sophie.Durand'),
+(4, 'Martin', 'Léa', 'lea.martin@example.com', 'motdepasse456', 4, 'Léa.Martin');
 
 --
 -- Index pour les tables déchargées
