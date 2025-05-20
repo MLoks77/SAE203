@@ -39,7 +39,7 @@ include "../configdb/connexion.php";
                 <div class="container mb-5">
                     <!-- Images de la salle -->
                     <div class="text-start mb-4 ms-5">
-                        <img src="/SAE203/image/Salle<?= $row['ID'] ?>.jpg"
+                        <img src="../image/Salle<?= $row['ID'] ?>.jpg"
                             class="img-fluid rounded shadow"
                             alt="Salle <?= $row['ID'] ?>">
                     </div>
