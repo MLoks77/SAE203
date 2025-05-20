@@ -3,6 +3,9 @@ session_start();
 include "../include/navbar.php";
 include "../include/ReserverHero.php";
 include "../configdb/connexion.php";
+if (!isset($_SESSION['panier'])) {
+    $_SESSION['panier'] = [];
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -39,7 +42,7 @@ include "../configdb/connexion.php";
                 <div class="container mb-5">
                     <!-- Images de la salle -->
                     <div class="text-start mb-4 ms-5">
-                        <img src="/SAE203/image/Salle<?= $row['ID'] ?>.jpg"
+                        <img src="../image/Salle<?= $row['ID'] ?>.jpg"
                             class="img-fluid rounded shadow"
                             alt="Salle <?= $row['ID'] ?>">
                     </div>
@@ -52,9 +55,11 @@ include "../configdb/connexion.php";
                                 <p class="fw-semibold mb-0">État : <?= htmlspecialchars($row['Etat']) ?></p>
                             </div>
                             <div class="col-lg-4 offset-lg-4 text-end">
-                                <a href="reserver.php?id=<?= $row['ID'] ?>" class="btn btn-light me-5 shadow-lg mb-5">
-                                    Réserver la salle <?= $row['ID'] ?>
-                                </a>
+                                <form action="formulaireReserver.php" method="post" class="d-inline">
+                                    <button type="submit" name="reference" value="<?= htmlspecialchars($row['Reference']) ?>" class="btn btn-light me-5 shadow-lg mb-5">
+                                        Réserver <?= htmlspecialchars($row['Reference']) ?>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -74,7 +79,7 @@ include "../configdb/connexion.php";
                         <div class="row justify-content-center">
                             <?php for ($i = 1; $i <= 3; $i++): ?>
                                 <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                                    <img src="/SAE203/image/<?= $row['ID_materiel'] ?>_<?= $i ?>.jpg"
+                                    <img src="../image/<?= $row['ID_materiel'] ?>_<?= $i ?>.jpg"
                                         class="img-fluid rounded shadow"
                                         alt="<?= htmlspecialchars($row['Reference']) ?> - Image <?= $i ?>">
                                 </div>
@@ -89,9 +94,11 @@ include "../configdb/connexion.php";
                                 <p class="fw-semibold mb-0">État : <?= htmlspecialchars($row['Etat_global']) ?></p>
                             </div>
                             <div class="col-lg-4 offset-lg-4 text-end">
-                                <a href="reserver.php?id=<?= $row['ID_materiel'] ?>" class="btn btn-light me-5 shadow-lg mb-5">
-                                    Réserver <?= htmlspecialchars($row['Reference']) ?>
-                                </a>
+                                <form action="formulaireReserver.php" method="post" class="d-inline">
+                                    <button type="submit" name="reference" value="<?= htmlspecialchars($row['Reference']) ?>" class="btn btn-light me-5 shadow-lg mb-5">
+                                        Réserver <?= htmlspecialchars($row['Reference']) ?>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -111,7 +118,7 @@ include "../configdb/connexion.php";
                         <div class="row justify-content-center">
                             <?php for ($i = 1; $i <= 3; $i++): ?>
                                 <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                                    <img src="/SAE203/image/<?= $row['ID_materiel'] ?>_<?= $i ?>.jpg"
+                                    <img src="../image/<?= $row['ID_materiel'] ?>_<?= $i ?>.jpg"
                                         class="img-fluid rounded shadow"
                                         alt="<?= htmlspecialchars($row['Reference']) ?> - Image <?= $i ?>">
                                 </div>
@@ -126,10 +133,12 @@ include "../configdb/connexion.php";
                                 <p class="fw-semibold mb-0">État : <?= htmlspecialchars($row['Etat_global']) ?></p>
                             </div>
                             <div class="col-lg-4 offset-lg-4 text-end">
-                                <a href="reserver.php?id=<?= $row['ID_materiel'] ?>" class="btn btn-light me-5 shadow-lg mb-5">
-                                    Réserver <?= htmlspecialchars($row['Reference']) ?>
-                                </a>
-                            </div>
+                                <form action="formulaireReserver.php" method="post" class="d-inline">
+                                    <button type="submit" name="reference" value="<?= htmlspecialchars($row['Reference']) ?>" class="btn btn-light me-5 shadow-lg mb-5">
+                                        Réserver <?= htmlspecialchars($row['Reference']) ?>
+                                    </button>
+                                </form>
+                        </div>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -148,7 +157,7 @@ include "../configdb/connexion.php";
                         <div class="row justify-content-center">
                             <?php for ($i = 1; $i <= 3; $i++): ?>
                                 <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                                    <img src="/SAE203/image/<?= $row['ID_materiel'] ?>_<?= $i ?>.jpg"
+                                    <img src="../image/<?= $row['ID_materiel'] ?>_<?= $i ?>.jpg"
                                         class="img-fluid rounded shadow"
                                         alt="<?= htmlspecialchars($row['Reference']) ?> - Image <?= $i ?>">
                                 </div>
@@ -162,9 +171,11 @@ include "../configdb/connexion.php";
                                 <p class="fw-semibold mb-0">État : <?= htmlspecialchars($row['Etat_global']) ?></p>
                             </div>
                             <div class="col-lg-4 offset-lg-4 text-end">
-                                <a href="reserver.php?id=<?= $row['ID_materiel'] ?>" class="btn btn-light me-5 shadow-lg mb-5">
-                                    Réserver <?= htmlspecialchars($row['Reference']) ?>
-                                </a>
+                                <form action="formulaireReserver.php" method="post" class="d-inline">
+                                    <button type="submit" name="reference" value="<?= htmlspecialchars($row['Reference']) ?>" class="btn btn-light me-5 shadow-lg mb-5">
+                                        Réserver <?= htmlspecialchars($row['Reference']) ?>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -175,4 +186,7 @@ include "../configdb/connexion.php";
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 </body>
 </html>
-<?php include "../include/footer.php" ?>
+<?php include "../include/footer.php" ;
+
+
+?>

@@ -1,6 +1,4 @@
-<?php session_start(); 
-include "../configdb/connexion.php"
-?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -27,16 +25,22 @@ include "../configdb/connexion.php"
           <img src="../image/27_mo-panoramique-2010-500px.jpg" alt="batiment">
         </div>
 
-        <form class="formulaire" method="POST">
+        <form class="formulaire" method="POST" action="../php/traitement_inscription.php">
           <div class="grille">
             <div class="prenom">
               <label for="firstname">Prénom</label>
-              <input type="text" id="prenom" name="Prenom">
+              <input type="text" id="prenom" name="Prenom" required>
             </div>
 
             <div class="role">
               <label for="role">Rôle</label>
-              <input type="text" id="role" name="Role">
+                <select id="role" name="rôle" required>
+                <option value="" disabled selected>Choisissez votre rôle</option>
+                <option value="etudiant">Étudiant</option>
+                <option value="enseignant">Enseignant</option>
+                <option value="agent">Agent</option>
+                <option value="admin">Admin</option>
+                </select>
             </div>
 
             <div class="nom">
@@ -46,17 +50,17 @@ include "../configdb/connexion.php"
 
             <div class="identifiant">
               <label for="identifier">Identifiant</label>
-              <input type="text" id="identifier" name="Identifiant">
+              <input type="text" id="identifier" name="Identifiant" required>
             </div>
 
             <div class="email">
               <label for="email">Email</label>
-              <input type="email" id="email" name="Mail">
+              <input type="email" id="email" name="Mail" required>
             </div>
 
             <div class="mot-de-passe" style="position: relative;">
               <label for="password">Mot de passe</label>
-              <input type="password" id="password" name="Mot_de_passee">
+              <input type="password" id="password" name="Mot_de_passee" required>
               <i class="fa-solid fa-eye" id="togglePassword" style="position: absolute; right: 10px; top: 38px; cursor: pointer;"></i>
             </div>
 
@@ -70,14 +74,15 @@ include "../configdb/connexion.php"
 
             <div class="confirmation" style="position: relative;">
               <label for="confirm-password">Confirmez votre mot de passe</label>
-              <input type="password" id="confirm-password" required>
+              <input type="password" id="confirm-password" name="confirm_password" required>
+
               <i class="fa-solid fa-eye" id="toggleConfirm" style="position: absolute; right: 10px; top: 38px; cursor: pointer;"></i>
             </div>
           </div>
 
           <div class="actions">
             <a href="../index.php" class="lien-connexion">S'identifier ?</a>
-            <button type="submit" class="bouton-creer">Créer</button>
+            <button type="submit" class="bouton-creer" name="envoyer">Créer</button>
           </div>
         </form>
       </div>
@@ -115,37 +120,3 @@ include "../configdb/connexion.php"
 </body>
 </html>
 
-<?php
-if ($_SERVER['REQUEST_METHOD'] == " post"){
-  $Nom = htmlspecialchars($_POST['Nom']);
-  $Prenom = htmlspecialchars($_POST['Prenom']);
-  $Identifiant = htmlspecialchars($_POST['Identifiant']);
-  $Mail = htmlspecialchars($_POST['Mail']);
-  $Mot_de_passee = htmlspecialchars($_POST['Mot_de_passee']);
-  $Date_naissance = htmlspecialchars($_POST['Date-naissance']);
-  $Role = htmlspecialchars($_POST['Role']);
-  $Mot_de_passee = password_hash($Mot_de_passee, PASSWORD_DEFAULT);
-  if(!empty($Nom) && !empty($Prenom) && !empty($Identifiant) && !empty($Mail) && !empty($Mot_de_passee) && !empty($Date_naissance) && !empty($Role)){
-    try{
-      $sql = "INSERT INTO Utilisateur (Nom, Prenom, Identifiant, Mail, Mot_de_passee, Date_naissance, Role) VALUES (:Nom, :Prenom, :Identifiant, :Mail, :Mot_de_passee, :Date_naissance, :Role)";
-      $stmt = $pdo->prepare($sql);
-      $stmt->bindParam(':Nom', $Nom);
-      $stmt->bindParam(':Prenom', $Prenom);
-      $stmt->bindParam(':Identifiant', $Identifiant);
-      $stmt->bindParam(':Mail', $Mail);
-      $stmt->bindParam(':Mot_de_passee', $Mot_de_passee);
-      $stmt->bindParam(':Date_naissance', $Date_naissance);
-      $stmt->bindParam(':Role', $Role);
-
-      if ($stmt->execute()) {
-        echo "<script>alert('Inscription réussie !');</script>";
-        header('Location: ../index.php');
-        exit();
-      } else {
-        echo "<script>alert('Erreur lors de l\'inscription.');</script>";
-      }
-    } catch (PDOException $e) {
-      echo "<script>alert('Erreur de connexion à la base de données.');</script>";
-    }
-
-}

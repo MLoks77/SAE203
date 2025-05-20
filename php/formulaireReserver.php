@@ -2,6 +2,9 @@
 include "../include/navbar.php";
 include "../include/ReserverHero.php";
 include "../configdb/connexion.php";
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,19 +19,13 @@ include "../configdb/connexion.php";
     background-color: #f0f0f0;  /* Fond gris */
     padding: 10px;  /* Espacement intérieur */
     width: 100%;  /* Remplir l'espace disponible */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre pour un effet visuel */
+    border-radius: 15px; /* Arrondi des 4 coins */
 }
 td{
-    border-radius: 5px;
     background-color: 16425B;  /* Fond gris */
 }
-.table, .table td, .table tr {
-    border: none !important;
-    border-radius: 8px 0px 0px 0px; /* Coins arrondis */
-}
-.table tr:first-child td,
-.table tr:last-child td{
-    border-radius: 8px 8px 0 0; /* Arrondi en haut à gauche et à droite */
-}
+
 
 
 </style>
@@ -102,7 +99,6 @@ td{
             </td>
         </tr>
     </table>
-
     </div>
     
 </body>
