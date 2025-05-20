@@ -1,16 +1,13 @@
 <?php 
 session_start();
+
+require "../configdb/connexion.php";
+
 include "../include/navbar.php";
 /**include "../include/navbaradmin.php"; mettre le code pour choisir suivant l'ID de l'utilisateur connecté **/
 include "../include/PlanningHero.php";
-include "../configdb/connexion.php";
-$reservations = [
-    '2025-04-02' => ['student' => '12345', 'motif' => 'Projet X'],
-    '2025-04-10' => ['student' => '67890', 'motif' => 'Séance photo'],
-    '2025-04-15' => ['student' => '11223', 'motif' => 'Tournage vidéo'],
-    '2025-04-16' => ['student' => '33445', 'motif' => 'Réunion'],
-    '2025-04-17' => ['student' => '55667', 'motif' => 'Workshop'],
-];
+
+
 ?>
 
 <!DOCTYPE html>
@@ -19,15 +16,13 @@ $reservations = [
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planning</title>
-    <link rel="stylesheet" href="../css/planning.css">
+    <link rel="stylesheet" href="../css/Planning.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 
 <!-- Liens calendrier : 
  https://youtu.be/SgynWhEgvlw?si=BkOqTV_Z0es00jkf 
  https://youtube.com/playlist?list=PLulnbIOAgre5M65C5mnKzCAbwER8Va-Ru&si=ROsMlg8xdPjt8vdi
 -->
-
-
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -36,12 +31,6 @@ $reservations = [
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Calendrier de Réservation</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- CSS pour cette page, mettez à côté si vous voulez -->
-
-   
-
-
 
 </head>
 <body class="bg-fond">
@@ -80,16 +69,19 @@ $reservations = [
         <tbody id="calendarBody"></tbody>
     </table>
 
+
+
+    
 <!--Faire en sorte que toute cette sections apparaisse si on est ID AGENT, faire sois un include sois un truc plus long et compliqué, privilégier le include -->
 
     <div class="reservation-info mt-4">
         <div class="row mb-2">
             <div class="col-3">Date de réservation :</div>
-            <div class="col-9"><input type="text" class="form-control" id="resDate" readonly></div>
+            <div class="col-9"><input type="text" class="form-control" id="Date" readonly></div>
         </div>
         <div class="row mb-2">
             <div class="col-3">Réservé par :</div>
-            <div class="col-9"><input type="text" class="form-control" id="resBy" readonly></div>
+            <div class="col-9"><input type="text" class="form-control" id="resBy" readonly></div> <!-- resPer = ID_Utilisateur -->
         </div>
         <div class="row mb-2">
             <div class="col-3">Motif :</div>
@@ -101,10 +93,14 @@ $reservations = [
 </div>
 <div>
 <?php include "../include/footer.php" ?>
+
+
+
+
 <script>
-const reservations = <?php echo json_encode($reservations); ?>;
+const reservations = <?php echo json_encode($reservations); ?>;     // json_encode est essentiel pour échanger des données entre PHP et JavaScript, car ils utilisent des formats différents.
 const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
-let currentDate = new Date(2025, 3); // Avril 2025
+let currentDate = new Date(2025, 4);
 
 function renderCalendar(date) {
     const year = date.getFullYear();
@@ -144,12 +140,12 @@ function renderCalendar(date) {
 
         cell.addEventListener('click', () => {
             if (!cell.dataset.date) return;
-            document.getElementById('resDate').value = cell.dataset.date;
+            document.getElementById('Date').value = cell.dataset.date;
             if (reservations[cell.dataset.date]) {
                 document.getElementById('resBy').value = reservations[cell.dataset.date].student;
                 document.getElementById('resReason').value = reservations[cell.dataset.date].motif;
             } else {
-                document.getElementById('resBy').value = '';
+                document.getElementById('resPer').value = '';
                 document.getElementById('resReason').value = '';
             }
         });
