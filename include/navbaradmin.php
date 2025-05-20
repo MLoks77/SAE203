@@ -7,7 +7,7 @@
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
 
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="../php/accueil.php">
         <img src="../image/gustavedetouré.png" alt="Logo" style="max-height: 40px;">
       </a>
 
@@ -18,7 +18,7 @@
       <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
         <ul class="navbar-nav mb-2 mb-lg-0 align-items-center">
           <li class="nav-item px-3" style="border-right: 1px solid black;">
-            <a class="nav-link fw-bold" href="#">Admin</a>
+            <a class="nav-link fw-bold" href="../php/admin.php">Admin</a>
           </li>
           <li class="nav-item px-3">
             <a class="nav-link" href="../php/accueil.php">Accueil</a>
