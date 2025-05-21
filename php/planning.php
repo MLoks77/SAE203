@@ -8,220 +8,547 @@ if ($_SESSION['role'] == 'admin') {
 } elseif ($_SESSION['role'] == 'etudiant' || $_SESSION['role'] == 'enseignant') {
     include "../include/navbar.php";
 } elseif ($_SESSION['role'] == 'agent') {
-    include "../include/navbar.php"; // Si tu as une navbar spécifique agent
+    include "../include/navbar.php";
 } else {
-    include "../include/navbar.php"; //  si rôle inconnu
+    include "../include/navbar.php"; 
 }
 
 include "../include/PlanningHero.php";
 
-$sqlreservations = "SELECT r.Date, CONCAT(u.Nom, ' ', u.Prenom) AS student, r.Motif AS motif,
+$sqlreservations = "SELECT r.Date, 
+                           CONCAT(u.Nom, ' ', u.Prenom) AS student, 
+                           r.Motif AS motif,
+                           r.salle,
+                           r.H_debut,
+                           r.H_fin,
+                           m.Reference AS nom_materiel,
+                           m.Type AS type_materiel,
+                           m.Etat_global AS etat_materiel
                     FROM reservation r
-                    LEFT JOIN utilisateur u ON r.ID_utilisateur = u.ID_utilisateur";
+                    LEFT JOIN utilisateur u ON r.ID_utilisateur = u.ID_utilisateur
+                    LEFT JOIN materiel m ON r.materiel = m.ID_materiel
+                    ORDER BY r.Date, r.H_debut";
+
 $stmtreservations = $pdo->query($sqlreservations);
 $reservations = [];
 while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
-    $reservations[$row['Date']] = [
+    $reservations[] = [
+        'date' => $row['Date'],
         'student' => $row['student'],
-        'motif' => $row['motif']
+        'motif' => $row['motif'],
+        'salle' => $row['salle'],
+        'materiel' => $row['nom_materiel'],
+        'type' => $row['type_materiel'],
+        'etat' => $row['etat_materiel'],
+        'heure_debut' => $row['H_debut'],
+        'heure_fin' => $row['H_fin']
     ];
 }
-
-$salle = "SELECT salle from reservation";
-$materiel = "SELECT materiel from reservation";
-
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Planning</title>
+    <meta name="description" content="Calendrier de réservation des salles et du matériel">
+    <title>Planning - Réservations</title>
     <link rel="stylesheet" href="../css/Planning.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-
-<!-- Liens calendrier : 
- https://youtu.be/SgynWhEgvlw?si=BkOqTV_Z0es00jkf 
- https://youtube.com/playlist?list=PLulnbIOAgre5M65C5mnKzCAbwER8Va-Ru&si=ROsMlg8xdPjt8vdi
--->
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Calendrier de Réservation</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-fond">
-<section class="extra-space"></section>
-<div class="bg-light pt-3">
-<div class="container">
-    <div class="d-flex justify-content-between align-items-center mt-3">
-        <label for="reservationFilter" class="form-label me-2">Réservation</label>
-        <select id="reservationFilter" class="form-select w-auto">
-            <option>Toutes les réservations</option>
-            <option>Réservation de salles</option>
-            <option>Réservation de matériels</option>
-        </select>
-    </div>
-
-    <div class="reservation-info mt-4">
-        <div class="row mb-2">
-            <div class="col-3">Salle :</div>
-            <div class="col-9">
-                <input type="text" class="form-control" value="<?php echo htmlspecialchars($salle); ?>" readonly>
-            </div>
-        </div>
-        <div class="row mb-2">
-            <div class="col-3">Matériel :</div>
-            <div class="col-9">
-                <input type="text" class="form-control" value="<?php echo htmlspecialchars($materiel); ?>" readonly>
-            </div>
-        </div>
-    </div>
-
-    <div class="d-flex justify-content-between align-items-center mb-2">
-        <button class="btn btn-light" id="prevMonth">&lt;</button>
-        <h4 id="monthYear"></h4>
-        <button class="btn btn-light" id="nextMonth">&gt;</button>
-        <section class="extra-space"></section>
-        <button class="btn btn-primary" id="todayBtn">Aujourd'hui</button>
-    </div>
-
-    <table class="table table-bordered calendar bg-white text-dark">
-        <thead>
-            <tr>
-                <th>Lundi</th>
-                <th>Mardi</th>
-                <th>Mercredi</th>
-                <th>Jeudi</th>
-                <th>Vendredi</th>
-                <th class="text-muted">Samedi</th>
-                <th class="text-muted">Dimanche</th>
-            </tr>
-        </thead>
-        <tbody id="calendarBody"></tbody>
-    </table>
-
-
-
-    
-<!--Faire en sorte que toute cette sections apparaisse si on est ID AGENT, faire sois un include sois un truc plus long et compliqué, privilégier le include -->
-
-    <div class="reservation-info mt-4">
-        <div class="row mb-2">
-            <div class="col-3">Date de réservation :</div>
-            <div class="col-9"><input type="text" class="form-control" id="Date" readonly></div>
-        </div>
-        <div class="row mb-2">
-            <div class="col-3">Réservé par :</div>
-            <div class="col-9"><input type="text" class="form-control" id="resBy" readonly></div> <!-- resPer = ID_Utilisateur -->
-        </div>
-        <div class="row mb-2">
-            <div class="col-3">Motif :</div>
-            <div class="col-9"><textarea class="form-control" id="resReason" rows="3" readonly></textarea></div>
-        </div>
-        <button class="btn btn-dark mt-2">Installer le PDF</button>
-    </div>
     <section class="extra-space"></section>
-</div>
-<div>
-<?php include "../include/footer.php" ?>
+    <div class="bg-light pt-3">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-light me-2" id="prevMonth" aria-label="Mois précédent">&lt;</button>
+                    <h4 id="monthYear" class="mb-0"></h4>
+                    <button class="btn btn-light ms-2" id="nextMonth" aria-label="Mois suivant">&gt;</button>
+                </div>
+                <button class="btn btn-dark" id="todayBtn">Aujourd'hui</button>
+            </div>
 
+            <div class="calendar-container mb-4">
+                <table class="table table-bordered calendar bg-white text-dark" role="grid">
+                    <thead>
+                        <tr>
+                            <th scope="col">Lundi</th>
+                            <th scope="col">Mardi</th>
+                            <th scope="col">Mercredi</th>
+                            <th scope="col">Jeudi</th>
+                            <th scope="col">Vendredi</th>
+                            <th scope="col" class="text-muted">Samedi</th>
+                            <th scope="col" class="text-muted">Dimanche</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calendarBody"></tbody>
+                </table>
+            </div>
 
+            <div class="filters-container mb-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <label for="reservationFilter" class="form-label mb-0">Filtrer les réservations :</label>
+                    <select id="reservationFilter" class="form-select w-auto">
+                        <option value="all">Toutes les réservations</option>
+                        <option value="salle">Réservation de salles</option>
+                        <option value="materiel">Réservation de matériels</option>
+                        <option value="combined">Réservations salle & matériel</option>
+                    </select>
+                </div>
+            </div>
 
+            <div class="reservations-container">
+                <div id="noReservationMessage" class="alert alert-info d-none" role="alert">
+                    Aucune réservation ne correspond aux critères de filtrage pour ce mois.
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped" id="reservationTable">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Réservé par</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Détails</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($reservations as $reservation): 
+                                $dateObj = new DateTime($reservation['date']);
+                                $type = '';
+                                if ($reservation['salle'] && $reservation['materiel']) {
+                                    $type = 'combined';
+                                } elseif ($reservation['materiel']) {
+                                    $type = 'materiel';
+                                } elseif ($reservation['salle']) {
+                                    $type = 'salle';
+                                }
+                            ?>
+                            <tr data-date="<?php echo $reservation['date']; ?>" 
+                                data-type="<?php echo $type; ?>">
+                                <td class="date-cell"><?php echo $dateObj->format('d/m/Y'); ?></td>
+                                <td><?php echo htmlspecialchars($reservation['student']); ?></td>
+                                <td><?php 
+                                    if ($type === 'combined') {
+                                        echo 'Salle & Matériel';
+                                    } elseif ($type === 'materiel') {
+                                        echo 'Matériel';
+                                    } else {
+                                        echo 'Salle';
+                                    }
+                                ?></td>
+                                <td><?php 
+                                    $details = [];
+                                    if ($reservation['salle']) {
+                                        $details[] = 'Salle ' . htmlspecialchars($reservation['salle']);
+                                    }
+                                    if ($reservation['materiel']) {
+                                        $details[] = htmlspecialchars($reservation['materiel']);
+                                    }
+                                    echo implode(' + ', $details);
+                                ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination-container d-flex justify-content-between align-items-center mt-3">
+                    <div class="pagination-info">
+                        Affichage de <span id="startIndex">1</span> à <span id="endIndex">5</span> sur <span id="totalItems">0</span> réservations
+                    </div>
+                    <nav aria-label="Navigation des réservations">
+                        <ul class="pagination mb-0">
+                            <li class="page-item">
+                                <button class="page-link text-dark" id="prevPage" aria-label="Page précédente">&laquo;</button>
+                            </li>
+                            <li class="page-item">
+                                <button class="page-link text-dark" id="nextPage" aria-label="Page suivante">&raquo;</button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
 
-<script>
-const reservations = <?php echo json_encode($reservations); ?>;     // json_encode est essentiel pour échanger des données entre PHP et JavaScript, car ils utilisent des formats différents.
-const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
-let currentDate = new Date(2025, 4);
+            <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'agent'): ?>
+            <div class="reservation-info mt-4">
+                <div class="row mb-3">
+                    <div class="col-3">
+                        <label for="selectedDate" class="form-label">Date sélectionnée :</label>
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="form-control" id="selectedDate" readonly>
+                    </div>
+                </div>
+                <div id="reservationDetails" class="mt-3">
+                    <!-- Les détails des réservations seront injectés ici -->
+                </div>
+            </div>
+            <?php endif; ?>
+            <section class="extra-space"></section>
+        </div>
+    </div>
 
-function renderCalendar(date) {
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    document.getElementById('monthYear').textContent = `${monthNames[month]} ${year}`;
+    <?php include "../include/footer.php" ?>
 
-    const firstDay = new Date(year, month, 1).getDay() || 7;
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const reservations = <?php echo json_encode($reservations); ?>;
+        const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+        let currentDate = new Date();
+        const itemsPerPage = 5;
+        let currentPage = 1;
+        let filteredReservations = [];
 
-    const calendarBody = document.getElementById('calendarBody');
-    calendarBody.innerHTML = '';
-
-    let row = document.createElement('tr');
-    let dayCount = 0;
-
-    for (let i = 1; i < firstDay; i++) {
-        row.appendChild(document.createElement('td'));
-        dayCount++;
-    }
-
-    for (let day = 1; day <= daysInMonth; day++) {
-        const cell = document.createElement('td');
-        const dateStr = `${year}-${(month + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-
-        const dayOfWeek = (dayCount % 7);
-        if (dayOfWeek === 5 || dayOfWeek === 6) {
-            cell.classList.add('weekend');
-            cell.textContent = day;
-        } else if (reservations[dateStr]) {
-            cell.classList.add('reserved');
-            cell.textContent = 'Réservé';
-            cell.dataset.date = dateStr;
-        } else {
-            cell.textContent = day;
-            cell.dataset.date = dateStr;
+        function formatDateFr(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('fr-FR', {
+                weekday: 'long',
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
         }
 
-        cell.addEventListener('click', () => {
-            if (!cell.dataset.date) return;
-            document.getElementById('Date').value = cell.dataset.date;
-            if (reservations[cell.dataset.date]) {
-                document.getElementById('resBy').value = reservations[cell.dataset.date].student;
-                document.getElementById('resReason').value = reservations[cell.dataset.date].motif;
+        function filterReservations() {
+            const filterValue = document.getElementById('reservationFilter').value;
+            const currentMonth = currentDate.getMonth();
+            const currentYear = currentDate.getFullYear();
+            
+            const rows = document.querySelectorAll('#reservationTable tbody tr');
+            const noReservationMessage = document.getElementById('noReservationMessage');
+            filteredReservations = [];
+            
+            rows.forEach(row => {
+                if (row.dataset.date) {
+                    const rowDate = new Date(row.dataset.date);
+                    const isCurrentMonth = rowDate.getMonth() === currentMonth && rowDate.getFullYear() === currentYear;
+                    const rowType = row.dataset.type;
+                    
+                    const dateFr = formatDateFr(row.dataset.date);
+                    const dateCell = row.querySelector('.date-cell');
+                    dateCell.textContent = dateFr;
+                    
+                    let shouldShow = false;
+                    
+                    if (isCurrentMonth) {
+                        if (filterValue === 'all') {
+                            shouldShow = true;
+                        } else {
+                            shouldShow = (rowType === filterValue);
+                        }
+                    }
+                    
+                    if (shouldShow) {
+                        filteredReservations.push(row);
+                    }
+                    row.style.display = 'none'; // Cacher toutes les lignes initialement
+                }
+            });
+            
+            if (filteredReservations.length === 0) {
+                noReservationMessage.classList.remove('d-none');
+                document.getElementById('reservationTable').classList.add('d-none');
+                document.querySelector('.pagination-container').classList.add('d-none');
             } else {
-                document.getElementById('resPer').value = '';
-                document.getElementById('resReason').value = '';
+                noReservationMessage.classList.add('d-none');
+                document.getElementById('reservationTable').classList.remove('d-none');
+                document.querySelector('.pagination-container').classList.remove('d-none');
+                currentPage = 1;
+                displayPage();
+            }
+        }
+
+        function displayPage() {
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = Math.min(startIndex + itemsPerPage, filteredReservations.length);
+            
+            // Mettre à jour les informations de pagination
+            document.getElementById('startIndex').textContent = filteredReservations.length > 0 ? startIndex + 1 : 0;
+            document.getElementById('endIndex').textContent = endIndex;
+            document.getElementById('totalItems').textContent = filteredReservations.length;
+            
+            // Cacher toutes les lignes
+            filteredReservations.forEach(row => {
+                row.style.display = 'none';
+            });
+            
+            // Afficher les lignes de la page courante
+            for (let i = startIndex; i < endIndex; i++) {
+                if (filteredReservations[i]) {
+                    filteredReservations[i].style.display = '';
+                }
+            }
+            
+            // Mettre à jour l'état des boutons de pagination
+            const prevButton = document.getElementById('prevPage').parentElement;
+            const nextButton = document.getElementById('nextPage').parentElement;
+            
+            prevButton.classList.toggle('disabled', currentPage === 1);
+            nextButton.classList.toggle('disabled', endIndex >= filteredReservations.length);
+            
+            // Désactiver les boutons si nécessaire
+            document.getElementById('prevPage').disabled = currentPage === 1;
+            document.getElementById('nextPage').disabled = endIndex >= filteredReservations.length;
+        }
+
+        function showReservationsModal(reservations) {
+            const detailsContainer = document.getElementById('reservationDetails');
+            detailsContainer.innerHTML = '';
+
+            if (reservations.length === 0) {
+                detailsContainer.innerHTML = '<div class="alert alert-info">Aucune réservation pour cette date</div>';
+                return;
+            }
+
+            reservations.forEach((reservation, index) => {
+                const card = document.createElement('div');
+                card.className = 'card mb-3';
+                
+                let typeReservation = '';
+                if (reservation.salle && reservation.materiel) {
+                    typeReservation = 'Salle & Matériel';
+                } else if (reservation.materiel) {
+                    typeReservation = 'Matériel';
+                } else if (reservation.salle) {
+                    typeReservation = 'Salle';
+                }
+                
+                card.innerHTML = `
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="card-title mb-0">Réservation ${index + 1} - ${typeReservation}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-2">
+                            <div class="col-4"><strong>Réservé par :</strong></div>
+                            <div class="col-8">${reservation.student || '-'}</div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4"><strong>Horaires :</strong></div>
+                            <div class="col-8">
+                                <span class="badge bg-dark">
+                                    ${reservation.heure_debut || '00:00'} - ${reservation.heure_fin || '00:00'}
+                                </span>
+                            </div>
+                        </div>
+                        ${reservation.salle ? `
+                        <div class="row mb-2">
+                            <div class="col-4"><strong>Salle :</strong></div>
+                            <div class="col-8">
+                                <span class="badge bg-primary">Salle ${reservation.salle}</span>
+                            </div>
+                        </div>
+                        ` : ''}
+                        ${reservation.materiel ? `
+                        <div class="row mb-2">
+                            <div class="col-4"><strong>Matériel :</strong></div>
+                            <div class="col-8">
+                                <span class="badge bg-info">${reservation.materiel}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4"><strong>Type :</strong></div>
+                            <div class="col-8">
+                                <span class="badge bg-secondary">${reservation.type || '-'}</span>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4"><strong>État :</strong></div>
+                            <div class="col-8">
+                                <span class="badge ${getBadgeClass(reservation.etat)}">${reservation.etat || '-'}</span>
+                            </div>
+                        </div>
+                        ` : ''}
+                        <div class="row mb-2">
+                            <div class="col-4"><strong>Motif :</strong></div>
+                            <div class="col-8">
+                                <div class="alert alert-light border">
+                                    ${reservation.motif || '-'}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                detailsContainer.appendChild(card);
+            });
+        }
+
+        function getBadgeClass(etat) {
+            switch(etat?.toLowerCase()) {
+                case 'neuf':
+                    return 'bg-success';
+                case 'excellent':
+                    return 'bg-info';
+                case 'super':
+                    return 'bg-primary';
+                case 'bon':
+                    return 'bg-warning';
+                case 'mauvais':
+                    return 'bg-danger';
+                default:
+                    return 'bg-secondary';
+            }
+        }
+
+        function renderCalendar(date) {
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            document.getElementById('monthYear').textContent = `${monthNames[month]} ${year}`;
+
+            const currentMonthReservations = reservations.filter(res => {
+                const resDate = new Date(res.date);
+                return resDate.getMonth() === month && resDate.getFullYear() === year;
+            });
+
+            const firstDay = new Date(year, month, 1).getDay() || 7;
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            const calendarBody = document.getElementById('calendarBody');
+            calendarBody.innerHTML = '';
+
+            let row = document.createElement('tr');
+            let dayCount = 0;
+
+            for (let i = 1; i < firstDay; i++) {
+                const cell = document.createElement('td');
+                cell.classList.add('bg-light');
+                row.appendChild(cell);
+                dayCount++;
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const cell = document.createElement('td');
+                const dateStr = `${year}-${(month + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+                
+                cell.innerHTML = `<div class="day-number">${day}</div>`;
+                
+                const dayReservations = currentMonthReservations.filter(res => res.date === dateStr);
+
+                const dayOfWeek = (dayCount % 7);
+                
+                if (dayOfWeek === 5 || dayOfWeek === 6) {
+                    cell.classList.add('weekend');
+                } else if (dayReservations.length > 0) {
+                    cell.classList.add('has-reservations');
+                    cell.dataset.date = dateStr;
+                    
+                    const reservationCount = document.createElement('div');
+                    reservationCount.className = 'reservation-count';
+                    reservationCount.textContent = `${dayReservations.length} réservation(s)`;
+                    cell.appendChild(reservationCount);
+
+                    const reservationsList = document.createElement('div');
+                    reservationsList.className = 'reservations-list d-none';
+                    dayReservations.forEach(res => {
+                        const resItem = document.createElement('div');
+                        resItem.className = 'reservation-item';
+                        
+                        if (res.salle) {
+                            const salleSpan = document.createElement('span');
+                            salleSpan.textContent = `Salle ${res.salle}`;
+                            resItem.appendChild(salleSpan);
+                        }
+                        
+                        if (res.materiel) {
+                            const materielSpan = document.createElement('span');
+                            materielSpan.textContent = res.materiel;
+                            resItem.appendChild(materielSpan);
+                        }
+                        
+                        if (res.heure_debut && res.heure_fin) {
+                            const horaireSpan = document.createElement('span');
+                            horaireSpan.textContent = `${res.heure_debut} - ${res.heure_fin}`;
+                            resItem.appendChild(horaireSpan);
+                        }
+                        
+                        reservationsList.appendChild(resItem);
+                    });
+                    cell.appendChild(reservationsList);
+
+                    cell.dataset.reservations = JSON.stringify(dayReservations);
+                }
+
+                cell.addEventListener('click', () => {
+                    if (cell.classList.contains('weekend')) return;
+                    
+                    if (cell.dataset.reservations) {
+                        const dayReservations = JSON.parse(cell.dataset.reservations);
+                        document.getElementById('selectedDate').value = formatDateFr(dateStr);
+                        showReservationsModal(dayReservations);
+                    } else {
+                        document.getElementById('selectedDate').value = formatDateFr(dateStr);
+                        document.getElementById('reservationDetails').innerHTML = '<div class="alert alert-info">Aucune réservation pour cette date</div>';
+                    }
+                });
+
+                cell.addEventListener('mouseenter', () => {
+                    const list = cell.querySelector('.reservations-list');
+                    if (list) list.classList.remove('d-none');
+                });
+
+                cell.addEventListener('mouseleave', () => {
+                    const list = cell.querySelector('.reservations-list');
+                    if (list) list.classList.add('d-none');
+                });
+
+                row.appendChild(cell);
+                dayCount++;
+
+                if (dayCount % 7 === 0) {
+                    calendarBody.appendChild(row);
+                    row = document.createElement('tr');
+                }
+            }
+
+            if (row.children.length > 0) {
+                while (row.children.length < 7) {
+                    const cell = document.createElement('td');
+                    cell.classList.add('bg-light');
+                    row.appendChild(cell);
+                }
+                calendarBody.appendChild(row);
+            }
+
+            filterReservations();
+        }
+
+        document.getElementById('reservationFilter').addEventListener('change', filterReservations);
+
+        document.getElementById('prevMonth').addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar(currentDate);
+        });
+
+        document.getElementById('nextMonth').addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar(currentDate);
+        });
+
+        document.getElementById('todayBtn').addEventListener('click', () => {
+            currentDate = new Date();
+            renderCalendar(currentDate);
+        });
+
+        // Ajouter les événements pour la pagination
+        document.getElementById('prevPage').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                displayPage();
             }
         });
 
-        row.appendChild(cell);
-        dayCount++;
+        document.getElementById('nextPage').addEventListener('click', () => {
+            const maxPage = Math.ceil(filteredReservations.length / itemsPerPage);
+            if (currentPage < maxPage) {
+                currentPage++;
+                displayPage();
+            }
+        });
 
-        if (dayCount % 7 === 0) {
-            calendarBody.appendChild(row);
-            row = document.createElement('tr');
-        }
-    }
+        renderCalendar(currentDate);
 
-    if (row.children.length > 0) {
-        while (row.children.length < 7) {
-            row.appendChild(document.createElement('td'));
-        }
-        calendarBody.appendChild(row);
-    }
-}
-
-document.getElementById('prevMonth').addEventListener('click', () => {
-    currentDate.setMonth(currentDate.getMonth() - 1);
-    renderCalendar(currentDate);
-});
-document.getElementById('nextMonth').addEventListener('click', () => {
-    currentDate.setMonth(currentDate.getMonth() + 1);
-    renderCalendar(currentDate);
-});
-document.getElementById('todayBtn').addEventListener('click', () => {
-    currentDate = new Date();
-    renderCalendar(currentDate);
-});
-
-renderCalendar(currentDate);
-</script>
-    
-
+        document.addEventListener('DOMContentLoaded', () => {
+            filterReservations();
+        });
+    </script>
 </body>
-
-
 </html>
