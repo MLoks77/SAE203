@@ -12,11 +12,11 @@ if (isset($_POST['envoyer'])) {
         $stmt->execute(['Identifiant' => $identifiant]);
         $utilisateur = $stmt->fetch();
 
-        if ($utilisateur && password_verify($mot_de_passe, $utilisateur['Mot_de_passe'])) {
-            // Connexion réussie
-            $_SESSION['utilisateur_id'] = $utilisateur['ID_utilisateur'];
-            $_SESSION['identifiant'] = $utilisateur['Identifiant'];
-            $_SESSION['role'] = $utilisateur['role'];
+    if ($utilisateur && password_verify($mot_de_passe, $utilisateur['Mot_de_passe'])) {
+        // Connexion réussie
+        $_SESSION['utilisateur_id'] = $utilisateur['ID_utilisateur'];
+        $_SESSION['identifiant'] = $utilisateur['Identifiant'];
+        $_SESSION['role'] = $utilisateur['role'];
 
             echo "Connexion réussie !";
             // Redirection vers une page protégée

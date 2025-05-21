@@ -2,10 +2,20 @@
 session_start();
 
 require "../configdb/connexion.php";
-include "../include/navbar.php";
+
+if ($_SESSION['role'] == 'admin') {
+    include "../include/navbaradmin.php";
+} elseif ($_SESSION['role'] == 'etudiant' || $_SESSION['role'] == 'enseignant') {
+    include "../include/navbar.php";
+} elseif ($_SESSION['role'] == 'agent') {
+    include "../include/navbar.php"; // Si tu as une navbar spécifique agent
+} else {
+    include "../include/navbar.php"; //  si rôle inconnu
+}
 /**include "../include/navbaradmin.php"; mettre le code pour choisir suivant l'ID de l'utilisateur connecté **/
 include "../include/PlanningHero.php";
-$sqlreservations = "SELECT r.Date, CONCAT(u.Nom, ' ', u.Prenom) AS student, r.Motif AS motif
+
+$sqlreservations = "SELECT r.Date, CONCAT(u.Nom, ' ', u.Prenom) AS student, r.Motif AS motif, salle, materiel
                     FROM reservation r
                     LEFT JOIN utilisateur u ON r.ID_utilisateur = u.ID_utilisateur";
 $stmtreservations = $pdo->query($sqlreservations);
@@ -16,6 +26,9 @@ while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
         'motif' => $row['motif']
     ];
 }
+
+$salle = isset($_GET['salle']) ? $_GET['salle'] : null;
+$materiel = isset($_GET['materiel']) ? $_GET['materiel'] : null;
 
 
 ?>
@@ -54,6 +67,21 @@ while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
             <option>Réservation de salles</option>
             <option>Réservation de matériels</option>
         </select>
+    </div>
+
+    <div class="reservation-info mt-4">
+        <div class="row mb-2">
+            <div class="col-3">Salle :</div>
+            <div class="col-9">
+                <input type="text" class="form-control" value="<?php echo htmlspecialchars($salle); ?>" readonly>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-3">Matériel :</div>
+            <div class="col-9">
+                <input type="text" class="form-control" value="<?php echo htmlspecialchars($materiel); ?>" readonly>
+            </div>
+        </div>
     </div>
 
     <div class="d-flex justify-content-between align-items-center mb-2">
