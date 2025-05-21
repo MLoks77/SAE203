@@ -2,7 +2,6 @@
 session_start();
 
 require "../configdb/connexion.php";
-
 include "../include/navbar.php";
 /**include "../include/navbaradmin.php"; mettre le code pour choisir suivant l'ID de l'utilisateur connecté **/
 include "../include/PlanningHero.php";
