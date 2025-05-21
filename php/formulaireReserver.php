@@ -1,5 +1,13 @@
 <?php
-include "../include/navbar.php";
+if ($_SESSION['role'] == 'admin') {
+    include "../include/navbaradmin.php";
+} elseif ($_SESSION['role'] == 'etudiant' || $_SESSION['role'] == 'enseignant') {
+    include "../include/navbar.php";
+} elseif ($_SESSION['role'] == 'agent') {
+    include "../include/navbar.php"; // Si tu as une navbar spécifique agent
+} else {
+    include "../include/navbar.php"; //  si rôle inconnu
+}
 include "../include/ReserverHero.php";
 include "../configdb/connexion.php";
 ?>

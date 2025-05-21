@@ -1,4 +1,4 @@
-
+<?php session_start()?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -21,7 +21,7 @@
         <?php endif; ?>
         <div class="formulaire">
             <h1>Connexion</h1>
-            <form action="./configdb/check_login.php" method="post">
+            <form action="configdb/check_login.php" method="post">
                 <label for="identifiant">Identifiant</label>
                 <input type="text" id="identifiant" name="Identifiant" required>
                 <div style="position: relative;">
