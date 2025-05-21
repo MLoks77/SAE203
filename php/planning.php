@@ -28,14 +28,6 @@ include "../include/PlanningHero.php";
 <section class="extra-space"></section>
 <div class="bg-light pt-3">
 <div class="container">
-    <div class="d-flex justify-content-between align-items-center mt-3">
-        <label for="reservationFilter" class="form-label me-2">Réservation</label>
-        <select id="reservationFilter" class="form-select w-auto">
-            <option>Toutes les réservations</option>
-            <option>Réservation de salles</option>
-            <option>Réservation de matériels</option>
-        </select>
-    </div>
 
     <div class="d-flex justify-content-between align-items-center mb-2">
         <button class="btn btn-light" id="prevMonth">&lt;</button>
@@ -61,7 +53,14 @@ include "../include/PlanningHero.php";
     </table>
 
 
-
+    <div class="d-flex justify-content-between align-items-center mt-3">
+        <label for="reservationFilter" class="form-label me-2">Réservation</label>
+        <select id="reservationFilter" class="form-select w-auto">
+            <option>Toutes les réservations</option>
+            <option>Réservation de salles</option>
+            <option>Réservation de matériels</option>
+        </select>
+    </div>
     
 <!--Faire en sorte que toute cette sections apparaisse si on est ID AGENT, faire sois un include sois un truc plus long et compliqué, privilégier le include -->
 
