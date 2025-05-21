@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mer. 21 mai 2025 à 13:48
+-- Généré le : jeu. 22 mai 2025 à 01:51
 -- Version du serveur : 10.4.32-MariaDB
--- Version de PHP : 8.2.12
+-- Version de PHP : 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -76,15 +76,22 @@ CREATE TABLE `reservation` (
   `Commentaire` text DEFAULT NULL,
   `ID_utilisateur` int(11) DEFAULT NULL,
   `salle` varchar(3) DEFAULT NULL,
-  `materiel` varchar(3) DEFAULT NULL
+  `materiel` varchar(3) DEFAULT NULL,
+  `H_debut` time DEFAULT NULL,
+  `H_fin` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `reservation`
 --
 
-INSERT INTO `reservation` (`ID_reservation`, `Date`, `Motif`, `Signature`, `Commentaire`, `ID_utilisateur`, `salle`, `materiel`) VALUES
-(1, '2025-05-27', 'Réunion de travail afin de finir une sae', 1, 'non', 1, '138', NULL);
+INSERT INTO `reservation` (`ID_reservation`, `Date`, `Motif`, `Signature`, `Commentaire`, `ID_utilisateur`, `salle`, `materiel`, `H_debut`, `H_fin`) VALUES
+(3, '2025-05-29', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '212', '2', '09:00:00', '15:45:00'),
+(5, '2025-05-29', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '', '7', '16:00:00', '18:45:00'),
+(6, '2025-05-29', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '', '7', '16:00:00', '18:45:00'),
+(7, '2025-05-30', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '212', '', '16:00:00', '18:45:00'),
+(8, '2025-05-13', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '', '7', '16:00:00', '18:45:00'),
+(9, '2025-05-09', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '138', '1', '16:00:00', '18:45:00');
 
 -- --------------------------------------------------------
 
@@ -93,7 +100,6 @@ INSERT INTO `reservation` (`ID_reservation`, `Date`, `Motif`, `Signature`, `Comm
 --
 
 CREATE TABLE `reservation_demande` (
-  `motif` text NOT NULL,
   `date_demande` date NOT NULL,
   `ID_demande` int(11) NOT NULL,
   `Mail_demande` varchar(100) DEFAULT NULL,
@@ -112,8 +118,9 @@ CREATE TABLE `reservation_demande` (
 -- Déchargement des données de la table `reservation_demande`
 --
 
-INSERT INTO `reservation_demande` (`motif`, `date_demande`, `ID_demande`, `Mail_demande`, `Date_acces`, `H_acces`, `H_arrive`, `Motif_demande`, `Num_etudiant`, `Num_annee`, `identifiant_demande`, `salle_d`, `materiel_d`) VALUES
-('', '2025-05-27', 1, 'ibrahimdrame165@gmail.com', '2025-05-26', '08:30:00', '15:00:00', 'Réunion de travail afin de finir une sae', '277583', 1, 'ibrahim.DRAME', '138', NULL);
+INSERT INTO `reservation_demande` (`date_demande`, `ID_demande`, `Mail_demande`, `Date_acces`, `H_acces`, `H_arrive`, `Motif_demande`, `Num_etudiant`, `Num_annee`, `identifiant_demande`, `salle_d`, `materiel_d`) VALUES
+('2025-05-22', 3, 'maximederenes@gmail.com', '2025-05-29', '09:00:00', '15:45:00', 'Besoin du matériel pour un projet multimédia', '285630', 1, 'maxime.derenes', '212', '7'),
+('2025-05-22', 5, 'maximederenes@gmail.com', '2025-05-29', '16:00:00', '18:45:00', 'Besoin du matériel pour un projet multimédia', '285630', 1, 'maxime.derenes', '', '7');
 
 -- --------------------------------------------------------
 
@@ -157,7 +164,9 @@ CREATE TABLE `utilisateur` (
 --
 
 INSERT INTO `utilisateur` (`ID_utilisateur`, `Nom`, `Prenom`, `Mail`, `Mot_de_passe`, `role`, `Identifiant`, `n_etudiant`) VALUES
-(1, 'DRAME', 'ibrahim', 'ibrahimdrame165@gmail.com', '$2y$10$NKFOH31Shdo/cPoYWhy6.OgKmHloF4SGOQ1b8jZ3noP8wxd9e4hZ6', 'etudiant', 'ibrahim.drame', NULL);
+(1, 'drame', 'ibrahim', 'ibrahimdrame165@gmail.com', '$2y$10$NKFOH31Shdo/cPoYWhy6.OgKmHloF4SGOQ1b8jZ3noP8wxd9e4hZ6', 'etudiant', 'ibrahim.drame', NULL),
+(2, 'derenes', 'maxime', 'maximederenes@gmail.com', '$2y$10$mgEqJtuHvX2c6pqlxQFonOppaUx1UHW4V2LXy2fn7G7t.V.XweFGm', 'etudiant', 'maxime.derenes', NULL),
+(3, 'agent', 'agent', 'agent@gmail.com', '$2y$10$EgTbCZ9KHHLHzCDuL8Dzou2uCTRYIDsuqFqzV/NpZa7m5YLTfUsSm', 'agent', 'agent.agent', NULL);
 
 --
 -- Index pour les tables déchargées
@@ -221,13 +230,13 @@ ALTER TABLE `materiel`
 -- AUTO_INCREMENT pour la table `reservation_demande`
 --
 ALTER TABLE `reservation_demande`
-  MODIFY `ID_demande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID_demande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-  MODIFY `ID_utilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_utilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

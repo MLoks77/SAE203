@@ -1,25 +1,271 @@
-    .calendar { table-layout: fixed; }
+/* Variables globales */
+:root {
+    --primary-color: #16425B;
+    --secondary-color: #e3f2fd;
+    --border-color: #ddd;
+    --text-color: #333;
+    --weekend-color: #f0f0f0;
+    --hover-color: #e9ecef;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
 
-    .calendar td { height: 80px; cursor: pointer; }
+/* Styles généraux */
+.bg-fond {
+    background-color: #f8f9fa;
+}
 
-    .reserved { background-color: #ecf0f1; color: black; text-align: center; }
+.extra-space {
+    height: 2rem;
+}
 
-    .weekend { background-color: #bdc3c7; pointer-events: none; }
+/* Styles du calendrier */
+.calendar-container {
+    box-shadow: 0 2px 4px var(--shadow-color);
+    border-radius: 8px;
+    overflow: visible;
+    position: relative;
+}
 
-    .reservation-info { background: #ecf0f1; color: black; padding: 20px; border-radius: 8px; }
+.calendar {
+    table-layout: fixed;
+    margin-bottom: 0;
+    position: relative;
+}
 
-    .button {
-        box-shadow: 6px 6px 12px rgba(74, 74, 74, 0.5);
-        border: 1px solid black;
-        background-color: #16425B;
-        color: white;
-        border-radius: 5px;
-        padding: 10px 20px;
-        font-family: Arial, Helvetica, sans-serif;
-        cursor: pointer;
-        transition: transform 0.2s, box-shadow 0.2s;
+.calendar th {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    font-weight: 500;
+}
+
+.calendar td {
+    height: 120px;
+    width: 14.28%;
+    vertical-align: top;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.2s ease;
+    overflow: visible;
+}
+
+.calendar td:hover:not(.weekend):not(.reserved) {
+    background-color: var(--hover-color);
+}
+
+.weekend {
+    background-color: var(--weekend-color) !important;
+    color: #666 !important;
+    cursor: not-allowed;
+}
+
+/* Styles des réservations */
+.has-reservations {
+    background-color: var(--secondary-color);
+    position: relative;
+}
+
+.day-number {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.reservation-count {
+    font-size: 0.8em;
+    color: #666;
+    text-align: center;
+    margin-top: 0.5rem;
+    padding: 0.25rem;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 4px;
+}
+
+.reservations-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1050;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0.5rem;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    width: 300px;
+    max-height: 250px;
+    overflow-y: auto;
+    margin-top: 0.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.calendar td:hover .reservations-list {
+    opacity: 1;
+    visibility: visible;
+}
+
+.reservation-item {
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s ease;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.reservation-item:last-child {
+    border-bottom: none;
+}
+
+.reservation-item:hover {
+    background-color: var(--hover-color);
+    cursor: pointer;
+}
+
+/* Styles des détails de réservation */
+.reservation-info {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.card {
+    border: none;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.card-header {
+    border-bottom: none;
+    padding: 1rem;
+}
+
+.card-body {
+    padding: 1.25rem;
+}
+
+/* Styles des badges */
+.badge {
+    padding: 0.5em 0.75em;
+    font-weight: 500;
+}
+
+/* Styles des boutons */
+.btn {
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+/* Styles des filtres */
+.filters-container {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+/* Styles de la pagination */
+.pagination-container {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.pagination-info {
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.pagination {
+    margin: 0;
+}
+
+.page-link {
+    color: var(--primary-color);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.page-link:hover {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: #fff;
+    border-color: var(--border-color);
+}
+
+/* Ajustement de l'espacement du tableau */
+.table-responsive {
+    margin-bottom: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .calendar td {
+        height: 80px;
+        font-size: 0.9em;
     }
-    
-    .button:hover {
-        transform: scale(1.05);
+
+    .reservation-count {
+        font-size: 0.7em;
     }
+
+    .reservations-list {
+        width: 250px;
+    }
+}
+
+/* Accessibilité */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
+}
+
+/* Focus styles */
+.calendar td:focus,
+.btn:focus,
+.form-control:focus,
+.form-select:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+    .calendar-container,
+    .filters-container,
+    .reservation-info {
+        box-shadow: none;
+    }
+
+    .btn,
+    .badge {
+        border: 1px solid #000;
+    }
+}
