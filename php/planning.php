@@ -12,10 +12,10 @@ if ($_SESSION['role'] == 'admin') {
 } else {
     include "../include/navbar.php"; //  si rôle inconnu
 }
-/**include "../include/navbaradmin.php"; mettre le code pour choisir suivant l'ID de l'utilisateur connecté **/
+
 include "../include/PlanningHero.php";
 
-$sqlreservations = "SELECT r.Date, CONCAT(u.Nom, ' ', u.Prenom) AS student, r.Motif AS motif, salle, materiel
+$sqlreservations = "SELECT r.Date, CONCAT(u.Nom, ' ', u.Prenom) AS student, r.Motif AS motif,
                     FROM reservation r
                     LEFT JOIN utilisateur u ON r.ID_utilisateur = u.ID_utilisateur";
 $stmtreservations = $pdo->query($sqlreservations);
@@ -27,9 +27,8 @@ while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
     ];
 }
 
-$salle = isset($_GET['salle']) ? $_GET['salle'] : null;
-$materiel = isset($_GET['materiel']) ? $_GET['materiel'] : null;
-
+$salle = "SELECT salle from reservation";
+$materiel = "SELECT materiel from reservation";
 
 ?>
 
