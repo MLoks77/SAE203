@@ -16,7 +16,7 @@ if(isset($_POST['envoyer'])) {
         // Connexion réussie
         $_SESSION['utilisateur_id'] = $utilisateur['ID_utilisateur'];
         $_SESSION['identifiant'] = $utilisateur['Identifiant'];
-        $_SESSION['role'] = $utilisateur['Role'];
+        $_SESSION['role'] = $utilisateur['role'];
 
         echo "Connexion réussie !";
         // Redirection vers une page protégée
