@@ -35,7 +35,7 @@ include "../configdb/connexion.php";
         <div class="text-center p-5">
             <img src="../image/Salle138.JPG" class=" mx-3 custom-width" alt=" salle 138">
             <img src="../image/Salle212.jpg" class=" mx-3 custom-width" alt="salle212">
-            <button type="button" class="btn btn-primary btn-lg d-block mx-auto mt-5" onclick="window.location.href=../php/reservation.php";>Réserver une salle</button>
+            <button type="button" class="btn btn-primary btn-lg d-block mx-auto mt-5 text-light" > <a href="Reserver.php"> Réserver une salle</a></button>
         </div>
         <div class="row text-center m-5">
             <div class="col-4">
