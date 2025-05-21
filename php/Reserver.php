@@ -3,9 +3,7 @@ session_start();
 include "../include/navbar.php";
 include "../include/ReserverHero.php";
 include "../configdb/connexion.php";
-if (!isset($_SESSION['panier'])) {
-    $_SESSION['panier'] = [];
-}
+
 $sql = "SELECT ID_materiel, Reference, Descriptif, Etat_global FROM Materiel WHERE Type = 'Casque'";
 $stmt = $pdo->query($sql);
 $materiels = $stmt->fetchAll(PDO::FETCH_ASSOC);

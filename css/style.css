@@ -14,7 +14,9 @@
 .extra-space {
     margin-top: 50px;
 }
-
+a {
+    text-decoration: none;
+}
 
 
 .container2 {
