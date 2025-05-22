@@ -1,5 +1,9 @@
 <?php
 session_start();
+if (!isset($_SESSION['role'])) {
+    header('Location: ../index.php');
+    exit();
+}
 
 include "../include/navbar.php";
 /**include "../include/navbaradmin.php"; mettre le code pour choisir suivant l'ID de l'utilisateur connecté **/
