@@ -199,7 +199,7 @@ $materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
                             </div>
                             <div class="col-lg-4 offset-lg-4 text-end">
                                 <form action="formulaireReserver.php" method="post" class="d-inline">
-                                    <button type="submit" name="reference" value="<?= htmlspecialchars($row['Reference']) ?>" class="btn  me-5 shadow-lg mb-5 btn-reserver">
+                                    <button type="submit" name="reference" value="<?= htmlspecialchars($row['Reference']) ?>" class="btn  text-dark me-5 shadow-lg mb-5 btn-reserver">
                                         Réserver <?= htmlspecialchars($row['Reference']) ?>
                                     </button>
                                 </form>
