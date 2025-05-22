@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 22 mai 2025 à 01:51
+-- Généré le : jeu. 22 mai 2025 à 20:12
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.0.30
 
@@ -86,12 +86,11 @@ CREATE TABLE `reservation` (
 --
 
 INSERT INTO `reservation` (`ID_reservation`, `Date`, `Motif`, `Signature`, `Commentaire`, `ID_utilisateur`, `salle`, `materiel`, `H_debut`, `H_fin`) VALUES
-(3, '2025-05-29', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '212', '2', '09:00:00', '15:45:00'),
-(5, '2025-05-29', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '', '7', '16:00:00', '18:45:00'),
-(6, '2025-05-29', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '', '7', '16:00:00', '18:45:00'),
-(7, '2025-05-30', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '212', '', '16:00:00', '18:45:00'),
 (8, '2025-05-13', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '', '7', '16:00:00', '18:45:00'),
-(9, '2025-05-09', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '138', '1', '16:00:00', '18:45:00');
+(9, '2025-05-08', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '138', '1', '16:00:00', '18:45:00'),
+(11, '2025-05-19', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '', '3', '16:00:00', '18:45:00'),
+(12, '2025-05-09', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '138', '2', '16:00:00', '18:45:00'),
+(13, '2025-05-06', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '138', '7', '16:00:00', '18:45:00');
 
 -- --------------------------------------------------------
 
@@ -156,17 +155,22 @@ CREATE TABLE `utilisateur` (
   `Mot_de_passe` varchar(255) DEFAULT NULL,
   `role` varchar(250) NOT NULL,
   `Identifiant` varchar(50) DEFAULT NULL,
-  `n_etudiant` varchar(6) DEFAULT NULL
+  `n_etudiant` varchar(6) DEFAULT NULL,
+  `adresse` varchar(30) DEFAULT NULL,
+  `Date_naissance` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `utilisateur`
 --
 
-INSERT INTO `utilisateur` (`ID_utilisateur`, `Nom`, `Prenom`, `Mail`, `Mot_de_passe`, `role`, `Identifiant`, `n_etudiant`) VALUES
-(1, 'drame', 'ibrahim', 'ibrahimdrame165@gmail.com', '$2y$10$NKFOH31Shdo/cPoYWhy6.OgKmHloF4SGOQ1b8jZ3noP8wxd9e4hZ6', 'etudiant', 'ibrahim.drame', NULL),
-(2, 'derenes', 'maxime', 'maximederenes@gmail.com', '$2y$10$mgEqJtuHvX2c6pqlxQFonOppaUx1UHW4V2LXy2fn7G7t.V.XweFGm', 'etudiant', 'maxime.derenes', NULL),
-(3, 'agent', 'agent', 'agent@gmail.com', '$2y$10$EgTbCZ9KHHLHzCDuL8Dzou2uCTRYIDsuqFqzV/NpZa7m5YLTfUsSm', 'agent', 'agent.agent', NULL);
+INSERT INTO `utilisateur` (`ID_utilisateur`, `Nom`, `Prenom`, `Mail`, `Mot_de_passe`, `role`, `Identifiant`, `n_etudiant`, `adresse`, `Date_naissance`) VALUES
+(1, 'drame', 'ibrahim', 'ibrahimdrame165@gmail.com', '$2y$10$NKFOH31Shdo/cPoYWhy6.OgKmHloF4SGOQ1b8jZ3noP8wxd9e4hZ6', 'etudiant', 'ibrahim.drame', NULL, NULL, NULL),
+(2, 'derenes', 'maxime', 'maximederenes@gmail.com', '$2y$10$mgEqJtuHvX2c6pqlxQFonOppaUx1UHW4V2LXy2fn7G7t.V.XweFGm', 'etudiant', 'maxime.derenes', '285630', '1 allée des lys', '2006-04-19'),
+(3, 'agent', 'agent', 'agent@gmail.com', '$2y$10$EgTbCZ9KHHLHzCDuL8Dzou2uCTRYIDsuqFqzV/NpZa7m5YLTfUsSm', 'agent', 'agent.agent', NULL, NULL, NULL),
+(4, 'Tom', 'Paul', 'PT@gmail.com', '$2y$10$PV3IV8eNv9vpVqPPLrdqeOBWpcuPMY8SnvfZqvEGPmUxFdi.r8112', 'enseignant', 'paul.tom', NULL, NULL, NULL),
+(5, 'savourin', 'thomas', 'thomassavourin@gmail.com', '$2y$10$86wQ2fM8RL9HQI9dUr/32uW.T8xIN819WPTdDt9i8zLeza.loBcUy', 'etudiant', 'thomas.savourin', NULL, NULL, '2005-05-05'),
+(6, 'zaidi', 'fares', 'fares@gmail.com', '$2y$10$0BT5pQb8pxnE.YYsVTBnReCB7BzbUq2IdwUkGeaOzWgOVAnLsZRQ6', 'admin', 'fares.zaidi', NULL, NULL, '1989-12-19');
 
 --
 -- Index pour les tables déchargées
@@ -236,7 +240,7 @@ ALTER TABLE `reservation_demande`
 -- AUTO_INCREMENT pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-  MODIFY `ID_utilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `ID_utilisateur` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
