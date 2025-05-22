@@ -11,7 +11,7 @@ if ($_SESSION['role'] == 'admin') {
 } elseif ($_SESSION['role'] == 'etudiant' || $_SESSION['role'] == 'enseignant') {
     include "../include/navbar.php";
 } elseif ($_SESSION['role'] == 'agent') {
-    include "../include/navbar.php"; // Si tu as une navbar spécifique agent
+    include "../include/navbar.php"; // Si       navbar spécifique agent
 } else {
     include "../include/navbar.php"; //  si rôle inconnu
 }
@@ -31,6 +31,29 @@ include "../configdb/connexion.php";
     <title>Accueil</title>
     <link rel="stylesheet" href="../css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+<style>
+   a.boutoncustom {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color:rgb(59, 56, 56);
+  color: white;
+  text-decoration: none; /* supprime le soulignement */
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* ombre légère */
+}
+
+a.boutoncustom:hover {
+  background-color : #16425B;
+  text-decoration: none;
+  transform: scale(1.05); /* effet zoom */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* ombre plus marquée */
+}
+
+
+</style>
 </head>
 
 <body>
@@ -39,7 +62,7 @@ include "../configdb/connexion.php";
         <p class="text-center text-white fs-4 opacité">Gagnez du temps : tout le matériel de l'IUT accessible en ligne, en quelques clics.</p>
         <div class="text-center p-5">
             <a href="Reserver.php" class="btn btn-secondary btn-lg mx-5 boutoncustom">Réserver</a>
-            <a href="contact.php" class="btn btn-secondary btn-lg mx-5 boutons">Nous contacter</a>
+            <a href="contact.php" class="btn btn-secondary btn-lg mx-5 boutoncustom">Nous contacter</a>
         </div>
     </div>
 
@@ -48,8 +71,9 @@ include "../configdb/connexion.php";
         <div class="text-center p-5">
             <img src="../image/Salle138.JPG" class=" mx-3 custom-width" alt=" salle 138">
             <img src="../image/Salle212.jpg" class=" mx-3 custom-width" alt="salle212">
-            <button type="button" class="btn btn-primary btn-lg d-block mx-auto mt-5 text-light"> <a href="Reserver.php"> Réserver une salle</a></button>
-        </div>
+        <div class="text-center p-5">
+            <a href="Reserver.php" class="btn btn-secondary btn-lg mx-5 boutoncustom">Réserver</a>
+        </div>        
         <div class="row text-center m-5">
             <div class="col-4">
                 <h5 class="fw-bold">Réserver le matériel en ligne</h5>
