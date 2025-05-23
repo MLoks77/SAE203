@@ -106,15 +106,16 @@ include "../configdb/connexion.php";
   </div>
   <div class="offcanvas-body">
     <?php if (!empty($_SESSION['panier'])): ?>
-        <ul class="list-group text-dark">
-            <?php foreach ($_SESSION['panier'] as $item): ?>
-                <li class="list-group-item">
+        <ul class="list-group text-dark" id="panier-list">
+            <?php foreach ($_SESSION['panier'] as $index => $item): ?>
+                <li class="list-group-item d-flex justify-content-between align-items-center" data-index="<?= $index ?>">
                     <?= htmlspecialchars($item['nom']) ?> - <?= htmlspecialchars($item['quantite']) ?> jour(s)
+                    <button type="button" class="btn btn-danger btn-sm ms-2 retirer-btn" data-index="<?= $index ?>">Retirer</button>
                 </li>
             <?php endforeach; ?>
         </ul>
         <hr class="bg-light">
-        <a href="valider_panier.php" class="btn btn-success w-100 mt-3">Valider la réservation</a>
+        <a href="#" id="valider-panier" class="btn btn-success w-100 mt-3" data-bs-dismiss="offcanvas">Valider la réservation</a>
     <?php else: ?>
         <p>Aucun article dans le panier.</p>
     <?php endif; ?>
@@ -122,5 +123,49 @@ include "../configdb/connexion.php";
 </div>
 
 <?php include "../include/footer.php"; ?>
+<script>
+document.getElementById('panier-list').addEventListener('click', function(e) {
+    if (e.target.classList.contains('retirer-btn')) {
+        e.preventDefault();
+        const index = e.target.getAttribute('data-index');
+        fetch('retirer_panier.php', { // <-- chemin corrigé
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: 'index=' + encodeURIComponent(index)
+        })
+        .then(response => response.text())
+        .then(result => {
+            if(result.trim() === 'success') {
+                e.target.closest('li').remove();
+            }
+        });
+    }
+});
+
+function ajouterAuPanier(form) {
+    const formData = new FormData(form);
+    fetch('ajouter_panier.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(() => {
+        // Affiche le message
+        const msg = document.getElementById('ajout-message');
+        msg.style.display = 'block';
+        setTimeout(() => { msg.style.display = 'none'; }, 2000);
+
+        // Optionnel : incrémente le badge du panier
+        let badge = document.querySelector('.badge.bg-success');
+        badge.textContent = parseInt(badge.textContent) + 1;
+    });
+    return false; // Empêche la soumission classique
+}
+</script>
+
+<!-- Message de confirmation -->
+<div id="ajout-message" class="alert alert-success text-center" style="display:none; position:fixed; top:20px; left:50%; transform:translateX(-50%); z-index:2000;">
+    Article ajouté à la réservation !
+</div>
 </body>
 </html>

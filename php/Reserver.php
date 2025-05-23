@@ -44,20 +44,27 @@ $materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 </head>
 <body class="custom text-white">
-    <ul class="nav nav-pills mb-3 justify-content-center bg-fond" id="pills-tab" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Salle</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Casque</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Multimédia</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="pills-disabled-tab" data-bs-toggle="pill" data-bs-target="#pills-disabled" type="button" role="tab" aria-controls="pills-disabled" aria-selected="false">Audiovisuel</button>
-        </li>
-    </ul>
+<div class="d-flex align-items-center mb-3 bg-fond" style="gap: 1rem;">
+    <div class="flex-grow-1 d-flex justify-content-center">
+        <ul class="nav nav-pills mb-0" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Salle</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Casque</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Multimédia</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pills-disabled-tab" data-bs-toggle="pill" data-bs-target="#pills-disabled" type="button" role="tab" aria-controls="pills-disabled" aria-selected="false">Audiovisuel</button>
+            </li>
+        </ul>
+    </div>
+    <a href="formulaireReserver.php" class="btn btn-outline-success">
+        <i class="bi bi-cart3"></i> Aller au panier
+    </a>
+</div>
     <div class="tab-content" id="pills-tabContent">
         <!-- Onglet Salle -->
         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
@@ -82,8 +89,10 @@ $materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
                                 <p class="fw-semibold mb-0">État : <?= htmlspecialchars($row['Etat']) ?></p>
                             </div>
                             <div class="col-lg-4 offset-lg-4 text-end">
-                                <form action="formulaireReserver.php" method="post" class="d-inline">
-                                    <button type="submit" name="reference" value="<?= htmlspecialchars($row['ID']) ?>" class="btn text-dark me-5 shadow-lg mb-5 btn-reserver">
+                                <form action="ajouter_panier.php" method="post" class="d-inline" onsubmit="return ajouterAuPanier(this);">
+                                    <input type="hidden" name="id" value="<?= htmlspecialchars($row['ID']) ?>">
+                                    <input type="hidden" name="nom" value="<?= 'Salle '.htmlspecialchars($row['ID']) ?>">
+                                    <button type="submit" class="btn btn-primary btn-sm">
                                         Réserver <?= htmlspecialchars($row['ID']) ?>
                                     </button>
                                 </form>
@@ -121,9 +130,12 @@ $materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
                                 <p class="fw-semibold mb-0">État : <?= htmlspecialchars($row['Etat_global']) ?></p>
                             </div>
                             <div class="col-lg-4 offset-lg-4 text-end">
-                                <form action="formulaireReserver.php" method="post" class="d-inline">
-                                    <button type="submit" name="reference" value="<?= htmlspecialchars($row['Reference']) ?>" class="btn btn-light me-5 shadow-lg mb-5 btn-reserver">
-                                        Réserver <?= htmlspecialchars($row['Reference']) ?>
+                                <form action="ajouter_panier.php" method="post" class="d-inline" onsubmit="return ajouterAuPanier(this);">
+                                    <input type="hidden" name="id" value="<?= htmlspecialchars($row['ID_materiel'] ?? $row['ID']) ?>">
+                                    <input type="hidden" name="nom" value="<?= htmlspecialchars($row['Reference'] ?? ('Salle '.$row['ID'])) ?>">
+                                    <input type="hidden" name="quantite" value="1">
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        Réserver
                                     </button>
                                 </form>
                             </div>
@@ -160,9 +172,12 @@ $materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
                                 <p class="fw-semibold mb-0">État : <?= htmlspecialchars($row['Etat_global']) ?></p>
                             </div>
                             <div class="col-lg-4 offset-lg-4 text-end">
-                                <form action="formulaireReserver.php" method="post" class="d-inline">
-                                    <button type="submit" name="reference" value="<?= htmlspecialchars($row['Reference']) ?>" class="btn btn-light me-5 shadow-lg mb-5 btn-reserver">
-                                        Réserver <?= htmlspecialchars($row['Reference']) ?>
+                                <form action="ajouter_panier.php" method="post" class="d-inline" onsubmit="return ajouterAuPanier(this);">
+                                    <input type="hidden" name="id" value="<?= htmlspecialchars($row['ID_materiel'] ?? $row['ID']) ?>">
+                                    <input type="hidden" name="nom" value="<?= htmlspecialchars($row['Reference'] ?? ('Salle '.$row['ID'])) ?>">
+                                    <input type="hidden" name="quantite" value="1">
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        Réserver
                                     </button>
                                 </form>
                         </div>
@@ -198,9 +213,12 @@ $materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
                                 <p class="fw-semibold mb-0">État : <?= htmlspecialchars($row['Etat_global']) ?></p>
                             </div>
                             <div class="col-lg-4 offset-lg-4 text-end">
-                                <form action="formulaireReserver.php" method="post" class="d-inline">
-                                    <button type="submit" name="reference" value="<?= htmlspecialchars($row['Reference']) ?>" class="btn  text-dark me-5 shadow-lg mb-5 btn-reserver">
-                                        Réserver <?= htmlspecialchars($row['Reference']) ?>
+                                <form action="ajouter_panier.php" method="post" class="d-inline" onsubmit="return ajouterAuPanier(this);">
+                                    <input type="hidden" name="id" value="<?= htmlspecialchars($row['ID_materiel'] ?? $row['ID']) ?>">
+                                    <input type="hidden" name="nom" value="<?= htmlspecialchars($row['Reference'] ?? ('Salle '.$row['ID'])) ?>">
+                                    <input type="hidden" name="quantite" value="1">
+                                    <button type="submit" class="btn  text-dark me-5 shadow-lg mb-5 btn-reserver">
+                                        Réserver <?= htmlspecialchars($row['Reference'] ?? $row['ID']) ?>
                                     </button>
                                 </form>
                             </div>
@@ -210,7 +228,32 @@ $materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
             </div>
         </div>
     </div>
+    <div id="ajout-message" class="alert alert-success text-center" style="display:none; position:fixed; top:20px; left:50%; transform:translateX(-50%); z-index:2000;">
+    Article ajouté à la réservation !
+</div>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+    <script>
+function ajouterAuPanier(form) {
+    const formData = new FormData(form);
+    fetch('ajouter_panier.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(() => {
+        // Affiche le message
+        const msg = document.getElementById('ajout-message');
+        msg.style.display = 'block';
+        setTimeout(() => { msg.style.display = 'none'; }, 2000);
+
+        // Optionnel : incrémente le badge du panier si tu veux
+        let badge = document.querySelector('.badge.bg-success');
+        if (badge) badge.textContent = parseInt(badge.textContent) + 1;
+    });
+    return false; // Empêche la soumission classique
+}
+</script>
 </body>
 </html>
 <?php include "../include/footer.php" ;
