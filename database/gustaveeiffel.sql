@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 23 mai 2025 à 10:02
+-- Généré le : ven. 23 mai 2025 à 22:30
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.0.30
 
@@ -43,7 +43,13 @@ INSERT INTO `commentaire` (`ID_commentaire`, `ID_utilisateur`, `Message`) VALUES
 (3, 4, 'Les salles sont superbes'),
 (7, 3, 'Sa bute chokbar'),
 (8, 5, 'Sa arrache, le matériel est dément'),
-(9, 6, 'J\'adore la salle 212 car WOW est elle grosse');
+(9, 6, 'J\'adore la salle 212 car WOW est elle grosse'),
+(11, 2, 'Ce site est vraiment super !'),
+(12, 2, 'j\'adore ce site'),
+(13, 2, 'j\'adore ce site'),
+(14, 2, 'j\'adore ce site'),
+(15, 2, 'j\'adore ce site'),
+(16, 2, 'WOW c\'est super bien');
 
 -- --------------------------------------------------------
 
@@ -90,19 +96,21 @@ CREATE TABLE `reservation` (
   `salle` varchar(3) DEFAULT NULL,
   `materiel` varchar(3) DEFAULT NULL,
   `H_debut` time DEFAULT NULL,
-  `H_fin` time DEFAULT NULL
+  `H_fin` time DEFAULT NULL,
+  `e_concerne` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `reservation`
 --
 
-INSERT INTO `reservation` (`ID_reservation`, `Date`, `Motif`, `Signature`, `Commentaire`, `ID_utilisateur`, `salle`, `materiel`, `H_debut`, `H_fin`) VALUES
-(8, '2025-05-13', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '', '7', '16:00:00', '18:45:00'),
-(9, '2025-05-08', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '138', '1', '16:00:00', '18:45:00'),
-(11, '2025-05-19', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '', '3', '16:00:00', '18:45:00'),
-(12, '2025-05-09', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '138', '2', '16:00:00', '18:45:00'),
-(13, '2025-05-06', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '138', '7', '16:00:00', '18:45:00');
+INSERT INTO `reservation` (`ID_reservation`, `Date`, `Motif`, `Signature`, `Commentaire`, `ID_utilisateur`, `salle`, `materiel`, `H_debut`, `H_fin`, `e_concerne`) VALUES
+(0, '2025-05-22', 'Besoin du matériel pour un projet multimédia', NULL, NULL, 2, '', '7', '16:00:00', '18:45:00', 'thomas savourin, ibrahim drame'),
+(8, '2025-05-13', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '', '7', '16:00:00', '18:45:00', NULL),
+(9, '2025-05-08', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '138', '1', '16:00:00', '18:45:00', NULL),
+(11, '2025-05-19', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '', '3', '16:00:00', '18:45:00', NULL),
+(12, '2025-05-09', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '138', '2', '16:00:00', '18:45:00', NULL),
+(13, '2025-05-06', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '138', '7', '16:00:00', '18:45:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -122,16 +130,16 @@ CREATE TABLE `reservation_demande` (
   `Num_annee` int(1) DEFAULT NULL,
   `identifiant_demande` varchar(50) DEFAULT NULL,
   `salle_d` varchar(3) DEFAULT NULL,
-  `materiel_d` varchar(2) DEFAULT NULL
+  `materiel_d` varchar(2) DEFAULT NULL,
+  `e_concerne_d` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `reservation_demande`
 --
 
-INSERT INTO `reservation_demande` (`date_demande`, `ID_demande`, `Mail_demande`, `Date_acces`, `H_acces`, `H_arrive`, `Motif_demande`, `Num_etudiant`, `Num_annee`, `identifiant_demande`, `salle_d`, `materiel_d`) VALUES
-('2025-05-22', 3, 'maximederenes@gmail.com', '2025-05-29', '09:00:00', '15:45:00', 'Besoin du matériel pour un projet multimédia', '285630', 1, 'maxime.derenes', '212', '7'),
-('2025-05-22', 5, 'maximederenes@gmail.com', '2025-05-29', '16:00:00', '18:45:00', 'Besoin du matériel pour un projet multimédia', '285630', 1, 'maxime.derenes', '', '7');
+INSERT INTO `reservation_demande` (`date_demande`, `ID_demande`, `Mail_demande`, `Date_acces`, `H_acces`, `H_arrive`, `Motif_demande`, `Num_etudiant`, `Num_annee`, `identifiant_demande`, `salle_d`, `materiel_d`, `e_concerne_d`) VALUES
+('2025-06-01', 9, 'maximederenes@gmail.com', '2025-06-10', '14:00:00', '16:00:00', 'Besoin du matériel pour un projet vidéo', '285630', 1, 'maxime.derenes', '212', '7', 'thomas savourin, ibrahim drame');
 
 -- --------------------------------------------------------
 
@@ -182,7 +190,7 @@ INSERT INTO `utilisateur` (`ID_utilisateur`, `Nom`, `Prenom`, `Mail`, `Mot_de_pa
 (3, 'Robert', 'agent', 'agent@gmail.com', '$2y$10$EgTbCZ9KHHLHzCDuL8Dzou2uCTRYIDsuqFqzV/NpZa7m5YLTfUsSm', 'agent', 'agent.agent', NULL, NULL, NULL),
 (4, 'Tom', 'Paul', 'PT@gmail.com', '$2y$10$PV3IV8eNv9vpVqPPLrdqeOBWpcuPMY8SnvfZqvEGPmUxFdi.r8112', 'enseignant', 'paul.tom', NULL, NULL, NULL),
 (5, 'savourin', 'thomas', 'thomassavourin@gmail.com', '$2y$10$86wQ2fM8RL9HQI9dUr/32uW.T8xIN819WPTdDt9i8zLeza.loBcUy', 'etudiant', 'thomas.savourin', NULL, NULL, '2005-05-05'),
-(6, 'zaidi', 'fares', 'fares@gmail.com', '$2y$10$0BT5pQb8pxnE.YYsVTBnReCB7BzbUq2IdwUkGeaOzWgOVAnLsZRQ6', 'admin', 'fares.zaidi', NULL, NULL, '1989-12-19');
+(6, 'zaidi', 'fares', 'fares@gmail.com', '$2y$10$0BT5pQb8pxnE.YYsVTBnReCB7BzbUq2IdwUkGeaOzWgOVAnLsZRQ6', 'admin', 'fares.zaidi', NULL, '1 allée du dev', '1989-12-19');
 
 --
 -- Index pour les tables déchargées
@@ -192,8 +200,7 @@ INSERT INTO `utilisateur` (`ID_utilisateur`, `Nom`, `Prenom`, `Mail`, `Mot_de_pa
 -- Index pour la table `commentaire`
 --
 ALTER TABLE `commentaire`
-  ADD PRIMARY KEY (`ID_commentaire`),
-  ADD UNIQUE KEY `ID_utilisateur` (`ID_utilisateur`);
+  ADD PRIMARY KEY (`ID_commentaire`);
 
 --
 -- Index pour la table `materiel`
@@ -234,7 +241,7 @@ ALTER TABLE `utilisateur`
 -- AUTO_INCREMENT pour la table `commentaire`
 --
 ALTER TABLE `commentaire`
-  MODIFY `ID_commentaire` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `ID_commentaire` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT pour la table `materiel`
@@ -246,7 +253,7 @@ ALTER TABLE `materiel`
 -- AUTO_INCREMENT pour la table `reservation_demande`
 --
 ALTER TABLE `reservation_demande`
-  MODIFY `ID_demande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `ID_demande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT pour la table `utilisateur`
