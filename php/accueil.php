@@ -11,7 +11,7 @@ if ($_SESSION['role'] == 'admin') {
 } elseif ($_SESSION['role'] == 'etudiant' || $_SESSION['role'] == 'enseignant') {
     include "../include/navbar.php";
 } elseif ($_SESSION['role'] == 'agent') {
-    include "../include/navbar.php"; // Si       navbar spécifique agent
+    include "../include/navbar.php"; // Si navbar spécifique agent
 } else {
     include "../include/navbar.php"; //  si rôle inconnu
 }
@@ -19,8 +19,32 @@ if ($_SESSION['role'] == 'admin') {
 include "../include/AccueilHero.php";
 
 include "../configdb/connexion.php";
-?>
 
+$sql = "SELECT c.ID_commentaire, c.ID_utilisateur, c.Message, u.Prenom, u.Nom
+        FROM Commentaire c
+        JOIN utilisateur u ON c.ID_utilisateur = u.ID_utilisateur
+        ORDER BY RAND() LIMIT 3";
+$stmt = $pdo->query($sql);
+$commentaires = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$id = $_SESSION['ID_utilisateur'];
+
+$sqlSelect = "SELECT Prenom, Nom FROM utilisateur WHERE ID_utilisateur=?";
+$stmtSelect = $pdo->prepare($sqlSelect);
+$stmtSelect->execute([$id]);
+$utilisateur = $stmtSelect->fetch(PDO::FETCH_ASSOC);
+
+if (
+    $utilisateur) {
+    $prenom = $utilisateur['Prenom'];
+    $nom = $utilisateur['Nom'];
+} else {
+    $prenom = 'Prénom inconnu';
+    $nom = 'Nom inconnu';
+}
+
+$commentaires_json = json_encode($commentaires);
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -30,30 +54,7 @@ include "../configdb/connexion.php";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-<style>
-   a.boutoncustom {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color:rgb(59, 56, 56);
-  color: white;
-  text-decoration: none; /* supprime le soulignement */
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* ombre légère */
-}
-
-a.boutoncustom:hover {
-  background-color : #16425B;
-  text-decoration: none;
-  transform: scale(1.05); /* effet zoom */
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* ombre plus marquée */
-}
-
-
-</style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">    
 </head>
 
 <body>
@@ -99,9 +100,39 @@ a.boutoncustom:hover {
             Ils nous font confiance
         </h2>
         <p class="text-center text-white fs-4 opacité">Découvrez ce que les clients disent de notre service.</p>
-        <img src="../image/avis203.jpg" alt="avis client">
+        <div id="commentairespawn" class="row justify-content-center"></div>
     </section>
     <?php include "../include/footer.php" ?>
+    <script>
+    const commentaires = <?php echo $commentaires_json; ?>;
+    const prenom = <?php echo json_encode($prenom); ?>;
+    const nom = <?php echo json_encode($nom); ?>;
+
+    function afficherCommentaires() {
+        const container = document.getElementById('commentairespawn');
+        container.innerHTML = '';
+        commentaires.forEach(commentaire => {
+            const card = document.createElement('div');
+            card.className = 'col-12 col-md-4 mb-4';
+            card.innerHTML = `
+                <div class="comment-card">
+                    <div style="display: flex; align-items: flex-start;">
+                        <img src="../image/pp.jpg" alt="img" style="width: 60px; height: 60px; border-radius: 15px; border: 2px solid #000; object-fit: cover; margin-right: 20px;">
+                        <div>
+                            <span style="font-weight: bold;">${commentaire.Prenom} ${commentaire.Nom}</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 30px; margin-left: 10px;">
+                        <span style="color: #333; font-size: 1.1em;">${commentaire.Message}</span>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+    // Appel automatique au chargement de la page
+    window.addEventListener('DOMContentLoaded', afficherCommentaires);
+    </script>
 </body>
 
 </html>

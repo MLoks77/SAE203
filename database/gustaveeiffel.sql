@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : jeu. 22 mai 2025 à 20:12
+-- Généré le : ven. 23 mai 2025 à 10:02
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.0.30
 
@@ -32,6 +32,18 @@ CREATE TABLE `commentaire` (
   `ID_utilisateur` int(11) DEFAULT NULL,
   `Message` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `commentaire`
+--
+
+INSERT INTO `commentaire` (`ID_commentaire`, `ID_utilisateur`, `Message`) VALUES
+(1, 2, 'J\'ai adoré le matériel wow c\'est vraiment un super site de réservation.'),
+(2, 1, 'Super'),
+(3, 4, 'Les salles sont superbes'),
+(7, 3, 'Sa bute chokbar'),
+(8, 5, 'Sa arrache, le matériel est dément'),
+(9, 6, 'J\'adore la salle 212 car WOW est elle grosse');
 
 -- --------------------------------------------------------
 
@@ -167,7 +179,7 @@ CREATE TABLE `utilisateur` (
 INSERT INTO `utilisateur` (`ID_utilisateur`, `Nom`, `Prenom`, `Mail`, `Mot_de_passe`, `role`, `Identifiant`, `n_etudiant`, `adresse`, `Date_naissance`) VALUES
 (1, 'drame', 'ibrahim', 'ibrahimdrame165@gmail.com', '$2y$10$NKFOH31Shdo/cPoYWhy6.OgKmHloF4SGOQ1b8jZ3noP8wxd9e4hZ6', 'etudiant', 'ibrahim.drame', NULL, NULL, NULL),
 (2, 'derenes', 'maxime', 'maximederenes@gmail.com', '$2y$10$mgEqJtuHvX2c6pqlxQFonOppaUx1UHW4V2LXy2fn7G7t.V.XweFGm', 'etudiant', 'maxime.derenes', '285630', '1 allée des lys', '2006-04-19'),
-(3, 'agent', 'agent', 'agent@gmail.com', '$2y$10$EgTbCZ9KHHLHzCDuL8Dzou2uCTRYIDsuqFqzV/NpZa7m5YLTfUsSm', 'agent', 'agent.agent', NULL, NULL, NULL),
+(3, 'Robert', 'agent', 'agent@gmail.com', '$2y$10$EgTbCZ9KHHLHzCDuL8Dzou2uCTRYIDsuqFqzV/NpZa7m5YLTfUsSm', 'agent', 'agent.agent', NULL, NULL, NULL),
 (4, 'Tom', 'Paul', 'PT@gmail.com', '$2y$10$PV3IV8eNv9vpVqPPLrdqeOBWpcuPMY8SnvfZqvEGPmUxFdi.r8112', 'enseignant', 'paul.tom', NULL, NULL, NULL),
 (5, 'savourin', 'thomas', 'thomassavourin@gmail.com', '$2y$10$86wQ2fM8RL9HQI9dUr/32uW.T8xIN819WPTdDt9i8zLeza.loBcUy', 'etudiant', 'thomas.savourin', NULL, NULL, '2005-05-05'),
 (6, 'zaidi', 'fares', 'fares@gmail.com', '$2y$10$0BT5pQb8pxnE.YYsVTBnReCB7BzbUq2IdwUkGeaOzWgOVAnLsZRQ6', 'admin', 'fares.zaidi', NULL, NULL, '1989-12-19');
@@ -222,7 +234,7 @@ ALTER TABLE `utilisateur`
 -- AUTO_INCREMENT pour la table `commentaire`
 --
 ALTER TABLE `commentaire`
-  MODIFY `ID_commentaire` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_commentaire` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT pour la table `materiel`
