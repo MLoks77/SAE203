@@ -27,7 +27,7 @@ $sql = "SELECT c.ID_commentaire, c.ID_utilisateur, c.Message, u.Prenom, u.Nom
 $stmt = $pdo->query($sql);
 $commentaires = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-$id = $_SESSION['ID_utilisateur'];
+$id = $_SESSION['utilisateur_id'];
 
 $sqlSelect = "SELECT Prenom, Nom FROM utilisateur WHERE ID_utilisateur=?";
 $stmtSelect = $pdo->prepare($sqlSelect);
