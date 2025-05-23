@@ -41,6 +41,8 @@ $materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Réservation</title>
     <link rel="stylesheet" href="../css/Reserver.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 </head>
 <body class="custom text-white">
@@ -56,14 +58,20 @@ $materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Multimédia</button>
             </li>
-            <li class="nav-item" role="presentation">
+            <li class="nav-item " role="presentation">
                 <button class="nav-link" id="pills-disabled-tab" data-bs-toggle="pill" data-bs-target="#pills-disabled" type="button" role="tab" aria-controls="pills-disabled" aria-selected="false">Audiovisuel</button>
             </li>
         </ul>
+        <div class="nav nav-pills ms-5" id="pills-tab">
+        <a href="formulaireReserver.php" class="nav-link boutonpanier">
+        <i class="bi bi-basket "></i> Aller au panier
+        </a>
     </div>
-    <a href="formulaireReserver.php" class="btn btn-outline-success">
-        <i class="bi bi-cart3"></i> Aller au panier
-    </a>
+
+
+    </div>
+    
+    
 </div>
     <div class="tab-content" id="pills-tabContent">
         <!-- Onglet Salle -->
