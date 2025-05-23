@@ -39,22 +39,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_reservation_id
 
 </head>
 <body class="custom text-white">
-    <ul class="nav nav-pills mb-3 justify-content-center" id="admin-tab" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="planning-tab" data-bs-toggle="pill" data-bs-target="#planning" type="button" role="tab" aria-controls="planning" aria-selected="true">Planning</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="demandes-tab" data-bs-toggle="pill" data-bs-target="#demandes" type="button" role="tab" aria-controls="demandes" aria-selected="false">Demandes</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="ajouter-tab" data-bs-toggle="pill" data-bs-target="#ajouter" type="button" role="tab" aria-controls="ajouter" aria-selected="false">Ajouter du matériel</button>
-        </li>
-    </ul>
+    <div class="container mt-4">
+        <ul class="nav nav-pills mb-3 justify-content-center" id="admin-nav">
+            <li class="nav-item" role="presentation">
+                <a href="admin.php" class="nav-link active">Planning</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a href="admin_demandes.php" class="nav-link">Demandes</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a href="admin_ajouter.php" class="nav-link">Ajouter du matériel</a>
+            </li>
+        </ul>
+    </div>
     <div class="tab-content" id="admin-tabContent">
         <!-- Tab Planning -->
         <div class="tab-pane fade show active" id="planning" role="tabpanel" aria-labelledby="planning-tab">
             <section class="extra-space"></section>
-            <div class="bg-light pt-3">
+            <div class="bg-light box-shadow-top pt-3">
                 <div class="container">
                     <div class="d-flex justify-content-between align-items-center mb-4 text-dark">
                         <div class="d-flex align-items-center">
