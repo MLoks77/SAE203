@@ -68,6 +68,25 @@ while ($row = $stmtattente->fetch(PDO::FETCH_ASSOC)) {
         'status' => 'en attente'
     ];
 }
+// Récupération des réservations refusées
+$sqlrefus = "SELECT d.date_demande AS Date, d.Motif_demande AS motif, d.salle_d AS salle, d.H_acces AS H_debut, d.H_arrive AS H_fin, d.materiel_d AS materiel
+               FROM reservation_refus d WHERE d.identifiant_demande = ? ORDER BY d.date_demande, d.H_acces";
+$stmtrefus = $pdo->prepare($sqlrefus);
+$stmtrefus->execute([$user['Identifiant']]);
+while ($row = $stmtrefus->fetch(PDO::FETCH_ASSOC)) {
+    $reservations[] = [
+        'date' => $row['Date'],
+        'student' => $user['Nom'] . ' ' . $user['Prenom'],
+        'motif' => $row['motif'],
+        'salle' => $row['salle'],
+        'materiel' => $row['materiel'],
+        'type' => '',
+        'etat' => '',
+        'heure_debut' => $row['H_debut'],
+        'heure_fin' => $row['H_fin'],
+        'status' => 'refusée'
+    ];
+}
 // Tri par date décroissante
 usort($reservations, function($a, $b) {
     return strtotime($b['date']) - strtotime($a['date']);
@@ -201,6 +220,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajout_commentaire']))
                         <option value="all">Toutes les réservations</option>
                         <option value="validee">Validées</option>
                         <option value="attente">En attente</option>
+                        <option value="refusee">Refusées</option>
                     </select>
                 </div>
                 <div class="table-responsive">
@@ -301,6 +321,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajout_commentaire']))
             if (filter === 'all') return true;
             if (filter === 'validee') return res.status === 'validée';
             if (filter === 'attente') return res.status === 'en attente';
+            if (filter === 'refusee') return res.status === 'refusée';
         });
         const tbody = document.querySelector('#reservationTable tbody');
         tbody.innerHTML = '';
@@ -316,7 +337,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajout_commentaire']))
                 <td>${res.salle ? 'Salle ' + res.salle : '-'}</td>
                 <td>${res.materiel || '-'}</td>
                 <td>${res.motif || '-'}</td>
-                <td><span class="badge ${res.status === 'validée' ? 'bg-success' : 'bg-warning text-dark'}">${res.status === 'validée' ? 'Validée' : 'En attente'}</span></td>
+                <td><span class="badge ${res.status === 'validée' ? 'bg-success' : res.status === 'en attente' ? 'bg-warning text-dark' : 'bg-danger'}">${res.status}</span></td>
             `;
             tbody.appendChild(tr);
         }
