@@ -1,37 +1,38 @@
 .header-banner {
-    background-image: url('../image/bannieremeaux2.png'); 
-    background-size:cover;
-    background-position: 0px 870px;
-    height: 150px;
-    position: relative;
-    color: white;
-  }
-  .header-banner::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.4); 
-  }
-  .header-text {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    z-index: 2;
-    font-size: 2.5rem;
-    font-weight: bold;
-    text-shadow:
-  -1px -1px 0 #000,  
-   1px -1px 0 #000,
-  -1px  1px 0 #000,
-   1px  1px 0 #000;
-  }
+  background-image: url('../image/bannieremeaux2.png'); 
+  background-size:cover;
+  background-position: 0px 870px;
+  height: 150px;
+  position: relative;
+  color: white;
+}
+.header-banner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.4); 
+}
+.header-text {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 2;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-shadow:
+-1px -1px 0 #000,  
+ 1px -1px 0 #000,
+-1px  1px 0 #000,
+ 1px  1px 0 #000;
+}
 
-  .fil_ariane {
-    background-color: white;
-    font-weight: bold;
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-  }
+.fil_ariane {
+  background-color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
