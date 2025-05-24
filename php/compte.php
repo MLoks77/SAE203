@@ -26,7 +26,7 @@ $stmt->execute([$id]);
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 // Récupération des réservations validées
-$sqlreservations = "SELECT r.Date, CONCAT(u.Nom, ' ', u.Prenom) AS student, r.Motif AS motif, r.salle, r.H_debut, r.H_fin, m.Reference AS nom_materiel, m.Type AS type_materiel, m.Etat_global AS etat_materiel
+$sqlreservations = "SELECT r.Date, r.date_demande, CONCAT(u.Nom, ' ', u.Prenom) AS student, r.Motif AS motif, r.salle, r.H_debut, r.H_fin, m.Reference AS nom_materiel, m.Type AS type_materiel, m.Etat_global AS etat_materiel
                     FROM reservation r
                     LEFT JOIN utilisateur u ON r.ID_utilisateur = u.ID_utilisateur
                     LEFT JOIN materiel m ON r.materiel = m.ID_materiel
@@ -38,6 +38,7 @@ $reservations = [];
 while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
     $reservations[] = [
         'date' => $row['Date'],
+        'date_demande' => $row['date_demande'],
         'student' => $row['student'],
         'motif' => $row['motif'],
         'salle' => $row['salle'],
@@ -57,6 +58,7 @@ $stmtattente->execute([$user['Identifiant']]);
 while ($row = $stmtattente->fetch(PDO::FETCH_ASSOC)) {
     $reservations[] = [
         'date' => $row['Date'],
+        'date_demande' => $row['date_demande'],
         'student' => $user['Nom'] . ' ' . $user['Prenom'],
         'motif' => $row['motif'],
         'salle' => $row['salle'],
@@ -227,7 +229,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajout_commentaire']))
                     <table class="table table-striped" id="reservationTable">
                         <thead>
                             <tr>
-                                <th scope="col">Date</th>
+                                <th scope="col">Date d'accès</th>
+                                <th scope="col">Date de demande</th>
                                 <th scope="col">Heure début</th>
                                 <th scope="col">Heure fin</th>
                                 <th scope="col">Salle</th>
@@ -237,7 +240,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajout_commentaire']))
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Les lignes seront générées en JS -->
                         </tbody>
                     </table>
                 </div>
@@ -257,7 +259,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajout_commentaire']))
                     </nav>
                 </div>
             </div>
-            <!-- Zone de commentaire -->
             <div class="bg-light rounded-3 p-4 mb-4">
                 <h3 class="mb-3 text-dark">Laisser un commentaire</h3>
                 <?php if ($commentaire_success): ?>
@@ -332,6 +333,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajout_commentaire']))
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${formatDateFr(res.date)}</td>
+                <td>${formatDateFr(res.date_demande)}</td>
                 <td>${res.heure_debut || '-'}</td>
                 <td>${res.heure_fin || '-'}</td>
                 <td>${res.salle ? 'Salle ' + res.salle : '-'}</td>

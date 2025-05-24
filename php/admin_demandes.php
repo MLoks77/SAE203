@@ -73,7 +73,7 @@ include "../configdb/connexion.php";
                                 <strong>Numéro d'étudiant :</strong> <?php echo htmlspecialchars($demande['Num_etudiant']); ?>
                             </div>
                             <div class="col-md-6">
-                                <strong>Date d'accès souhaitée :</strong> <?php echo htmlspecialchars($demande['date_demande']); ?>
+                                <strong>Date d'accès souhaitée :</strong> <?php echo htmlspecialchars($demande['Date_acces']); ?>
                             </div>
                             <div class="col-md-6">
                                 <strong>Année MMI / autres :</strong> <?php echo htmlspecialchars($demande['Num_annee']); ?>

@@ -24,10 +24,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             // Insérer dans la table reservation
-            $sql_insert = "INSERT INTO reservation (Date, Motif, ID_utilisateur, salle, materiel, H_debut, H_fin, e_concerne) 
-                          VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql_insert = "INSERT INTO reservation (Date, date_demande, Motif, ID_utilisateur, salle, materiel, H_debut, H_fin, e_concerne) 
+                          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             $stmt_insert = $pdo->prepare($sql_insert);
             $stmt_insert->execute([
+                $demande['Date_acces'],
                 $demande['date_demande'],
                 $demande['Motif_demande'],
                 $_POST['id_utilisateur'],
