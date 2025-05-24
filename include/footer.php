@@ -1,18 +1,18 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<footer class=" text-dark  ">
+  <footer class=" text-dark  ">
   <div class="container-fluid bg-white py-4 px-4">
     <div class="row">
       <div class="col-md-3">
         <h6 class="fw-bold">Qui sommes nous ?</h6>
-        <p class="my-4">Université Gustave Eiffel</p>
-        <p>Centre d'Innovation pédagogique et numérique (CIPEN)</p>
+        <p class="my-4"> <a href="https://www.univ-gustave-eiffel.fr/" class="text-dark text-decoration-none">Université Gustave Eiffel</a></p>
+        <p> <a href="http://univ-gustave-eiffel.fr/luniversite/nos-atouts/innovation-pedagogique" class="text-dark text-decoration-none">Centre d'Innovation pédagogique et numérique (CIPEN)</a></p>
       </div>
 
       <div class="col-md-2">
         <h6 class="fw-bold">Support</h6>
-        <a href="#" class="text-dark text-decoration-none me-2">FAQs</a><br><br>
-        <a href="#" class="text-dark text-decoration-none me-2">Privacy</a>
+        <a href="https://www.univ-gustave-eiffel.fr/?tx_ttnews%5Bcat%5D=99&cHash=c936e533f67cbaaddda01752716910d3" class="text-dark text-decoration-none me-2">FAQs</a><br><br>
+        <a href="https://www.univ-gustave-eiffel.fr/" class="text-dark text-decoration-none me-2">Privacy</a>
       </div>
 
       <div class="col-md-4">

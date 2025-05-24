@@ -54,12 +54,12 @@ include "../configdb/connexion.php";
     </div>
 
 
-    <div class="container d-flex justify-content-center align-items-center mt-5">
+    <div class="container-fluid d-flex justify-content-center align-items-center mt-5 ">
         <div class="col-lg-8 col-md-10 col-sm-12 p-4 custom ">
             <form action="traitementformulairereserver.php" method="POST">
-                <table class="table text-light">
+                <table class="table text-light ">
                     <tr>
-                        <td><label for="name" class="form-label">Identifiant :</label>
+                        <td class="rounded-top p-3"><label for="name" class="form-label">Identifiant :</label>
                             <input type="text" id="name" name="identifiant" class="form-control input-custom" value="<?= htmlspecialchars($_SESSION['identifiant']) ?>" placeholder="Entrez votre nom" readonly>
                         </td>
                     </tr>
@@ -111,7 +111,7 @@ include "../configdb/connexion.php";
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-center pt-4">
+                        <td class="text-center pt-4 rounded-bottom">
                             <button type="submit" class="btn btn-success px-5 py-2 rounded-pill">Soumettre</button>
                         </td>
                     </tr>
@@ -130,7 +130,7 @@ include "../configdb/connexion.php";
                 <ul class="list-group text-dark" id="panier-list">
                     <?php foreach ($_SESSION['panier'] as $index => $item): ?>
                         <li class="list-group-item d-flex justify-content-between align-items-center" data-index="<?= $index ?>">
-                            <?= htmlspecialchars($item['nom']) ?> - <?= htmlspecialchars($item['quantite']) ?> jour(s)
+                            <?= htmlspecialchars($item['nom']) ?> - <?= htmlspecialchars($item['quantite']) ?> x
                             <button type="button" class="btn btn-danger btn-sm ms-2 retirer-btn" data-index="<?= $index ?>">Retirer</button>
                         </li>
                     <?php endforeach; ?>

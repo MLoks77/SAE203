@@ -5,15 +5,18 @@ if (!isset($_SESSION['role'])) {
     exit();
 }
 
+// Rediriger les agents vers leur page dédiée
+if ($_SESSION['role'] == 'agent') {
+    header('Location: agent.php');
+    exit();
+}
 
 if ($_SESSION['role'] == 'admin') {
     include "../include/navbaradmin.php";
 } elseif ($_SESSION['role'] == 'etudiant' || $_SESSION['role'] == 'enseignant') {
     include "../include/navbar.php";
-} elseif ($_SESSION['role'] == 'agent') {
-    include "../include/navbar.php"; // Si navbar spécifique agent
 } else {
-    include "../include/navbar.php"; //  si rôle inconnu
+    include "../include/navbar.php";
 }
 
 include "../include/AccueilHero.php";
@@ -35,7 +38,8 @@ $stmtSelect->execute([$id]);
 $utilisateur = $stmtSelect->fetch(PDO::FETCH_ASSOC);
 
 if (
-    $utilisateur) {
+    $utilisateur
+) {
     $prenom = $utilisateur['Prenom'];
     $nom = $utilisateur['Nom'];
 } else {
@@ -54,7 +58,7 @@ $commentaires_json = json_encode($commentaires);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accueil</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 </head>
 
 <body>
@@ -72,27 +76,27 @@ $commentaires_json = json_encode($commentaires);
         <div class="text-center p-5">
             <img src="../image/Salle138.JPG" class=" mx-3 custom-width" alt=" salle 138">
             <img src="../image/Salle212.jpg" class=" mx-3 custom-width" alt="salle212">
-        <div class="text-center p-5">
-            <a href="Reserver.php" class="btn btn-secondary btn-lg mx-5 boutoncustom">Réserver</a>
-        </div>        
-        <div class="row text-center m-5">
-            <div class="col-4">
-                <h5 class="fw-bold">Réserver le matériel en ligne</h5>
-                <p class="text-muted">Le matériel est disponible ? Réservez en ligne pour gagner du temps.</p>
+            <div class="text-center p-5">
+                <a href="Reserver.php" class="btn btn-secondary btn-lg mx-5 boutoncustom">Réserver</a>
             </div>
+            <div class="row text-center m-5">
+                <div class="col-4">
+                    <h5 class="fw-bold">Réserver le matériel en ligne</h5>
+                    <p class="text-muted">Le matériel est disponible ? Réservez en ligne pour gagner du temps.</p>
+                </div>
 
-            <div class="col-4">
-                <h5 class="fw-bold">Obtenez la confirmation</h5>
-                <p class="text-muted">À la suite de la réservation, vous recevez la confirmation par l'administrateur.</p>
-            </div>
+                <div class="col-4">
+                    <h5 class="fw-bold">Obtenez la confirmation</h5>
+                    <p class="text-muted">À la suite de la réservation, vous recevez la confirmation par l'administrateur.</p>
+                </div>
 
 
-            <div class="col-4">
-                <h5 class="fw-bold">Récupérer votre matériel</h5>
-                <p class="text-muted">Récupérez votre matériel dans les salles indiquées.</p>
+                <div class="col-4">
+                    <h5 class="fw-bold">Récupérer votre matériel</h5>
+                    <p class="text-muted">Récupérez votre matériel dans les salles indiquées.</p>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 
     <section class="container-fluid en-tete text-center py-5">
@@ -104,17 +108,17 @@ $commentaires_json = json_encode($commentaires);
     </section>
     <?php include "../include/footer.php" ?>
     <script>
-    const commentaires = <?php echo $commentaires_json; ?>;
-    const prenom = <?php echo json_encode($prenom); ?>;
-    const nom = <?php echo json_encode($nom); ?>;
+        const commentaires = <?php echo $commentaires_json; ?>;
+        const prenom = <?php echo json_encode($prenom); ?>;
+        const nom = <?php echo json_encode($nom); ?>;
 
-    function afficherCommentaires() {
-        const container = document.getElementById('commentairespawn');
-        container.innerHTML = '';
-        commentaires.forEach(commentaire => {
-            const card = document.createElement('div');
-            card.className = 'col-12 col-md-4 mb-4';
-            card.innerHTML = `
+        function afficherCommentaires() {
+            const container = document.getElementById('commentairespawn');
+            container.innerHTML = '';
+            commentaires.forEach(commentaire => {
+                const card = document.createElement('div');
+                card.className = 'col-12 col-md-4 mb-4';
+                card.innerHTML = `
                 <div class="comment-card">
                     <div style="display: flex; align-items: flex-start;">
                         <img src="../image/pp.jpg" alt="img" style="width: 60px; height: 60px; border-radius: 15px; border: 2px solid #000; object-fit: cover; margin-right: 20px;">
@@ -127,11 +131,11 @@ $commentaires_json = json_encode($commentaires);
                     </div>
                 </div>
             `;
-            container.appendChild(card);
-        });
-    }
-    // Appel automatique au chargement de la page
-    window.addEventListener('DOMContentLoaded', afficherCommentaires);
+                container.appendChild(card);
+            });
+        }
+        // Appel automatique au chargement de la page
+        window.addEventListener('DOMContentLoaded', afficherCommentaires);
     </script>
 </body>
 
