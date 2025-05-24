@@ -97,7 +97,7 @@ CREATE TABLE `materiel` (
 --
 
 INSERT INTO `materiel` (`ID_materiel`, `Reference`, `Type`, `Date_achat`, `Etat_global`, `Descriptif`) VALUES
-(2, 'Le Microsoft HoloLens 2', 'Casque', '2010-01-01', 'Excellent', 'Le Microsoft HoloLens 2 est un casque de réalité mixte autonome, permettant d’interagir avec des hologrammes en 3D grâce à des capteurs, la reconnaissance gestuelle et une visière transparente.\r\n'),
+(2, 'Le Microsoft HoloLens 2', 'Casque', '2010-01-01', 'Excellent', 'Le Microsoft HoloLens 2 est un casque de réalité mixte autonome, permettant d'interagir avec des hologrammes en 3D grâce à des capteurs, la reconnaissance gestuelle et une visière transparente.\r\n'),
 (3, 'La manette MSI GC30', 'Multimédia', '2010-01-01', 'Super', 'La MSI GC30 est une manette sans fil polyvalente, compatible PC et Android, offrant une prise en main confortable et des commandes réactives pour une expérience de jeu fluide.'),
 (4, 'La tablette WACOM', 'Multimédia', '2010-01-01', 'Super', 'La tablette Wacom est un outil de dessin numérique précis, utilisée avec un stylet sensible à la pression, idéale pour la création graphique et le travail artistique.'),
 (5, 'La drone DJI Tello', 'Multimédia', '2010-01-01', 'Super', 'Le DJI Tello est un mini-drone ludique et facile à piloter, idéal pour débuter. Il capture des vidéos HD, réalise des figures et se contrôle via smartphone.'),
@@ -114,8 +114,9 @@ INSERT INTO `materiel` (`ID_materiel`, `Reference`, `Type`, `Date_achat`, `Etat_
 --
 
 CREATE TABLE `reservation` (
-  `ID_reservation` int(11) NOT NULL,
+  `ID_reservation` int(11) NOT NULL AUTO_INCREMENT,
   `Date` date DEFAULT NULL,
+  `date_demande` date DEFAULT NULL,
   `Motif` text DEFAULT NULL,
   `Signature` tinyint(1) DEFAULT NULL,
   `Commentaire` text DEFAULT NULL,
@@ -124,21 +125,22 @@ CREATE TABLE `reservation` (
   `materiel` varchar(3) DEFAULT NULL,
   `H_debut` time DEFAULT NULL,
   `H_fin` time DEFAULT NULL,
-  `e_concerne` varchar(100) DEFAULT NULL
+  `e_concerne` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`ID_reservation`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `reservation`
 --
 
-INSERT INTO `reservation` (`ID_reservation`, `Date`, `Motif`, `Signature`, `Commentaire`, `ID_utilisateur`, `salle`, `materiel`, `H_debut`, `H_fin`, `e_concerne`) VALUES
-(0, '2025-05-22', 'Besoin du matériel pour un projet multimédia', NULL, NULL, 2, '', '7', '16:00:00', '18:45:00', 'thomas savourin, ibrahim drame'),
-(8, '2025-05-13', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '', '7', '16:00:00', '18:45:00', NULL),
-(11, '2025-05-19', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '', '3', '16:00:00', '18:45:00', NULL),
-(12, '2025-05-09', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '138', '2', '16:00:00', '18:45:00', NULL),
-(13, '2025-05-06', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '138', '7', '16:00:00', '18:45:00', NULL),
-(14, '2025-05-06', 'il faut que je film', 1, 'non', 2, '138', '7', '16:00:00', '18:45:00', NULL),
-(20, '2025-06-04', 'Il me faut une salle', 1, 'non', 2, '138', '', '16:00:00', '18:45:00', NULL);
+INSERT INTO `reservation` (`ID_reservation`, `Date`, `date_demande`, `Motif`, `Signature`, `Commentaire`, `ID_utilisateur`, `salle`, `materiel`, `H_debut`, `H_fin`, `e_concerne`) VALUES
+(0, '2025-05-22', '2025-05-22', 'Besoin du matériel pour un projet multimédia', NULL, NULL, 2, '', '7', '16:00:00', '18:45:00', 'thomas savourin, ibrahim drame'),
+(8, '2025-05-13', '2025-05-13', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '', '7', '16:00:00', '18:45:00', NULL),
+(11, '2025-05-19', '2025-05-19', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '', '3', '16:00:00', '18:45:00', NULL),
+(12, '2025-05-09', '2025-05-09', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '138', '2', '16:00:00', '18:45:00', NULL),
+(13, '2025-05-06', '2025-05-06', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '138', '7', '16:00:00', '18:45:00', NULL),
+(14, '2025-05-06', '2025-05-06', 'il faut que je film', 1, 'non', 2, '138', '7', '16:00:00', '18:45:00', NULL),
+(20, '2025-06-04', '2025-06-04', 'Il me faut une salle', 1, 'non', 2, '138', '', '16:00:00', '18:45:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -215,7 +217,7 @@ CREATE TABLE `salle` (
 --
 
 INSERT INTO `salle` (`ID`, `Descriptif`, `Etat`) VALUES
-(138, 'Idéale si vous êtes seul(e) ou en petit groupe de 2 à 5 personnes, cette salle regroupe 3 ordinateurs équipés de double écran ainsi qu’un bureau à 90 degrés pour accueillir tous vos cahiers.', 'Excellent'),
+(138, 'Idéale si vous êtes seul(e) ou en petit groupe de 2 à 5 personnes, cette salle regroupe 3 ordinateurs équipés de double écran ainsi qu'un bureau à 90 degrés pour accueillir tous vos cahiers.', 'Excellent'),
 (212, 'Idéale si vous êtes seul(e) ou en groupe...', 'Très bon état');
 
 -- --------------------------------------------------------

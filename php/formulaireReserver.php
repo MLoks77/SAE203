@@ -10,9 +10,9 @@ if ($_SESSION['role'] == 'admin') {
 } elseif ($_SESSION['role'] == 'etudiant' || $_SESSION['role'] == 'enseignant') {
     include "../include/navbar.php";
 } elseif ($_SESSION['role'] == 'agent') {
-    include "../include/navbar.php"; // Si tu as une navbar spécifique agent
+    include "../include/navbar.php";
 } else {
-    include "../include/navbar.php"; //  si rôle inconnu
+    include "../include/navbar.php";
 }
 include "../include/ReserverHero.php";
 include "../configdb/connexion.php";
@@ -28,14 +28,10 @@ include "../configdb/connexion.php";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Réservation</title>
 
-    <!-- CSS Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 
-
-
-    <!-- Ton CSS personnalisé -->
     <link rel="stylesheet" href="../css/Reserver.css">
 </head>
 
@@ -81,7 +77,6 @@ include "../configdb/connexion.php";
                     <tr>
                         <td><label for="date_acces" class="form-label">Date d’accès souhaitée :</label>
                             <input type="date" id="date_acces" name="date_acces" class="form-control input-custom" max="<?= date('Y') ?>-12-31">
-
                         </td>
                     </tr>
                     <tr>

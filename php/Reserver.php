@@ -115,8 +115,8 @@ $materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
         <!-- Onglet Casque -->
         <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
         <div class="text-center">
-                <h2 class="fw-bold display-5">Nous mettons des casques VR à votre  <span class="fst-italic">disposition</span></h2>
-                <p class="lead mb-5">Besoin d'une casque VR  pour avancer sur vos projets ou jouer ?</p>
+                <h2 class="fw-bold display-5">Nous mettons des casques à votre  <span class="fst-italic">disposition</span></h2>
+                <p class="lead mb-5">Besoin d'un casque pour avancer sur vos projets ou jouer ?</p>
         </div>
             <div class="container mt-5">
                 <?php foreach ($materiels as $row): ?>
