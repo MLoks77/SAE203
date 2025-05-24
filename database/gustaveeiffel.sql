@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : ven. 23 mai 2025 à 22:30
+-- Généré le : sam. 24 mai 2025 à 17:39
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.0.30
 
@@ -107,10 +107,10 @@ CREATE TABLE `reservation` (
 INSERT INTO `reservation` (`ID_reservation`, `Date`, `Motif`, `Signature`, `Commentaire`, `ID_utilisateur`, `salle`, `materiel`, `H_debut`, `H_fin`, `e_concerne`) VALUES
 (0, '2025-05-22', 'Besoin du matériel pour un projet multimédia', NULL, NULL, 2, '', '7', '16:00:00', '18:45:00', 'thomas savourin, ibrahim drame'),
 (8, '2025-05-13', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '', '7', '16:00:00', '18:45:00', NULL),
-(9, '2025-05-08', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '138', '1', '16:00:00', '18:45:00', NULL),
 (11, '2025-05-19', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '', '3', '16:00:00', '18:45:00', NULL),
 (12, '2025-05-09', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '138', '2', '16:00:00', '18:45:00', NULL),
-(13, '2025-05-06', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '138', '7', '16:00:00', '18:45:00', NULL);
+(13, '2025-05-06', 'Besoin du matériel pour un projet multimédia', 1, 'non', 2, '138', '7', '16:00:00', '18:45:00', NULL),
+(14, '2025-05-06', 'il faut que je film', 1, 'non', 2, '138', '7', '16:00:00', '18:45:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -140,6 +140,28 @@ CREATE TABLE `reservation_demande` (
 
 INSERT INTO `reservation_demande` (`date_demande`, `ID_demande`, `Mail_demande`, `Date_acces`, `H_acces`, `H_arrive`, `Motif_demande`, `Num_etudiant`, `Num_annee`, `identifiant_demande`, `salle_d`, `materiel_d`, `e_concerne_d`) VALUES
 ('2025-06-01', 9, 'maximederenes@gmail.com', '2025-06-10', '14:00:00', '16:00:00', 'Besoin du matériel pour un projet vidéo', '285630', 1, 'maxime.derenes', '212', '7', 'thomas savourin, ibrahim drame');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `reservation_refus`
+--
+
+CREATE TABLE `reservation_refus` (
+  `date_demande` date NOT NULL,
+  `ID_demande` int(11) NOT NULL,
+  `Mail_demande` varchar(100) DEFAULT NULL,
+  `Date_acces` date DEFAULT NULL,
+  `H_acces` time DEFAULT NULL,
+  `H_arrive` time DEFAULT NULL,
+  `Motif_demande` varchar(200) DEFAULT NULL,
+  `Num_etudiant` varchar(6) DEFAULT NULL,
+  `Num_annee` int(1) DEFAULT NULL,
+  `identifiant_demande` varchar(50) DEFAULT NULL,
+  `salle_d` varchar(3) DEFAULT NULL,
+  `materiel_d` varchar(2) DEFAULT NULL,
+  `e_concerne_d` varchar(100) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -222,6 +244,12 @@ ALTER TABLE `reservation_demande`
   ADD PRIMARY KEY (`ID_demande`);
 
 --
+-- Index pour la table `reservation_refus`
+--
+ALTER TABLE `reservation_refus`
+  ADD PRIMARY KEY (`ID_demande`);
+
+--
 -- Index pour la table `salle`
 --
 ALTER TABLE `salle`
@@ -254,6 +282,12 @@ ALTER TABLE `materiel`
 --
 ALTER TABLE `reservation_demande`
   MODIFY `ID_demande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT pour la table `reservation_refus`
+--
+ALTER TABLE `reservation_refus`
+  MODIFY `ID_demande` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `utilisateur`
