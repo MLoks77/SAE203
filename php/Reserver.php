@@ -84,9 +84,11 @@ $materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
                 <div class="container mb-5">
                     <!-- Images de la salle -->
                     <div class="text-start mb-4 ms-5">
-                        <img src="../image/Salle<?= $row['ID'] ?>.jpg"
-                            class="img-fluid rounded shadow"
-                            alt="Salle <?= $row['ID'] ?>">
+                        <div class="salle-image-container">
+                            <img src="../image/Salle<?= $row['ID'] ?>.jpg"
+                                class="salle-image"
+                                alt="Salle <?= $row['ID'] ?>">
+                        </div>
                     </div>
                     <!-- Bloc texte avec même marge -->
                    <div class="ms-5">
@@ -119,17 +121,32 @@ $materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
             <div class="container mt-5">
                 <?php foreach ($materiels as $row): ?>
                     <div class="mb-5">
-                        <!-- Affichage des 3 images -->
-                        <div class="row justify-content-center">
-                            <?php for ($i = 1; $i <= 3; $i++): ?>
-                                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                                    <img src="../image/<?= $row['ID_materiel'] ?>_<?= $i ?>.jpg"
-                                        class="img-fluid rounded shadow"
-                                        alt="<?= htmlspecialchars($row['Reference']) ?> - Image <?= $i ?>">
-                                </div>
-                            <?php endfor; ?>
+                        <!-- Affichage des images en grille -->
+                        <?php
+                        $imageCount = 0;
+                        for ($i = 1; $i <= 3; $i++) {
+                            $imagePath = "../image/" . $row['ID_materiel'] . "_" . $i . ".jpg";
+                            if (file_exists($imagePath)) {
+                                $imageCount++;
+                            }
+                        }
+                        ?>
+                        <div class="materiel-grid" data-images="<?= $imageCount ?>">
+                            <?php
+                            for ($i = 1; $i <= 3; $i++) {
+                                $imagePath = "../image/" . $row['ID_materiel'] . "_" . $i . ".jpg";
+                                if (file_exists($imagePath)) {
+                                    ?>
+                                    <div class="materiel-image-container">
+                                        <img src="<?= $imagePath ?>"
+                                            class="materiel-image"
+                                            alt="<?= htmlspecialchars($row['Reference']) ?> - Image <?= $i ?>">
+                                    </div>
+                                    <?php
+                                }
+                            }
+                            ?>
                         </div>
-
                         <!-- Informations du matériel -->
                         <p class="fs-4 fst-italic fw-semibold"><?= htmlspecialchars($row['Reference']) ?></p>
                         <p class="col-lg-6"><?= nl2br(htmlspecialchars($row['Descriptif'])) ?></p>
@@ -162,14 +179,23 @@ $materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
                 <?php foreach ($materielsMultimedia as $row): ?>
                     <div class="mb-5">
                         <!-- Affichage des 3 images -->
-                        <div class="row justify-content-center">
-                            <?php for ($i = 1; $i <= 3; $i++): ?>
-                                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                                    <img src="../image/<?= $row['ID_materiel'] ?>_<?= $i ?>.jpg"
-                                        class="img-fluid rounded shadow"
-                                        alt="<?= htmlspecialchars($row['Reference']) ?> - Image <?= $i ?>">
-                                </div>
-                            <?php endfor; ?>
+                        <div class="materiel-grid" data-images="<?= $imageCount ?>">
+                            <?php 
+                            $imageCount = 0;
+                            for ($i = 1; $i <= 3; $i++) {
+                                $imagePath = "../image/" . $row['ID_materiel'] . "_" . $i . ".jpg";
+                                if (file_exists($imagePath)) {
+                                    $imageCount++;
+                                    ?>
+                                    <div class="materiel-image-container">
+                                        <img src="<?= $imagePath ?>"
+                                            class="materiel-image"
+                                            alt="<?= htmlspecialchars($row['Reference']) ?> - Image <?= $i ?>">
+                                    </div>
+                                    <?php
+                                }
+                            }
+                            ?>
                         </div>
 
                         <!-- Informations du matériel -->
@@ -204,14 +230,23 @@ $materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
                 <?php foreach ($materielsAudiovisuel as $row): ?>
                     <div class="mb-5">
                         <!-- Affichage des 3 images -->
-                        <div class="row justify-content-center">
-                            <?php for ($i = 1; $i <= 3; $i++): ?>
-                                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                                    <img src="../image/<?= $row['ID_materiel'] ?>_<?= $i ?>.jpg"
-                                        class="img-fluid rounded shadow"
-                                        alt="<?= htmlspecialchars($row['Reference']) ?> - Image <?= $i ?>">
-                                </div>
-                            <?php endfor; ?>
+                        <div class="materiel-grid" data-images="<?= $imageCount ?>">
+                            <?php 
+                            $imageCount = 0;
+                            for ($i = 1; $i <= 3; $i++) {
+                                $imagePath = "../image/" . $row['ID_materiel'] . "_" . $i . ".jpg";
+                                if (file_exists($imagePath)) {
+                                    $imageCount++;
+                                    ?>
+                                    <div class="materiel-image-container">
+                                        <img src="<?= $imagePath ?>"
+                                            class="materiel-image"
+                                            alt="<?= htmlspecialchars($row['Reference']) ?> - Image <?= $i ?>">
+                                    </div>
+                                    <?php
+                                }
+                            }
+                            ?>
                         </div>
                         <!-- Informations du matériel -->
                         <p class="fs-4 fst-italic fw-semibold"><?= htmlspecialchars($row['Reference']) ?></p>

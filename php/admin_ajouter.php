@@ -43,29 +43,76 @@ if (isset($_POST['supprimer_salle']) && isset($_POST['id_salle'])) {
     $stmt->execute([$id]);
 }
 
-// Ajout matériel
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajout_materiel'])) {
-    $reference = trim($_POST['reference']);
-    $type = $_POST['type'];
-    $date_achat = $_POST['date_achat'];
-    $etat = $_POST['etat'];
-    $descriptif = trim($_POST['descriptif']);
-    $sql = "INSERT INTO materiel (Reference, Type, Date_achat, Etat_global, Descriptif) VALUES (?, ?, ?, ?, ?)";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$reference, $type, $date_achat, $etat, $descriptif]);
-    $id_materiel = $pdo->lastInsertId();
-    if (isset($_FILES['images'])) {
-        $upload_dir = "../image/";
-        foreach ($_FILES['images']['tmp_name'] as $key => $tmp_name) {
-            if ($_FILES['images']['error'][$key] === UPLOAD_ERR_OK) {
-                $filename = $id_materiel . "_" . ($key + 1) . ".jpg";
-                move_uploaded_file($tmp_name, $upload_dir . $filename);
-            }
-        }
+// Fonction pour redimensionner les images
+function resizeImage($sourcePath, $targetPath, $maxWidth = 1200, $maxHeight = 800) {
+    // Vérifier si l'image source existe
+    if (!file_exists($sourcePath)) {
+        return false;
     }
+
+    // Obtenir les dimensions de l'image source
+    list($width, $height) = getimagesize($sourcePath);
+    
+    // Calculer les nouvelles dimensions en conservant le ratio
+    $ratio = min($maxWidth / $width, $maxHeight / $height);
+    $newWidth = round($width * $ratio);
+    $newHeight = round($height * $ratio);
+
+    // Créer une nouvelle image
+    $newImage = imagecreatetruecolor($newWidth, $newHeight);
+    
+    // Préserver la transparence pour les PNG
+    imagealphablending($newImage, false);
+    imagesavealpha($newImage, true);
+    
+    // Charger l'image source selon son type
+    $extension = strtolower(pathinfo($sourcePath, PATHINFO_EXTENSION));
+    switch($extension) {
+        case 'jpeg':
+        case 'jpg':
+            $source = imagecreatefromjpeg($sourcePath);
+            break;
+        case 'png':
+            $source = imagecreatefrompng($sourcePath);
+            break;
+        case 'gif':
+            $source = imagecreatefromgif($sourcePath);
+            break;
+        default:
+            return false;
+    }
+
+    // Redimensionner l'image avec une meilleure qualité
+    imagecopyresampled(
+        $newImage, 
+        $source, 
+        0, 0, 0, 0, 
+        $newWidth, $newHeight, 
+        $width, $height
+    );
+
+    // Sauvegarder l'image avec une meilleure qualité
+    switch($extension) {
+        case 'jpeg':
+        case 'jpg':
+            imagejpeg($newImage, $targetPath, 95);
+            break;
+        case 'png':
+            imagepng($newImage, $targetPath, 9);
+            break;
+        case 'gif':
+            imagegif($newImage, $targetPath);
+            break;
+    }
+
+    // Libérer la mémoire
+    imagedestroy($newImage);
+    imagedestroy($source);
+
+    return true;
 }
 
-// Ajout salle avec ID saisi manuellement
+// Ajout salle
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajout_salle'])) {
     $id_salle = intval($_POST['id_salle']);
     $descriptif = trim($_POST['descriptif_salle']);
@@ -80,14 +127,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajout_salle'])) {
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$id_salle, $descriptif, $etat]);
 
-        if (isset($_FILES['image_salle'])) {
+        if (isset($_FILES['image_salle']) && $_FILES['image_salle']['error'] === UPLOAD_ERR_OK) {
             $upload_dir = "../image/";
             $filename = "Salle" . $id_salle . ".jpg";
             move_uploaded_file($_FILES['image_salle']['tmp_name'], $upload_dir . $filename);
+            echo "<div class='alert alert-success'>Salle ajoutée avec succès !</div>";
         }
     }
 }
 
+// Ajout matériel
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajout_materiel'])) {
+    $reference = trim($_POST['reference']);
+    $type = $_POST['type'];
+    $date_achat = $_POST['date_achat'];
+    $etat = $_POST['etat'];
+    $descriptif = trim($_POST['descriptif']);
+    $sql = "INSERT INTO materiel (Reference, Type, Date_achat, Etat_global, Descriptif) VALUES (?, ?, ?, ?, ?)";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$reference, $type, $date_achat, $etat, $descriptif]);
+    $id_materiel = $pdo->lastInsertId();
+    
+    if (isset($_FILES['images'])) {
+        $upload_dir = "../image/";
+        foreach ($_FILES['images']['tmp_name'] as $key => $tmp_name) {
+            if ($_FILES['images']['error'][$key] === UPLOAD_ERR_OK) {
+                $filename = $id_materiel . "_" . ($key + 1) . ".jpg";
+                move_uploaded_file($tmp_name, $upload_dir . $filename);
+            }
+        }
+    }
+}
 
 // PAGINATION
 $max_per_page = 5;
@@ -317,5 +387,5 @@ $salles = $pdo->query("SELECT * FROM salle ORDER BY ID DESC LIMIT $max_per_page 
 <section class="extra-space"></section>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-</html>
+</html> 
 <?php include "../include/footer.php"; ?>
