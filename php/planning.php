@@ -1,10 +1,15 @@
-<?php 
+<?php
 session_start();
 if (!isset($_SESSION['role'])) {
     header('Location: ../index.php');
     exit();
 }
 
+// Rediriger les agents vers leur page dédiée
+if ($_SESSION['role'] == 'agent') {
+    header('Location: agent.php');
+    exit();
+}
 
 require "../configdb/connexion.php";
 
@@ -12,10 +17,8 @@ if ($_SESSION['role'] == 'admin') {
     include "../include/navbaradmin.php";
 } elseif ($_SESSION['role'] == 'etudiant' || $_SESSION['role'] == 'enseignant') {
     include "../include/navbar.php";
-} elseif ($_SESSION['role'] == 'agent') {
-    include "../include/navbar.php";
 } else {
-    include "../include/navbar.php"; 
+    include "../include/navbar.php";
 }
 
 include "../include/PlanningHero.php";
@@ -52,6 +55,7 @@ while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
 ?>
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,6 +64,7 @@ while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
     <link rel="stylesheet" href="../css/Planning.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-fond">
     <section class="extra-space"></section>
     <div class="bg-light pt-3">
@@ -117,7 +122,7 @@ while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($reservations as $reservation): 
+                            <?php foreach ($reservations as $reservation):
                                 $dateObj = new DateTime($reservation['date']);
                                 $type = '';
                                 if ($reservation['salle'] && $reservation['materiel']) {
@@ -128,30 +133,30 @@ while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
                                     $type = 'salle';
                                 }
                             ?>
-                            <tr data-date="<?php echo $reservation['date']; ?>" 
-                                data-type="<?php echo $type; ?>">
-                                <td class="date-cell"><?php echo $dateObj->format('d/m/Y'); ?></td>
-                                <td><?php echo htmlspecialchars($reservation['student']); ?></td>
-                                <td><?php 
-                                    if ($type === 'combined') {
-                                        echo 'Salle & Matériel';
-                                    } elseif ($type === 'materiel') {
-                                        echo 'Matériel';
-                                    } else {
-                                        echo 'Salle';
-                                    }
-                                ?></td>
-                                <td><?php 
-                                    $details = [];
-                                    if ($reservation['salle']) {
-                                        $details[] = 'Salle ' . htmlspecialchars($reservation['salle']);
-                                    }
-                                    if ($reservation['materiel']) {
-                                        $details[] = htmlspecialchars($reservation['materiel']);
-                                    }
-                                    echo implode(' + ', $details);
-                                ?></td>
-                            </tr>
+                                <tr data-date="<?php echo $reservation['date']; ?>"
+                                    data-type="<?php echo $type; ?>">
+                                    <td class="date-cell"><?php echo $dateObj->format('d/m/Y'); ?></td>
+                                    <td><?php echo htmlspecialchars($reservation['student']); ?></td>
+                                    <td><?php
+                                        if ($type === 'combined') {
+                                            echo 'Salle & Matériel';
+                                        } elseif ($type === 'materiel') {
+                                            echo 'Matériel';
+                                        } else {
+                                            echo 'Salle';
+                                        }
+                                        ?></td>
+                                    <td><?php
+                                        $details = [];
+                                        if ($reservation['salle']) {
+                                            $details[] = 'Salle ' . htmlspecialchars($reservation['salle']);
+                                        }
+                                        if ($reservation['materiel']) {
+                                            $details[] = htmlspecialchars($reservation['materiel']);
+                                        }
+                                        echo implode(' + ', $details);
+                                        ?></td>
+                                </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -174,19 +179,19 @@ while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
             </div>
 
             <?php if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'agent'): ?>
-            <div class="reservation-info mt-4">
-                <div class="row mb-3">
-                    <div class="col-3">
-                        <label for="selectedDate" class="form-label">Date sélectionnée :</label>
+                <div class="reservation-info mt-4">
+                    <div class="row mb-3">
+                        <div class="col-3">
+                            <label for="selectedDate" class="form-label">Date sélectionnée :</label>
+                        </div>
+                        <div class="col-9">
+                            <input type="text" class="form-control" id="selectedDate" readonly>
+                        </div>
                     </div>
-                    <div class="col-9">
-                        <input type="text" class="form-control" id="selectedDate" readonly>
+                    <div id="reservationDetails" class="mt-3">
+                        <!-- Les détails des réservations seront injectés ici -->
                     </div>
                 </div>
-                <div id="reservationDetails" class="mt-3">
-                    <!-- Les détails des réservations seront injectés ici -->
-                </div>
-            </div>
             <?php endif; ?>
             <section class="extra-space"></section>
         </div>
@@ -217,23 +222,23 @@ while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
             const filterValue = document.getElementById('reservationFilter').value;
             const currentMonth = currentDate.getMonth();
             const currentYear = currentDate.getFullYear();
-            
+
             const rows = document.querySelectorAll('#reservationTable tbody tr');
             const noReservationMessage = document.getElementById('noReservationMessage');
             filteredReservations = [];
-            
+
             rows.forEach(row => {
                 if (row.dataset.date) {
                     const rowDate = new Date(row.dataset.date);
                     const isCurrentMonth = rowDate.getMonth() === currentMonth && rowDate.getFullYear() === currentYear;
                     const rowType = row.dataset.type;
-                    
+
                     const dateFr = formatDateFr(row.dataset.date);
                     const dateCell = row.querySelector('.date-cell');
                     dateCell.textContent = dateFr;
-                    
+
                     let shouldShow = false;
-                    
+
                     if (isCurrentMonth) {
                         if (filterValue === 'all') {
                             shouldShow = true;
@@ -241,14 +246,14 @@ while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
                             shouldShow = (rowType === filterValue);
                         }
                     }
-                    
+
                     if (shouldShow) {
                         filteredReservations.push(row);
                     }
                     row.style.display = 'none'; // Cacher toutes les lignes initialement
                 }
             });
-            
+
             if (filteredReservations.length === 0) {
                 noReservationMessage.classList.remove('d-none');
                 document.getElementById('reservationTable').classList.add('d-none');
@@ -265,31 +270,31 @@ while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
         function displayPage() {
             const startIndex = (currentPage - 1) * itemsPerPage;
             const endIndex = Math.min(startIndex + itemsPerPage, filteredReservations.length);
-            
+
             // Mettre à jour les informations de pagination
             document.getElementById('startIndex').textContent = filteredReservations.length > 0 ? startIndex + 1 : 0;
             document.getElementById('endIndex').textContent = endIndex;
             document.getElementById('totalItems').textContent = filteredReservations.length;
-            
+
             // Cacher toutes les lignes
             filteredReservations.forEach(row => {
                 row.style.display = 'none';
             });
-            
+
             // Afficher les lignes de la page courante
             for (let i = startIndex; i < endIndex; i++) {
                 if (filteredReservations[i]) {
                     filteredReservations[i].style.display = '';
                 }
             }
-            
+
             // Mettre à jour l'état des boutons de pagination
             const prevButton = document.getElementById('prevPage').parentElement;
             const nextButton = document.getElementById('nextPage').parentElement;
-            
+
             prevButton.classList.toggle('disabled', currentPage === 1);
             nextButton.classList.toggle('disabled', endIndex >= filteredReservations.length);
-            
+
             // Désactiver les boutons si nécessaire
             document.getElementById('prevPage').disabled = currentPage === 1;
             document.getElementById('nextPage').disabled = endIndex >= filteredReservations.length;
@@ -307,7 +312,7 @@ while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
             reservations.forEach((reservation, index) => {
                 const card = document.createElement('div');
                 card.className = 'card mb-3';
-                
+
                 let typeReservation = '';
                 if (reservation.salle && reservation.materiel) {
                     typeReservation = 'Salle & Matériel';
@@ -316,7 +321,7 @@ while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
                 } else if (reservation.salle) {
                     typeReservation = 'Salle';
                 }
-                
+
                 card.innerHTML = `
                     <div class="card-header bg-dark text-white">
                         <h5 class="card-title mb-0">Réservation ${index + 1} - ${typeReservation}</h5>
@@ -372,13 +377,13 @@ while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
                         </div>
                     </div>
                 `;
-                
+
                 detailsContainer.appendChild(card);
             });
         }
 
         function getBadgeClass(etat) {
-            switch(etat?.toLowerCase()) {
+            switch (etat?.toLowerCase()) {
                 case 'neuf':
                     return 'bg-success';
                 case 'excellent':
@@ -423,19 +428,19 @@ while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
             for (let day = 1; day <= daysInMonth; day++) {
                 const cell = document.createElement('td');
                 const dateStr = `${year}-${(month + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-                
+
                 cell.innerHTML = `<div class="day-number">${day}</div>`;
-                
+
                 const dayReservations = currentMonthReservations.filter(res => res.date === dateStr);
 
                 const dayOfWeek = (dayCount % 7);
-                
+
                 if (dayOfWeek === 5 || dayOfWeek === 6) {
                     cell.classList.add('weekend');
                 } else if (dayReservations.length > 0) {
                     cell.classList.add('has-reservations');
                     cell.dataset.date = dateStr;
-                    
+
                     const reservationCount = document.createElement('div');
                     reservationCount.className = 'reservation-count';
                     reservationCount.textContent = `${dayReservations.length} réservation(s)`;
@@ -446,25 +451,25 @@ while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
                     dayReservations.forEach(res => {
                         const resItem = document.createElement('div');
                         resItem.className = 'reservation-item';
-                        
+
                         if (res.salle) {
                             const salleSpan = document.createElement('span');
                             salleSpan.textContent = `Salle ${res.salle}`;
                             resItem.appendChild(salleSpan);
                         }
-                        
+
                         if (res.materiel) {
                             const materielSpan = document.createElement('span');
                             materielSpan.textContent = res.materiel;
                             resItem.appendChild(materielSpan);
                         }
-                        
+
                         if (res.heure_debut && res.heure_fin) {
                             const horaireSpan = document.createElement('span');
                             horaireSpan.textContent = `${res.heure_debut} - ${res.heure_fin}`;
                             resItem.appendChild(horaireSpan);
                         }
-                        
+
                         reservationsList.appendChild(resItem);
                     });
                     cell.appendChild(reservationsList);
@@ -474,7 +479,7 @@ while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
 
                 cell.addEventListener('click', () => {
                     if (cell.classList.contains('weekend')) return;
-                    
+
                     if (cell.dataset.reservations) {
                         const dayReservations = JSON.parse(cell.dataset.reservations);
                         document.getElementById('selectedDate').value = formatDateFr(dateStr);
@@ -556,4 +561,5 @@ while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
         });
     </script>
 </body>
+
 </html>

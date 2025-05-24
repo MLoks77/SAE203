@@ -17,3 +17,4 @@ if (isset($_POST['id'], $_POST['nom'], $_POST['quantite'])) {
 
 header('Location: formulaireReserver.php');
 exit();
+?>
