@@ -3,6 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
+-- Généré le : sam. 24 mai 2025 à 21:49
 -- Version du serveur : 10.4.32-MariaDB
 -- Version de PHP : 8.0.30
 
@@ -200,28 +201,6 @@ INSERT INTO `reservation_refus` (`date_demande`, `ID_demande`, `Mail_demande`, `
 -- --------------------------------------------------------
 
 --
--- Structure de la table `reservation_refus`
---
-
-CREATE TABLE `reservation_refus` (
-  `date_demande` date NOT NULL,
-  `ID_demande` int(11) NOT NULL,
-  `Mail_demande` varchar(100) DEFAULT NULL,
-  `Date_acces` date DEFAULT NULL,
-  `H_acces` time DEFAULT NULL,
-  `H_arrive` time DEFAULT NULL,
-  `Motif_demande` varchar(200) DEFAULT NULL,
-  `Num_etudiant` varchar(6) DEFAULT NULL,
-  `Num_annee` int(1) DEFAULT NULL,
-  `identifiant_demande` varchar(50) DEFAULT NULL,
-  `salle_d` varchar(3) DEFAULT NULL,
-  `materiel_d` varchar(2) DEFAULT NULL,
-  `e_concerne_d` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `salle`
 --
 
@@ -369,12 +348,6 @@ ALTER TABLE `reservation_demande`
 --
 ALTER TABLE `reservation_refus`
   MODIFY `ID_demande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT pour la table `reservation_refus`
---
-ALTER TABLE `reservation_refus`
-  MODIFY `ID_demande` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `utilisateur`
