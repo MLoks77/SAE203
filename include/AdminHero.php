@@ -4,5 +4,6 @@
     <div class="header-text">Panneau Admin</div>
 </div>
 <div class="fil_ariane container-fluid pt-3">
-    <a href="../php/accueil.php" class=" text-dark text-decoration-none ps-4">Accueil</a> <span class="text-dark">&gt;</span> <a href="../php/admin.php" class="text-dark text-decoration-none">Admin</a><hr>
+    <a href="../php/accueil.php" class=" text-dark text-decoration-none ps-4">Accueil</a> <span class="text-dark">&gt;</span> <a href="../php/admin.php" class="text-dark text-decoration-none">Admin</a>
+    <br><br>
 </div>

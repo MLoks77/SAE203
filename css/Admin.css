@@ -6,6 +6,10 @@
     z-index: 9999 !important;
 }
 
+.bg-bleu{
+    background-color: #16425B;
+}
+
 .custom{
     background-color: #16425B;
   }
