@@ -100,7 +100,7 @@ $materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
                                 <form action="ajouter_panier.php" method="post" class="d-inline" onsubmit="return ajouterAuPanier(this);">
                                     <input type="hidden" name="id" value="<?= htmlspecialchars($row['ID']) ?>">
                                     <input type="hidden" name="nom" value="<?= 'Salle '.htmlspecialchars($row['ID']) ?>">
-                                    <button type="submit" class="btn btn-primary btn-sm">
+                                    <button type="submit" class="btn  text-dark me-5 shadow-lg mb-5 btn-reserver">
                                         Réserver <?= htmlspecialchars($row['ID']) ?>
                                     </button>
                                 </form>
@@ -142,7 +142,7 @@ $materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
                                     <input type="hidden" name="id" value="<?= htmlspecialchars($row['ID_materiel'] ?? $row['ID']) ?>">
                                     <input type="hidden" name="nom" value="<?= htmlspecialchars($row['Reference'] ?? ('Salle '.$row['ID'])) ?>">
                                     <input type="hidden" name="quantite" value="1">
-                                    <button type="submit" class="btn btn-primary btn-sm">
+                                    <button type="submit" class="btn  text-dark me-5 shadow-lg mb-5 btn-reserver">
                                         Réserver
                                     </button>
                                 </form>
@@ -184,7 +184,7 @@ $materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
                                     <input type="hidden" name="id" value="<?= htmlspecialchars($row['ID_materiel'] ?? $row['ID']) ?>">
                                     <input type="hidden" name="nom" value="<?= htmlspecialchars($row['Reference'] ?? ('Salle '.$row['ID'])) ?>">
                                     <input type="hidden" name="quantite" value="1">
-                                    <button type="submit" class="btn btn-primary btn-sm">
+                                    <button type="submit" class="btn  text-dark me-5 shadow-lg mb-5 btn-reserver">
                                         Réserver
                                     </button>
                                 </form>
