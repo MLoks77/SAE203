@@ -30,6 +30,7 @@ if (isset($_POST['supprimer_materiel']) && isset($_POST['id_materiel'])) {
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
 }
+
 // Suppression salle
 if (isset($_POST['supprimer_salle']) && isset($_POST['id_salle'])) {
     $id = intval($_POST['id_salle']);
@@ -41,6 +42,7 @@ if (isset($_POST['supprimer_salle']) && isset($_POST['id_salle'])) {
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$id]);
 }
+
 // Ajout matériel
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajout_materiel'])) {
     $reference = trim($_POST['reference']);
@@ -62,20 +64,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajout_materiel'])) {
         }
     }
 }
-// Ajout salle
+
+// Ajout salle avec ID saisi manuellement
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajout_salle'])) {
+    $id_salle = intval($_POST['id_salle']);
     $descriptif = trim($_POST['descriptif_salle']);
     $etat = $_POST['etat_salle'];
-    $sql = "INSERT INTO salle (Descriptif, Etat) VALUES (?, ?)";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$descriptif, $etat]);
-    $id_salle = $pdo->lastInsertId();
-    if (isset($_FILES['image_salle'])) {
-        $upload_dir = "../image/";
-        $filename = "Salle" . $id_salle . ".jpg";
-        move_uploaded_file($_FILES['image_salle']['tmp_name'], $upload_dir . $filename);
+
+    $check = $pdo->prepare("SELECT COUNT(*) FROM salle WHERE ID = ?");
+    $check->execute([$id_salle]);
+    if ($check->fetchColumn() > 0) {
+        echo "<div class='alert alert-danger'>Erreur : l'ID de salle existe déjà.</div>";
+    } else {
+        $sql = "INSERT INTO salle (ID, Descriptif, Etat) VALUES (?, ?, ?)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id_salle, $descriptif, $etat]);
+
+        if (isset($_FILES['image_salle'])) {
+            $upload_dir = "../image/";
+            $filename = "Salle" . $id_salle . ".jpg";
+            move_uploaded_file($_FILES['image_salle']['tmp_name'], $upload_dir . $filename);
+        }
     }
 }
+
 
 // PAGINATION
 $max_per_page = 5;
@@ -163,24 +175,28 @@ $salles = $pdo->query("SELECT * FROM salle ORDER BY ID DESC LIMIT $max_per_page 
     <hr>
     <!-- Formulaire d'ajout de salle -->
     <form method="post" enctype="multipart/form-data">
-        <h2>Ajouter une salle</h2>
-        <div class="mb-3">
-            <label>Descriptif</label>
-            <textarea name="descriptif_salle" class="form-control" required></textarea>
-        </div>
-        <div class="mb-3">
-            <label>État</label>
-            <select name="etat_salle" class="form-control" required>
-                <option value="Excellent">Excellent</option>
-                <option value="Très bon état">Très bon état</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label>Image de la salle</label>
-            <input type="file" name="image_salle" class="form-control" accept="image/*" required>
-        </div>
-        <section class="extra-space"></section>
-        <button type="submit" name="ajout_salle" class="btn btn-success">Ajouter la salle</button>
+    <h2>Ajouter une salle</h2>
+    <div class="mb-3">
+        <label>ID de la salle</label>
+        <input type="number" name="id_salle" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label>Descriptif</label>
+        <textarea name="descriptif_salle" class="form-control" required></textarea>
+    </div>
+    <div class="mb-3">
+        <label>État</label>
+        <select name="etat_salle" class="form-control" required>
+            <option value="Excellent">Excellent</option>
+            <option value="Très bon état">Très bon état</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label>Image de la salle</label>
+        <input type="file" name="image_salle" class="form-control" accept="image/*" required>
+    </div>
+    <section class="extra-space"></section>
+    <button type="submit" name="ajout_salle" class="btn btn-success">Ajouter la salle</button>
     </form>
     <section class="extra-space"></section>
     <hr>
