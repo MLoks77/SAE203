@@ -51,7 +51,7 @@ while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
     ];
 }
 // Récupération des réservations en attente
-$sqlattente = "SELECT d.date_demande AS Date, d.Motif_demande AS motif, d.salle_d AS salle, d.H_acces AS H_debut, d.H_arrive AS H_fin, d.materiel_d AS materiel
+$sqlattente = "SELECT d.Date_acces AS Date, d.date_demande, d.Motif_demande AS motif, d.salle_d AS salle, d.H_acces AS H_debut, d.H_arrive AS H_fin, d.materiel_d AS materiel
                FROM reservation_demande d WHERE d.identifiant_demande = ? ORDER BY d.date_demande, d.H_acces";
 $stmtattente = $pdo->prepare($sqlattente);
 $stmtattente->execute([$user['Identifiant']]);
@@ -71,13 +71,14 @@ while ($row = $stmtattente->fetch(PDO::FETCH_ASSOC)) {
     ];
 }
 // Récupération des réservations refusées
-$sqlrefus = "SELECT d.date_demande AS Date, d.Motif_demande AS motif, d.salle_d AS salle, d.H_acces AS H_debut, d.H_arrive AS H_fin, d.materiel_d AS materiel
+$sqlrefus = "SELECT d.Date_acces AS Date, d.date_demande, d.Motif_demande AS motif, d.salle_d AS salle, d.H_acces AS H_debut, d.H_arrive AS H_fin, d.materiel_d AS materiel
                FROM reservation_refus d WHERE d.identifiant_demande = ? ORDER BY d.date_demande, d.H_acces";
 $stmtrefus = $pdo->prepare($sqlrefus);
 $stmtrefus->execute([$user['Identifiant']]);
 while ($row = $stmtrefus->fetch(PDO::FETCH_ASSOC)) {
     $reservations[] = [
         'date' => $row['Date'],
+        'date_demande' => $row['date_demande'],
         'student' => $user['Nom'] . ' ' . $user['Prenom'],
         'motif' => $row['motif'],
         'salle' => $row['salle'],

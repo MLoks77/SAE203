@@ -5,14 +5,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['envoyer'])) {
     // Sécurisation des entrées
     $nom = htmlspecialchars($_POST['Nom']);
     $prenom = htmlspecialchars($_POST['Prenom']);
-    $identifiant = htmlspecialchars($_POST['Identifiant']);
     $mail = htmlspecialchars($_POST['Mail']);
     $mot_de_passe = htmlspecialchars($_POST['Mot_de_passee']);
     $confirm = htmlspecialchars($_POST['confirm_password']);
     $date_naissance = $_POST['Date-naissance'];
     $role = htmlspecialchars($_POST['Role']);
 
-   
+    // Génération automatique de l'identifiant au format prenom.nom
+    $identifiant = strtolower($prenom . '.' . $nom);
 
     // Vérification mot de passe
     if ($mot_de_passe !== $confirm) {

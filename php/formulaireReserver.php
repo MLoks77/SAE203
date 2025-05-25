@@ -75,17 +75,21 @@ include "../configdb/connexion.php";
                         </td>
                     </tr>
                     <tr>
-                        <td><label for="date_acces" class="form-label">Date d’accès souhaitée :</label>
-                            <input type="date" id="date_acces" name="date_acces" class="form-control input-custom" max="<?= date('Y') ?>-12-31">
+                        <td><label for="date_acces" class="form-label">Date d'accès souhaitée :</label>
+                            <input type="date" id="date_acces" name="date_acces" class="form-control input-custom" 
+                                min="<?= date('Y-m-d') ?>" 
+                                max="<?= date('Y') ?>-12-31"
+                                onchange="validateDate(this)">
+                            <div id="date_error" class="text-danger" style="display: none;">Les réservations ne sont pas possibles le weekend.</div>
                         </td>
                     </tr>
                     <tr>
-                        <td><label for="heure_acces" class="form-label">Heure d’accès (à partir de 8h30) :</label>
+                        <td><label for="heure_acces" class="form-label">Heure d'accès (à partir de 8h30) :</label>
                             <input type="time" id="heure_acces" name="heure_acces" class="form-control input-custom" min="08:30">
                         </td>
                     </tr>
                     <tr>
-                        <td><label for="heure_remisee" class="form-label">Heure de remise des clés (jusqu’à 18h max) :</label>
+                        <td><label for="heure_remisee" class="form-label">Heure de remise des clés (jusqu'à 18h max) :</label>
                             <input type="time" id="heure_remisee" name="heure_remisee" class="form-control input-custom" max="18:00">
                         </td>
                     </tr>
@@ -145,6 +149,45 @@ include "../configdb/connexion.php";
 
     <?php include "../include/footer.php"; ?>
     <script>
+        // Fonction pour valider la date (pas de weekend)
+        function validateDate(input) {
+            const date = new Date(input.value);
+            const day = date.getDay();
+            const errorDiv = document.getElementById('date_error');
+            
+            // 0 = Dimanche, 6 = Samedi
+            if (day === 0 || day === 6) {
+                input.value = ''; // Efface la date sélectionnée
+                errorDiv.style.display = 'block';
+                return false;
+            } else {
+                errorDiv.style.display = 'none';
+                return true;
+            }
+        }
+
+        // Empêcher la sélection des weekends dans le calendrier
+        document.getElementById('date_acces').addEventListener('input', function(e) {
+            const date = new Date(this.value);
+            const day = date.getDay();
+            
+            if (day === 0 || day === 6) {
+                this.value = '';
+                document.getElementById('date_error').style.display = 'block';
+            } else {
+                document.getElementById('date_error').style.display = 'none';
+            }
+        });
+
+        // Validation du formulaire avant soumission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const dateInput = document.getElementById('date_acces');
+            if (!validateDate(dateInput)) {
+                e.preventDefault();
+                alert('Les réservations ne sont pas possibles le weekend.');
+            }
+        });
+
         document.getElementById('panier-list').addEventListener('click', function(e) {
             if (e.target.classList.contains('retirer-btn')) {
                 e.preventDefault();

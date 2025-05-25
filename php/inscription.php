@@ -36,8 +36,8 @@
                 <option value="" disabled selected>Choisissez votre rôle</option>
                 <option value="etudiant">Étudiant</option>
                 <option value="enseignant">Enseignant</option>
-                <option value="agent">Agent</option>
-                <option value="admin">Admin</option>
+                <!-- <option value="agent">Agent</option> -->
+                <!-- <option value="admin">Admin</option> -->
                 </select>
             </div>
 
@@ -46,15 +46,22 @@
               <input type="text" id="lastname" name="Nom" required>
             </div>
 
-            <div class="identifiant">
+           <!-- <div class="identifiant">
               <label for="identifier">Identifiant</label>
               <input type="text" id="identifier" name="Identifiant" required>
-            </div>
+            </div> -->
 
             <div class="email">
               <label for="email">Email</label>
               <input type="email" id="email" name="Mail" required>
             </div>
+
+            <div class="date-naissance">
+              <label for="birthdate">Date de naissance</label>
+              <input type="date" id="date-naissance" name="Date-naissance" required>
+              <div class="date">
+              </div>
+            </div><br><br>
 
             <div class="mot-de-passe" style="position: relative;">
               <label for="password">Mot de passe</label>
@@ -62,20 +69,12 @@
               <i class="fa-solid fa-eye" id="togglePassword" style="position: absolute; right: 10px; top: 38px; cursor: pointer;"></i>
             </div>
 
-
-            <div class="date-naissance">
-              <label for="birthdate">Date de naissance</label>
-              <input type="date" id="date-naissance" name="Date-naissance" required>
-              <div class="date">
-              </div>
-            </div>
-
             <div class="confirmation" style="position: relative;">
               <label for="confirm-password">Confirmez votre mot de passe</label>
               <input type="password" id="confirm-password" name="confirm_password" required>
 
               <i class="fa-solid fa-eye" id="toggleConfirm" style="position: absolute; right: 10px; top: 38px; cursor: pointer;"></i>
-            </div>
+            </div><br><br>
           </div>
 
           <div class="actions">

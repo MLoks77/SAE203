@@ -1,3 +1,10 @@
+
+
+
+<!-- Il y a 2 index pour régler un bug concernant la vrai première page, celle ci n'est pas la vrai première page, la vrai est en dehors de ce dossier -->
+
+<?php session_start()?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -7,55 +14,40 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-
     <header>
         <img src="image/images.png" alt="Logo Université Gustave Eiffel" class="logo">
     </header>
-
     <div class="container">
         <div class="image">
             <img src="image/main_batimentensginterieurcagencepwp.jpeg" alt="Photo bâtiment">
         </div>
+        <?php if (isset($_GET['erreur']) && $_GET['erreur'] == 1): ?>
+            <script>alert("Identifiant ou mot de passe incorrect.");    </script>
+        <?php endif; ?>
         <div class="formulaire">
             <h1>Connexion</h1>
-            <form action="index.php" method="post">
+            <form action="configdb/check_login.php" method="post">
                 <label for="identifiant">Identifiant</label>
-                <input type="text" id="identifiant" name="identifiant">
-
+                <input type="text" id="identifiant" name="Identifiant" required>
                 <div style="position: relative;">
-                  <label for="mdp">Mot de passe</label>
-                  <input type="password" id="mdp" name="mdp" required>
-                  <i class="fa-solid fa-eye" id="toggleConnexion" style="position: absolute; right: 10px; top: 38px; cursor: pointer;"></i>
+                    <label for="mdp">Mot de passe</label><br>
+                    <input type="password" id="mdp" name="Mot_de_passe" required>
+                    <i class="fa-solid fa-eye" id="toggleConnexion" style="position: absolute; right: 10px; top: 38px; cursor: pointer;"></i>
                 </div>
-
                 <div class="options">
                     <input type="checkbox" id="souvenir">
                     <label for="souvenir">Se souvenir de moi</label>
                 </div>
-
                 <div class="liens">
-                    <a href="inscription.html">Vous n'avez pas de compte ?</a>
+                    <a href="php/inscription.php">Vous n'avez pas de compte ?</a>
                     <a href="#">Mot de passe oublié ?</a>
                 </div>
-
-                <button type="submit">Connexion</button>
+                <button type="submit" name="envoyer">Connexion</button>
             </form>
         </div>
     </div>
-
-<?php include "include/footer.php" ?>
-
-<script>
-  const toggleConnexion = document.getElementById('toggleConnexion');
-  const mdpInput = document.getElementById('mdp');
-
-  toggleConnexion.addEventListener('click', () => {
-    const type = mdpInput.type === 'password' ? 'text' : 'password';
-    mdpInput.type = type;
-    toggleConnexion.classList.toggle('fa-eye');
-    toggleConnexion.classList.toggle('fa-eye-slash');
-  });
-</script>
-
+    <?php include "include/footerindex.php" ?>
+    <script src="./js/index.js"></script>
 </body>
+
 </html>
