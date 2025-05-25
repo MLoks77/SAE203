@@ -20,27 +20,67 @@ include "../configdb/connexion.php";
 // Suppression matériel
 if (isset($_POST['supprimer_materiel']) && isset($_POST['id_materiel'])) {
     $id = intval($_POST['id_materiel']);
-    for ($i = 1; $i <= 3; $i++) {
-        $image_path = "../image/" . $id . "_" . $i . ".jpg";
-        if (file_exists($image_path)) {
-            unlink($image_path);
+    try {
+        $pdo->beginTransaction();
+        
+        // Supprimer les entrées dans images_materiel
+        $sql_images = "DELETE FROM images_materiel WHERE ID_materiel = ?";
+        $stmt_images = $pdo->prepare($sql_images);
+        $stmt_images->execute([$id]);
+
+        // Supprimer les fichiers images
+        for ($i = 1; $i <= 3; $i++) {
+            $image_path = "../image/" . $id . "_" . $i . ".jpg";
+            if (file_exists($image_path)) {
+                unlink($image_path);
+            }
         }
+
+        // Supprimer le matériel
+        $sql = "DELETE FROM materiel WHERE ID_materiel = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
+
+        $pdo->commit();
+        header("Location: admin_ajouter.php?success=2");
+        exit;
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        header("Location: admin_ajouter.php?error=" . urlencode($e->getMessage()));
+        exit;
     }
-    $sql = "DELETE FROM materiel WHERE ID_materiel = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$id]);
 }
 
 // Suppression salle
 if (isset($_POST['supprimer_salle']) && isset($_POST['id_salle'])) {
     $id = intval($_POST['id_salle']);
-    $image_path = "../image/Salle" . $id . ".jpg";
-    if (file_exists($image_path)) {
-        unlink($image_path);
+    try {
+        $pdo->beginTransaction();
+
+        // Supprimer les entrées dans images_salle
+        $sql_images = "DELETE FROM images_salle WHERE ID_salle = ?";
+        $stmt_images = $pdo->prepare($sql_images);
+        $stmt_images->execute([$id]);
+
+        // Supprimer le fichier image
+        $image_path = "../image/Salle" . $id . ".jpg";
+        if (file_exists($image_path)) {
+            unlink($image_path);
+        }
+
+        // Supprimer la salle
+        $sql = "DELETE FROM salle WHERE ID = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
+
+        $pdo->commit();
+        header("Location: admin_ajouter.php?success=2");
+        exit;
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        header("Location: admin_ajouter.php?error=" . urlencode($e->getMessage()));
+        exit;
     }
-    $sql = "DELETE FROM salle WHERE ID = ?";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$id]);
 }
 
 // Fonction pour redimensionner les images
@@ -205,7 +245,7 @@ $salles = $pdo->query("SELECT * FROM salle ORDER BY ID DESC LIMIT $max_per_page 
 </div>
 <div class="container mt-5 bg-light p-5 rounded-3">
     <!-- Formulaire d'ajout de matériel -->
-    <form method="post" enctype="multipart/form-data" class="mb-5">
+    <form method="post" action="traitement_ajout.php" enctype="multipart/form-data" class="mb-5">
         <h2>Ajouter du matériel</h2>
         <div class="mb-3">
             <label>Référence</label>
@@ -244,7 +284,7 @@ $salles = $pdo->query("SELECT * FROM salle ORDER BY ID DESC LIMIT $max_per_page 
     </form>
     <hr>
     <!-- Formulaire d'ajout de salle -->
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" action="traitement_ajout.php" enctype="multipart/form-data">
     <h2>Ajouter une salle</h2>
     <div class="mb-3">
         <label>ID de la salle</label>

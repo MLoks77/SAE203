@@ -108,7 +108,9 @@ $materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
                             <div class="col-lg-4 offset-lg-4 text-end">
                                 <form action="ajouter_panier.php" method="post" class="d-inline" onsubmit="return ajouterAuPanier(this);">
                                     <input type="hidden" name="id" value="<?= htmlspecialchars($row['ID']) ?>">
-                                    <input type="hidden" name="nom" value="<?= 'Salle ' . htmlspecialchars($row['ID']) ?>">
+                                    <input type="hidden" name="nom" value="<?= 'Salle '.htmlspecialchars($row['ID']) ?>">
+                                    <input type="hidden" name="type" value="salle">
+                                    <input type="hidden" name="quantite" value="1">
                                     <button type="submit" class="btn  text-dark me-5 shadow-lg mb-5 btn-reserver">
                                         Réserver <?= htmlspecialchars($row['ID']) ?>
                                     </button>
@@ -164,7 +166,8 @@ $materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
                             <div class="col-lg-4 offset-lg-4 text-end">
                                 <form action="ajouter_panier.php" method="post" class="d-inline" onsubmit="return ajouterAuPanier(this);">
                                     <input type="hidden" name="id" value="<?= htmlspecialchars($row['ID_materiel'] ?? $row['ID']) ?>">
-                                    <input type="hidden" name="nom" value="<?= htmlspecialchars($row['Reference'] ?? ('Salle ' . $row['ID'])) ?>">
+                                    <input type="hidden" name="nom" value="<?= htmlspecialchars($row['Reference'] ?? ('Salle '.$row['ID'])) ?>">
+                                    <input type="hidden" name="type" value="materiel">
                                     <input type="hidden" name="quantite" value="1">
                                     <button type="submit" class="btn  text-dark me-5 shadow-lg mb-5 btn-reserver">
                                         Réserver
@@ -215,7 +218,8 @@ $materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
                             <div class="col-lg-4 offset-lg-4 text-end">
                                 <form action="ajouter_panier.php" method="post" class="d-inline" onsubmit="return ajouterAuPanier(this);">
                                     <input type="hidden" name="id" value="<?= htmlspecialchars($row['ID_materiel'] ?? $row['ID']) ?>">
-                                    <input type="hidden" name="nom" value="<?= htmlspecialchars($row['Reference'] ?? ('Salle ' . $row['ID'])) ?>">
+                                    <input type="hidden" name="nom" value="<?= htmlspecialchars($row['Reference'] ?? ('Salle '.$row['ID'])) ?>">
+                                    <input type="hidden" name="type" value="materiel">
                                     <input type="hidden" name="quantite" value="1">
                                     <button type="submit" class="btn  text-dark me-5 shadow-lg mb-5 btn-reserver">
                                         Réserver
@@ -265,7 +269,8 @@ $materielsSalle = $stmtSalle->fetchAll(PDO::FETCH_ASSOC);
                             <div class="col-lg-4 offset-lg-4 text-end">
                                 <form action="ajouter_panier.php" method="post" class="d-inline" onsubmit="return ajouterAuPanier(this);">
                                     <input type="hidden" name="id" value="<?= htmlspecialchars($row['ID_materiel'] ?? $row['ID']) ?>">
-                                    <input type="hidden" name="nom" value="<?= htmlspecialchars($row['Reference'] ?? ('Salle ' . $row['ID'])) ?>">
+                                    <input type="hidden" name="nom" value="<?= htmlspecialchars($row['Reference'] ?? ('Salle '.$row['ID'])) ?>">
+                                    <input type="hidden" name="type" value="materiel">
                                     <input type="hidden" name="quantite" value="1">
                                     <button type="submit" class="btn  text-dark me-5 shadow-lg mb-5 btn-reserver">
                                         Réserver <?= htmlspecialchars($row['Reference'] ?? $row['ID']) ?>

@@ -19,12 +19,7 @@
                 <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                     <ul class="navbar-nav mb-2 mb-lg-0 align-items-center">
                         <li class="nav-item">
-                            <a class="nav-link" href="../php/compte.php">
-                                <i class="bi bi-person-circle"></i> Mon Compte
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-danger" href="../php/deconnexion.php">
+                            <a class="nav-link text-danger" href="../configdb/logout.php">
                                 <i class="bi bi-box-arrow-right"></i> Déconnexion
                             </a>
                         </li>

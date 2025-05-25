@@ -53,21 +53,7 @@ while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
     <link rel="stylesheet" href="../css/Admin.css">
     <link rel="stylesheet" href="../css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-    <style>
-        body {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
 
-        main {
-            flex: 1 0 auto;
-        }
-
-        footer {
-            flex-shrink: 0;
-        }
-    </style>
 </head>
 
 <body class="custom text-white">
@@ -158,10 +144,10 @@ while ($row = $stmtreservations->fetch(PDO::FETCH_ASSOC)) {
                     <nav aria-label="Navigation des réservations">
                         <ul class="pagination mb-0">
                             <li class="page-item">
-                                <button class="page-link" id="prevPage" aria-label="Page précédente">&laquo;</button>
+                                <button class="page-link text-dark" id="prevPage" aria-label="Page précédente">&laquo;</button>
                             </li>
                             <li class="page-item">
-                                <button class="page-link" id="nextPage" aria-label="Page suivante">&raquo;</button>
+                                <button class="page-link text-dark" id="nextPage" aria-label="Page suivante">&raquo;</button>
                             </li>
                         </ul>
                     </nav>
